@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Batmanny — Product Designer</title>
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Orbitron:wght@400;500;600&display=swap" rel="stylesheet">
   <style>
     /* ─── Reset & Variables ─────────────────────────────── */
     *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
@@ -796,7 +796,7 @@
       max-width: 20ch;
       font-size: clamp(20px, 2.1vw, 30px);
       font-weight: 600;
-      line-height: 1.08;
+      line-height: 1.22;
       color: var(--white);
       letter-spacing: 0.01em;
       font-family: 'Orbitron', monospace;
@@ -982,32 +982,58 @@
       .work-inner {
         grid-template-columns: 1fr;
       }
-      .work-content { padding: 0 20px; gap: 20px; }
+      .work-content {
+        padding: 0 18px;
+        gap: 18px;
+        align-items: center;
+        width: 100%;
+      }
+      .filter-bar {
+        width: 100%;
+        max-width: 430px;
+        justify-content: flex-start;
+        gap: 8px;
+      }
+      .filter-btn {
+        font-size: 11px;
+        padding: 7px 14px;
+      }
       .project-grid {
         width: 100%;
+        max-width: 430px;
         align-items: center;
+        justify-content: center;
+        gap: 14px;
       }
       .project-card {
         grid-template-columns: 1fr;
         border-radius: 18px;
         background: rgba(12, 12, 12, 0.96);
         box-shadow: 0 14px 36px rgba(0,0,0,0.35);
-        width: min(100%, 620px);
+        width: 100%;
         margin: 0 auto;
+        align-self: center;
       }
       .card-thumbnail {
-        aspect-ratio: 16 / 11;
+        height: 154px;
+        aspect-ratio: auto;
         min-height: 0;
         border-right: 0;
         border-bottom: 1px solid rgba(255,255,255,0.08);
-        background: #eef2fb;
+        background: rgba(238,242,251,0.95);
+        display: flex;
+        align-items: center;
+        justify-content: center;
       }
       .card-thumbnail img {
+        width: min(58%, 240px);
+        height: auto;
+        max-height: 118px;
         object-fit: contain;
-        padding: 10px;
+        padding: 0;
       }
       .card-info {
-        padding: 18px 18px 20px;
+        padding: 16px 16px 18px;
         gap: 9px;
         justify-content: flex-start;
         align-items: flex-start;
@@ -1015,13 +1041,17 @@
       }
       .card-title {
         max-width: none;
-        font-size: clamp(18px, 5vw, 23px);
-        line-height: 1.12;
+        font-size: 19px;
+        line-height: 1.22;
         text-align: left;
       }
       .card-description {
         font-size: 13px;
         line-height: 1.5;
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 2;
+        overflow: hidden;
       }
       .card-company {
         font-size: 10px;
@@ -1039,20 +1069,38 @@
       #batman-svg-wrap { width: 240px; }
       .hero-right { height: 280px; min-height: 280px; }
       .project-card { grid-template-columns: 1fr; }
-      .work-content { padding: 0 16px; gap: 16px; }
-      .project-grid { gap: 12px; align-items: center; }
+      .work-content { padding: 0 14px; gap: 14px; align-items: center; }
+      .filter-bar {
+        max-width: 360px;
+        gap: 7px;
+      }
+      .filter-btn {
+        font-size: 10px;
+        padding: 7px 12px;
+      }
+      .project-grid {
+        gap: 12px;
+        align-items: center;
+        justify-content: center;
+        max-width: 360px;
+      }
+      .project-card {
+        width: 100%;
+      }
       .card-thumbnail {
-        aspect-ratio: 4 / 3;
+        height: 132px;
+        aspect-ratio: auto;
       }
       .card-thumbnail img {
-        padding: 8px;
+        width: min(60%, 190px);
+        max-height: 98px;
       }
       .card-info {
-        padding: 16px 16px 18px;
+        padding: 14px 14px 16px;
         gap: 8px;
       }
       .card-title {
-        font-size: 18px;
+        font-size: 17px;
         display: -webkit-box;
         -webkit-box-orient: vertical;
         -webkit-line-clamp: 2;
