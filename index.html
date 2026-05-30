@@ -275,6 +275,7 @@
       line-height: 1.6;
       color: var(--dim);
       max-width: 580px;
+      font-family: Inter, system-ui, sans-serif;
     }
 
     .hero-actions { display: flex; flex-direction: column; gap: 32px; }
@@ -417,6 +418,7 @@
       font-weight: 400;
       margin-top: 12px;
       letter-spacing: 0.05em;
+      font-family: Inter, system-ui, sans-serif;
     }
 
     /* ─── ABOUT SECTION ────────────────────────────────── */
@@ -454,6 +456,7 @@
       line-height: 1.85;
       color: rgba(255,255,255,0.84);
       letter-spacing: 0.02em;
+      font-family: Inter, system-ui, sans-serif;
     }
 
     .about-copy p.about-lead {
@@ -519,6 +522,7 @@
       line-height: 1.85;
       color: rgba(255,255,255,0.84);
       letter-spacing: 0.02em;
+      font-family: Inter, system-ui, sans-serif;
     }
 
     .contact-actions {
@@ -592,6 +596,7 @@
       font-size: 11px;
       letter-spacing: 0.08em;
       color: rgba(255,255,255,0.70);
+      font-family: Inter, system-ui, sans-serif;
     }
 
     .contact-field input,
@@ -601,7 +606,7 @@
       border: 1px solid rgba(255,255,255,0.12);
       color: rgba(255,255,255,0.92);
       padding: 12px 12px;
-      font-family: 'Orbitron', monospace;
+      font-family: Inter, system-ui, sans-serif;
       font-size: 12px;
       letter-spacing: 0.04em;
       outline: none;
@@ -625,6 +630,7 @@
       line-height: 1.7;
       color: rgba(255,255,255,0.60);
       letter-spacing: 0.03em;
+      font-family: Inter, system-ui, sans-serif;
     }
 
     .contact-toast {
@@ -673,7 +679,7 @@
       padding: 0 0 0 115px;
       display: flex;
       flex-direction: column;
-      gap: 40px;
+      gap: 28px;
     }
 
     /* Filter tabs */
@@ -714,19 +720,24 @@
 
     /* Project grid */
     .project-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 20px;
-      max-width: 960px;
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+      width: min(100%, 1120px);
     }
 
     /* Project card */
     .project-card {
-      background: #101010;
+      display: grid;
+      grid-template-columns: minmax(240px, 330px) minmax(0, 1fr);
+      align-items: stretch;
+      background: rgba(10, 10, 10, 0.94);
       cursor: pointer;
       border: 1px solid rgba(255,255,255,0.10);
+      border-radius: 0;
       opacity: 0;
       transform: translateY(20px);
+      overflow: hidden;
       transition: opacity 0.5s ease, transform 0.5s ease, border-color 0.3s ease, box-shadow 0.3s ease;
     }
     .project-card.visible {
@@ -734,7 +745,7 @@
       transform: translateY(0);
     }
     .project-card:hover {
-      transform: translateY(-4px);
+      transform: translateY(-3px);
       border-color: rgba(255,255,255,0.15);
       box-shadow: 0 16px 48px rgba(0,0,0,0.7);
     }
@@ -742,10 +753,11 @@
 
     .card-thumbnail {
       width: 100%;
-      aspect-ratio: 4 / 3;
+      min-height: 230px;
       overflow: hidden;
-      background: #141414;
+      background: linear-gradient(180deg, #171717 0%, #111 100%);
       position: relative;
+      border-right: 1px solid rgba(255,255,255,0.08);
     }
     .card-thumbnail img {
       width: 100%;
@@ -774,35 +786,46 @@
     }
 
     .card-info {
-      padding: 16px 18px 20px;
+      padding: 24px 24px 26px;
       display: flex;
       flex-direction: column;
-      gap: 8px;
+      justify-content: center;
+      gap: 12px;
     }
     .card-title {
-      font-size: 16px;
+      max-width: 20ch;
+      font-size: clamp(20px, 2.1vw, 30px);
       font-weight: 600;
-      line-height: 1.28;
+      line-height: 1.08;
       color: var(--white);
       letter-spacing: 0.01em;
-    }
-    .card-company {
-      font-size: 12px;
-      font-weight: 500;
-      color: var(--dim);
-      letter-spacing: 0.04em;
-      text-transform: uppercase;
+      font-family: 'Orbitron', monospace;
     }
     .card-tags {
       display: flex;
       flex-wrap: wrap;
       gap: 6px;
     }
+    .card-description {
+      max-width: 62ch;
+      font-size: 14px;
+      line-height: 1.65;
+      color: rgba(255,255,255,0.74);
+      font-family: Inter, system-ui, sans-serif;
+    }
+    .card-company {
+      font-size: 11px;
+      font-weight: 500;
+      color: rgba(255,255,255,0.52);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      font-family: Inter, system-ui, sans-serif;
+    }
     .card-tag {
-      font-family: 'Orbitron', monospace;
+      font-family: Inter, system-ui, sans-serif;
+      font-weight: 600;
       font-size: 10px;
-      font-weight: 400;
-      letter-spacing: 0.04em;
+      letter-spacing: 0.03em;
       padding: 4px 10px;
       border-radius: 999px;
       border: 1px solid rgba(255,255,255,0.26);
@@ -822,6 +845,7 @@
       font-size: 13px;
       color: var(--dim);
       letter-spacing: 0.08em;
+      font-family: Inter, system-ui, sans-serif;
     }
 
     .work-batman {
@@ -953,25 +977,101 @@
 
       /* Works mobile */
       #work {
-        padding-top: calc(var(--nav-h) + 24px);
+        padding-top: calc(var(--nav-h) + 18px);
       }
       .work-inner {
         grid-template-columns: 1fr;
       }
-      .work-content { padding: 0 24px; }
+      .work-content { padding: 0 20px; gap: 20px; }
       .project-grid {
-        grid-template-columns: repeat(2, 1fr);
-        gap: 16px;
+        width: 100%;
+        align-items: center;
       }
-      .project-card,
-      .card-thumbnail { width: 100%; }
+      .project-card {
+        grid-template-columns: 1fr;
+        border-radius: 18px;
+        background: rgba(12, 12, 12, 0.96);
+        box-shadow: 0 14px 36px rgba(0,0,0,0.35);
+        width: min(100%, 620px);
+        margin: 0 auto;
+      }
+      .card-thumbnail {
+        aspect-ratio: 16 / 11;
+        min-height: 0;
+        border-right: 0;
+        border-bottom: 1px solid rgba(255,255,255,0.08);
+        background: #eef2fb;
+      }
+      .card-thumbnail img {
+        object-fit: contain;
+        padding: 10px;
+      }
+      .card-info {
+        padding: 18px 18px 20px;
+        gap: 9px;
+        justify-content: flex-start;
+        align-items: flex-start;
+        text-align: left;
+      }
+      .card-title {
+        max-width: none;
+        font-size: clamp(18px, 5vw, 23px);
+        line-height: 1.12;
+        text-align: left;
+      }
+      .card-description {
+        font-size: 13px;
+        line-height: 1.5;
+      }
+      .card-company {
+        font-size: 10px;
+        letter-spacing: 0.1em;
+        text-align: left;
+      }
+      .card-tag {
+        font-size: 9px;
+        padding: 3px 8px;
+      }
       .work-batman { display: none; }
     }
 
     @media (max-width: 480px) {
       #batman-svg-wrap { width: 240px; }
       .hero-right { height: 280px; min-height: 280px; }
-      .project-grid { grid-template-columns: 1fr; }
+      .project-card { grid-template-columns: 1fr; }
+      .work-content { padding: 0 16px; gap: 16px; }
+      .project-grid { gap: 12px; align-items: center; }
+      .card-thumbnail {
+        aspect-ratio: 4 / 3;
+      }
+      .card-thumbnail img {
+        padding: 8px;
+      }
+      .card-info {
+        padding: 16px 16px 18px;
+        gap: 8px;
+      }
+      .card-title {
+        font-size: 18px;
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 2;
+        overflow: hidden;
+        text-align: left;
+      }
+      .card-description {
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 3;
+        overflow: hidden;
+      }
+      .card-tags {
+        gap: 5px;
+        justify-content: flex-start;
+      }
+      .card-company {
+        letter-spacing: 0.08em;
+      }
     }
 
     /* ─── BATMAN BEYOND WORK SECTION — Eye Blink ─────────── */
@@ -1419,7 +1519,7 @@
 
   <script>
     /* ══════════════════════════════════════════════════════
-       PROJECTS DATA — add new projects here
+       PROJECTS DATA — top works only for now
        Categories: case-study | vibe-coded | shots |
                    micro-interactions | side-quests | brand-visual
     ══════════════════════════════════════════════════════ */
@@ -1432,7 +1532,7 @@
         displayTitle: "Conversational Onboarding Case Study",
         category: ["case-study", "brand-visual"],
         thumbnail: "assets/images/elite-global.png",
-        year: "2023",
+        description: "A 14-screen onboarding and payoff flow designed to feel like a conversation, making a complex AI job-matching experience clearer and more trustworthy.",
         link: "work/elite-global.html"
       },
       {
@@ -1443,7 +1543,7 @@
         displayTitle: "Cosmic Gunner UI/UX Portfolio Case Study",
         category: ["side-quests", "vibe-coded", "case-study"],
         thumbnail: "assets/images/cosmic-gunner.png",
-        year: "2024",
+        description: "A game UI case study focused on onboarding, scoring, and a lighter interface that stays readable and responsive while the action is moving.",
         link: "work/cosmic-gunner.html"
       },
       {
@@ -1454,9 +1554,16 @@
         displayTitle: "Bridging Crypto & Banking: Designing Trust Into a Crypto-to-NGN Transfer Flow",
         category: ["case-study", "brand-visual"],
         thumbnail: "assets/images/pendax.png",
-        year: "2023",
+        description: "A mobile-first fintech flow that makes crypto-to-bank transfers feel familiar, secure, and easy to understand for everyday users.",
         link: "work/pendax.html"
       },
+    ];
+
+    /*
+      Archived works for later.
+      Bring these back by moving them into PROJECTS when you want the full set visible again.
+    */
+    const ARCHIVED_PROJECTS = [
       {
         id: "razor-dao",
         title: "Razor DAO",
@@ -1465,7 +1572,7 @@
         displayTitle: "Razor DAO",
         category: ["case-study", "brand-visual"],
         thumbnail: "assets/images/razor-dao.png",
-        year: "2024",
+        description: "A brand and product concept exploring how a sharper interface and clearer hierarchy can make a DAO experience easier to scan.",
         link: "work/razor-dao.html"
       },
       {
@@ -1476,7 +1583,7 @@
         displayTitle: "Unity Core",
         category: ["case-study", "brand-visual"],
         thumbnail: "assets/images/unity-core.png",
-        year: "2024",
+        description: "A product visual exploration centered on structure, clarity, and a more intentional interface language.",
         link: "work/unity-core.html"
       },
       {
@@ -1487,7 +1594,7 @@
         displayTitle: "White Dogs",
         category: ["case-study", "brand-visual"],
         thumbnail: "assets/images/white-dogs.png",
-        year: "2024",
+        description: "A visual case study with a cleaner composition and stronger presentation rhythm across the card and page experience.",
         link: "work/white-dogs.html"
       },
     ];
@@ -1522,6 +1629,7 @@
 
         const company = project.company || project.title;
         const displayTitle = project.displayTitle || project.title;
+        const description = project.description || '';
         const thumb = project.thumbnail
           ? `<img src="${project.thumbnail}" alt="${displayTitle} by ${company}" loading="lazy">`
           : `<div class="card-thumbnail-placeholder"><span>COMING SOON</span></div>`;
@@ -1533,8 +1641,9 @@
           <div class="card-thumbnail">${thumb}</div>
           <div class="card-info">
             <div class="card-title">${displayTitle}</div>
-            <div class="card-company">${company}</div>
             <div class="card-tags">${tags}</div>
+            ${description ? `<div class="card-description">${description}</div>` : ''}
+            <div class="card-company">${company}</div>
           </div>
         `;
 
