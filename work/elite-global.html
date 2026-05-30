@@ -1,0 +1,1016 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Elite Global AI — Conversational Onboarding Case Study</title>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #000;
+      --panel: rgba(255, 255, 255, 0.05);
+      --panel-strong: rgba(255, 255, 255, 0.08);
+      --line: rgba(255, 255, 255, 0.12);
+      --text: #ffffff;
+      --muted: rgba(255, 255, 255, 0.72);
+      --soft: rgba(255, 255, 255, 0.52);
+      --accent: #4f7cff;
+      --accent-2: #a36eff;
+      --shadow: 0 24px 80px rgba(0, 0, 0, 0.45);
+      --radius: 22px;
+      --content: 1180px;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-family: Inter, system-ui, sans-serif;
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    a { color: inherit; }
+    img { max-width: 100%; display: block; }
+
+    .page {
+      width: min(var(--content), calc(100% - 32px));
+      margin: 0 auto;
+      padding: 32px 0 120px;
+    }
+
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      gap: 16px;
+      padding: 20px 0 34px;
+    }
+
+    .back {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+      font-family: Orbitron, monospace;
+      letter-spacing: 0.08em;
+      font-size: 13px;
+      text-transform: uppercase;
+    }
+
+    .back span {
+      font-size: 20px;
+      line-height: 1;
+      transform: translateY(-1px);
+    }
+
+    .hero {
+      padding-bottom: 96px;
+    }
+
+    .hero-banner {
+      margin-bottom: 28px;
+    }
+
+    .hero-banner img {
+      width: 100%;
+      border-radius: 0;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 14px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: rgba(255,255,255,0.03);
+      font-family: Orbitron, monospace;
+      font-size: 12px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 18px;
+    }
+
+    .hero-copy {
+      max-width: 1240px;
+    }
+
+    .hero-kicker {
+      margin: 0 0 10px;
+      font-family: Orbitron, monospace;
+      font-size: 13px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--soft);
+    }
+
+    h1 {
+      margin: 0;
+      font-family: Orbitron, monospace;
+      font-size: clamp(42px, 5.2vw, 72px);
+      font-weight: 500;
+      line-height: 1.06;
+      letter-spacing: 0;
+      color: var(--text);
+    }
+
+    .subhead {
+      margin: 14px 0 0;
+      font-size: clamp(18px, 2vw, 22px);
+      color: var(--text);
+      font-weight: 600;
+    }
+
+    .lede {
+      max-width: 64ch;
+      margin: 18px 0 0;
+      font-size: 1.05rem;
+      color: var(--muted);
+    }
+
+    .hero-meta {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+      margin-top: 40px;
+    }
+
+    .meta-card,
+    .section,
+    .screen-frame,
+    .shot-tile {
+      background: linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.03));
+      border: none;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(14px);
+    }
+
+    .meta-card {
+      background: rgba(10,10,10,0.92);
+      border: 1px solid rgba(255,255,255,0.10);
+      border-radius: 26px;
+      box-shadow: 0 18px 55px rgba(0,0,0,0.45);
+      backdrop-filter: blur(10px);
+      padding: 18px;
+      min-height: 110px;
+    }
+
+    .meta-label {
+      display: block;
+      margin-bottom: 8px;
+      font-family: Orbitron, monospace;
+      font-size: 11px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--soft);
+    }
+
+    .meta-value {
+      font-size: 0.98rem;
+      color: var(--text);
+    }
+
+    .section {
+      padding: 56px 0 0;
+      margin-top: 72px;
+      background: transparent;
+      box-shadow: none;
+      backdrop-filter: none;
+    }
+
+    .section h2 {
+      margin: 0 0 14px;
+      font-family: Orbitron, monospace;
+      font-size: 1.45rem;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+
+    .section h3 {
+      margin: 0 0 10px;
+      font-family: Orbitron, monospace;
+      font-size: 1.02rem;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+
+    .section p,
+    .section li {
+      color: var(--muted);
+    }
+
+    .section p {
+      margin: 0 0 12px;
+    }
+
+    .section p:last-child { margin-bottom: 0; }
+
+    .grid {
+      display: grid;
+      gap: 18px;
+    }
+
+    .grid.cols-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .grid.cols-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .grid.cols-4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+
+    .callout {
+      margin-top: 16px;
+      padding: 16px 18px;
+      border-left: 3px solid var(--accent);
+      color: var(--text);
+    }
+
+    .mosaic {
+      margin-top: 40px;
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .shot-tile {
+      overflow: hidden;
+      position: relative;
+    }
+
+    .shot-tile img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    .shot-label {
+      position: absolute;
+      left: 12px;
+      top: 12px;
+      padding: 6px 10px;
+      border-radius: 999px;
+      background: rgba(0,0,0,0.68);
+      border: 1px solid rgba(255,255,255,0.14);
+      font-family: Orbitron, monospace;
+      font-size: 10px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--text);
+    }
+
+    .shot-caption {
+      padding: 12px 14px 14px;
+      font-size: 0.93rem;
+      color: var(--muted);
+      border-top: 1px solid rgba(255,255,255,0.08);
+    }
+
+    .section-split {
+      display: grid;
+      gap: 36px;
+      grid-template-columns: 1fr;
+      align-items: start;
+    }
+
+    .visual, .text {
+      min-width: 0;
+    }
+
+    .screen-frame {
+      overflow: hidden;
+      padding: 0;
+      border-radius: 0;
+      box-shadow: none;
+      background: transparent;
+      backdrop-filter: none;
+    }
+
+    .screen-frame img {
+      width: 100%;
+      border-radius: 0;
+      display: block;
+    }
+
+    .screen-frame.crop-top img {
+      height: 240px;
+      object-fit: cover;
+      object-position: center top;
+    }
+
+    .screen-frame.crop-middle img {
+      height: 240px;
+      object-fit: cover;
+      object-position: center center;
+    }
+
+    .text blockquote {
+      margin: 16px 0;
+      padding: 14px 18px;
+      border-left: 3px solid rgba(79,124,255,0.85);
+      background: rgba(255,255,255,0.03);
+      border-radius: 0 16px 16px 0;
+      color: var(--text);
+    }
+
+    .list {
+      margin: 14px 0 0;
+      padding-left: 18px;
+    }
+
+    .list li { margin: 8px 0; }
+
+    .phase-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+      margin-top: 40px;
+    }
+
+    .phase {
+      padding: 18px;
+      border-radius: 22px;
+      border: 1px solid rgba(255,255,255,0.08);
+      background: rgba(255,255,255,0.03);
+    }
+
+    .phase .num {
+      display: inline-block;
+      margin-bottom: 10px;
+      font-family: Orbitron, monospace;
+      font-size: 11px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--soft);
+    }
+
+    .pattern-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+      margin-top: 40px;
+    }
+
+    .pattern-card {
+      overflow: hidden;
+      border-radius: 22px;
+      border: 1px solid rgba(255,255,255,0.08);
+      background: rgba(255,255,255,0.03);
+    }
+
+    .pattern-card img {
+      width: 100%;
+      height: 180px;
+      object-fit: cover;
+      object-position: center top;
+    }
+
+    .pattern-card .body {
+      padding: 14px 16px 16px;
+    }
+
+    .pattern-card .body h3 {
+      margin-bottom: 8px;
+      font-size: 0.95rem;
+    }
+
+    .pattern-card .body p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 0.94rem;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 40px;
+      overflow: hidden;
+      border-radius: 20px;
+      border: 1px solid rgba(255,255,255,0.08);
+    }
+
+    th, td {
+      padding: 14px 14px;
+      text-align: left;
+      vertical-align: top;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+
+    th {
+      font-family: Orbitron, monospace;
+      font-size: 11px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--soft);
+      background: rgba(255,255,255,0.03);
+    }
+
+    tr:last-child td { border-bottom: none; }
+
+    .footer-note {
+      margin-top: 40px;
+      padding-top: 18px;
+      border-top: 1px solid rgba(255,255,255,0.08);
+      color: var(--soft);
+      font-size: 0.94rem;
+    }
+
+    @media (max-width: 980px) {
+      .grid.cols-2,
+      .grid.cols-3,
+      .grid.cols-4,
+      .phase-grid,
+      .pattern-grid,
+      .mosaic {
+        grid-template-columns: 1fr;
+      }
+
+      .hero-meta {
+        grid-template-columns: 1fr;
+      }
+
+      .section {
+        margin-top: 44px;
+      }
+
+      .pattern-card img {
+        height: 220px;
+      }
+
+      h1 {
+        font-size: clamp(36px, 10vw, 58px);
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <header class="topbar">
+      <a class="back" href="../index.html#project-grid" aria-label="Back to project grid"><span>←</span> Back</a>
+    </header>
+
+    <section class="hero">
+      <div class="eyebrow">Case Study · Elite Global AI</div>
+      <div class="hero-banner">
+        <img src="../assets/images/elite-global-header.png" alt="Elite Global AI header image with the upskill and get hired banner" />
+      </div>
+      <div class="hero-layout">
+        <div class="hero-copy">
+          <p class="hero-kicker">Desktop-first, responsive mobile</p>
+          <h1>Elite Global AI</h1>
+          <div class="subhead">Designing an onboarding flow that feels like a conversation</div>
+          <p class="lede">
+            Elite Global AI is a 14-screen onboarding and payoff experience for an AI job-matching product.
+            The flow collects only the minimum data needed to make the matching feel intelligent, personal, and trustworthy
+            while still working cleanly on desktop and mobile.
+          </p>
+
+          <div class="hero-meta">
+            <div class="meta-card">
+              <span class="meta-label">Product</span>
+              <div class="meta-value">Elite Global AI, a conversational onboarding flow for AI-powered job matching</div>
+            </div>
+            <div class="meta-card">
+              <span class="meta-label">Scope</span>
+              <div class="meta-value">10 onboarding steps plus a 4-screen payoff sequence</div>
+            </div>
+            <div class="meta-card">
+              <span class="meta-label">Platform</span>
+              <div class="meta-value">Desktop-first with responsive mobile behaviour</div>
+            </div>
+          <div class="meta-card">
+            <span class="meta-label">Focus</span>
+            <div class="meta-value">Conversational UX, sequencing, trust, and information architecture</div>
+          </div>
+        </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="overview">
+      <h2>01 — Overview</h2>
+      <p>
+        The product consists of 14 screens in total: 10 onboarding screens and 4 payoff screens.
+        The opening set gathers the minimum viable profile data; the final set shows the AI processing that data,
+        returning a match, and closing the loop with job results.
+      </p>
+    </section>
+
+    <section class="section">
+      <h2>02 — The Brief</h2>
+      <p>
+        Elite Global AI was designed to respond to a familiar problem: job applications often feel fragmented,
+        repetitive, and disconnected from the actual value the platform is trying to deliver.
+        The matching system needed candidate information, but the interface had to make that data collection feel
+        conversational rather than burdensome.
+      </p>
+      <p>
+        The brief was to build a flow that feels like a recruiter-led intake:
+        ask the right questions in the right order, minimise friction, keep the user oriented,
+        and make sure the final recommendation feels earned.
+      </p>
+      <div class="callout">
+        <strong>The design constraints were clear:</strong> desktop-first, responsive on mobile, one question at a time,
+        skip available throughout, and only the minimum data needed for useful matching.
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>03 — The Core Design Decision: Conversational UI</h2>
+      <p>
+        The strongest decision in the flow is the choice to present it as a conversation instead of a traditional form.
+        The prompt language, the spacing, and the progressive reveal of fields all work together to make the experience
+        feel guided.
+      </p>
+      <blockquote>
+        The interface does not ask the user to fill a form. It asks them to answer a sequence of simple questions,
+        one at a time, like they are talking to a recruiter who already knows what matters.
+      </blockquote>
+      <p>
+        That shift matters. A form feels transactional. A conversation feels supported.
+        For first-time users, especially in a hiring context, that difference determines whether they keep going.
+      </p>
+    </section>
+
+    <section class="section">
+      <h2>04 — The Sequencing Strategy</h2>
+      <p>
+        The sequencing uses a simple foot-in-the-door structure. The early screens ask for easy, low-friction information
+        before the flow moves into more personal and more valuable data.
+      </p>
+      <div class="section-split">
+        <div class="visual">
+          <div class="screen-frame crop-top">
+            <img src="../assets/images/elite-global-01.png" alt="Top crop of the first screen showing the step indicator and header" loading="lazy">
+          </div>
+        </div>
+        <div class="text">
+          <h3>How the flow is staged</h3>
+          <div class="phase-grid">
+            <div class="phase">
+              <span class="num">Phase 1</span>
+              <h3>Identity</h3>
+              <p>Steps 1 to 2 establish who the user is and start the relationship with very low effort.</p>
+            </div>
+            <div class="phase">
+              <span class="num">Phase 2</span>
+              <h3>Preferences</h3>
+              <p>Steps 3 to 7 gather the user’s career context, working preference, industry, and employment type.</p>
+            </div>
+            <div class="phase">
+              <span class="num">Phase 3</span>
+              <h3>Extras</h3>
+              <p>Steps 8 to 10 collect the more specific details that help the AI return a sharper match.</p>
+            </div>
+          </div>
+          <p class="footer-note">
+            The step indicator and the Skip option work together here. Progress is visible, but the user never feels trapped.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>05 — Screen-by-Screen Analysis</h2>
+
+      <article class="section-split">
+        <div class="visual">
+          <div class="screen-frame">
+            <img src="../assets/images/elite-global-01.png" alt="Screen 1: Name input" loading="lazy">
+          </div>
+        </div>
+        <div class="text">
+          <h3>Screen 1 — Name Input</h3>
+          <p><strong>The prompt:</strong> "Let's start with your name"</p>
+          <p>
+            The first screen does exactly what a good opener should do: it feels easy. Asking for a name is low-friction,
+            familiar, and personal enough to feel human without becoming intrusive.
+          </p>
+          <p>
+            The name field also serves a second purpose: it establishes the AI’s tone. The screen is not cold or corporate;
+            it is welcoming, direct, and quick to answer.
+          </p>
+        </div>
+      </article>
+
+      <article class="section-split reverse" style="margin-top: 288px;">
+        <div class="visual">
+          <div class="screen-frame">
+            <img src="../assets/images/elite-global-02.png" alt="Screen 2: Document upload empty state" loading="lazy">
+          </div>
+        </div>
+        <div class="text">
+          <h3>Screen 2 — Document Upload (Empty State)</h3>
+          <p><strong>The prompt:</strong> "Upload your CV and certificate"</p>
+          <p>
+            The empty state turns a potentially dull action into something understandable at a glance. Two dashed upload zones
+            communicate that the screen expects separate files and that both are equally important.
+          </p>
+          <p>
+            The Add another file option gives the user a clear sense that the interface can scale beyond the first upload
+            without making the initial state feel crowded.
+          </p>
+        </div>
+      </article>
+
+      <article class="section-split" style="margin-top: 288px;">
+        <div class="visual">
+          <div class="screen-frame">
+            <img src="../assets/images/elite-global-03.png" alt="Screen 3: Document upload in progress" loading="lazy">
+          </div>
+        </div>
+        <div class="text">
+          <h3>Screen 3 — Document Upload (In-Progress State)</h3>
+          <p><strong>The behaviour:</strong> CV upload in progress with a visible percentage and time remaining</p>
+          <p>
+            This state is important because it removes uncertainty. The user can see that the platform is processing the file,
+            how far along it is, and that the wait is finite.
+          </p>
+          <p>
+            Small progress cues like this are trust builders. They tell the user the system is active rather than frozen.
+          </p>
+        </div>
+      </article>
+
+      <article class="section-split reverse" style="margin-top: 288px;">
+        <div class="visual">
+          <div class="screen-frame">
+            <img src="../assets/images/elite-global-04.png" alt="Screen 4: Document upload completed" loading="lazy">
+          </div>
+        </div>
+        <div class="text">
+          <h3>Screen 4 — Document Upload (Completed State)</h3>
+          <p><strong>The state:</strong> both documents now appear as completed items</p>
+          <p>
+            Completion state matters just as much as loading state. Listing the uploaded files with delete icons makes the
+            system feel editable instead of permanent.
+          </p>
+          <p>
+            The user sees evidence that the platform has accepted their input, and that the flow is advancing.
+          </p>
+        </div>
+      </article>
+
+      <article class="section-split" style="margin-top: 288px;">
+        <div class="visual">
+          <div class="screen-frame">
+            <img src="../assets/images/elite-global-05.png" alt="Screen 5: Experience level" loading="lazy">
+          </div>
+        </div>
+        <div class="text">
+          <h3>Screen 5 — Experience Level</h3>
+          <p><strong>The prompt:</strong> "How many years of experience do you have?"</p>
+          <p>
+            Radio options with supporting descriptions make the decision easier. The user is not left to interpret vague labels;
+            each option clarifies what kind of candidate it represents.
+          </p>
+          <p>
+            The screen keeps the cognitive load low while still gathering useful screening data for the matching engine.
+          </p>
+        </div>
+      </article>
+
+      <article class="section-split reverse" style="margin-top: 288px;">
+        <div class="visual">
+          <div class="screen-frame">
+            <img src="../assets/images/elite-global-06.png" alt="Screen 6: Preferred working condition" loading="lazy">
+          </div>
+        </div>
+        <div class="text">
+          <h3>Screen 6 — Preferred Working Condition</h3>
+          <p><strong>The prompt:</strong> "Where would you like to work?"</p>
+          <p>
+            Remote and Relocate are positioned as clear, mutually understandable options. The wording stays practical,
+            not vague, which is important in a hiring flow.
+          </p>
+          <p>
+            If I were iterating this further, I would likely add a hybrid option, but the current structure still communicates
+            the product’s intent well.
+          </p>
+        </div>
+      </article>
+
+      <article class="section-split" style="margin-top: 288px;">
+        <div class="visual">
+          <div class="screen-frame">
+            <img src="../assets/images/elite-global-07.png" alt="Screen 7: Preferred industry" loading="lazy">
+          </div>
+        </div>
+        <div class="text">
+          <h3>Screen 7 — Preferred Industry</h3>
+          <p><strong>The prompt:</strong> "Which industries are you open to?"</p>
+          <p>
+            Multiple choice is the right pattern here because the user may be open to more than one career path.
+            The screen makes that flexibility obvious without feeling messy.
+          </p>
+          <p>
+            The wording keeps the flow aspirational rather than restrictive.
+          </p>
+        </div>
+      </article>
+
+      <article class="section-split reverse" style="margin-top: 288px;">
+        <div class="visual">
+          <div class="screen-frame">
+            <img src="../assets/images/elite-global-08.png" alt="Screen 8: Employment type" loading="lazy">
+          </div>
+        </div>
+        <div class="text">
+          <h3>Screen 8 — Employment Type</h3>
+          <p><strong>The prompt:</strong> "What kind of employment are you looking for?"</p>
+          <p>
+            This screen follows the same multi-select logic as the industry screen, which helps the flow feel predictable.
+            Consistency here reduces friction.
+          </p>
+          <p>
+            The user understands that the system is learning preferences, not forcing a single answer.
+          </p>
+        </div>
+      </article>
+
+      <article class="section-split" style="margin-top: 288px;">
+        <div class="visual">
+          <div class="screen-frame">
+            <img src="../assets/images/elite-global-09.png" alt="Screen 9: Salary expectations" loading="lazy">
+          </div>
+        </div>
+        <div class="text">
+          <h3>Screen 9 — Salary Expectations</h3>
+          <p><strong>The prompt:</strong> "What salary range are you expecting?"</p>
+          <p>
+            Salary is one of the more sensitive inputs in the flow, so the screen needs to feel calm and unpressured.
+            A simple numeric input and a short helper line do that job well.
+          </p>
+          <p>
+            The fact that the question appears late in the sequence also helps. By this point, the user has already received
+            value and is more likely to answer honestly.
+          </p>
+        </div>
+      </article>
+
+      <article class="section-split reverse" style="margin-top: 288px;">
+        <div class="visual">
+          <div class="screen-frame">
+            <img src="../assets/images/elite-global-10.png" alt="Screen 10: Professional links" loading="lazy">
+          </div>
+        </div>
+        <div class="text">
+          <h3>Screen 10 — Professional Links</h3>
+          <p><strong>The prompt:</strong> "You can share important links here"</p>
+          <p>
+            This is the least demanding screen in the flow, and that is intentional.
+            After the salary question, ending on optional inputs gives the user a sense of relief.
+          </p>
+          <p>
+            LinkedIn, a personal website or portfolio, and GitHub cover the three most useful public proof points
+            without making the user feel over-asked.
+          </p>
+        </div>
+      </article>
+    </section>
+
+    <section class="section">
+      <h2>06 — Interaction Patterns Used Across the Flow</h2>
+      <p>
+        Across the 10 onboarding screens, the design uses a small set of interaction patterns and matches each one to the
+        kind of information being requested. That discipline is one of the best things about the flow.
+      </p>
+
+      <div class="pattern-grid">
+        <div class="pattern-card">
+          <img src="../assets/images/elite-global-01.png" alt="Text input pattern example" loading="lazy">
+          <div class="body">
+            <h3>Text input</h3>
+            <p>Name and links use text input because they are open-ended and familiar.</p>
+          </div>
+        </div>
+        <div class="pattern-card">
+          <img src="../assets/images/elite-global-02.png" alt="File upload pattern example" loading="lazy">
+          <div class="body">
+            <h3>File upload with states</h3>
+            <p>The document flow clearly separates empty, active, and completed states.</p>
+          </div>
+        </div>
+        <div class="pattern-card">
+          <img src="../assets/images/elite-global-05.png" alt="Radio button pattern example" loading="lazy">
+          <div class="body">
+            <h3>Radio buttons with descriptions</h3>
+            <p>Experience level is mutually exclusive, so radio buttons are the right fit.</p>
+          </div>
+        </div>
+        <div class="pattern-card">
+          <img src="../assets/images/elite-global-06.png" alt="Checkbox pattern example" loading="lazy">
+          <div class="body">
+            <h3>Checkboxes with descriptions</h3>
+            <p>Working condition and industry allow more than one answer when appropriate.</p>
+          </div>
+        </div>
+        <div class="pattern-card">
+          <img src="../assets/images/elite-global-11.png" alt="Progress bar pattern example" loading="lazy">
+          <div class="body">
+            <h3>Progress bar</h3>
+            <p>The payoff sequence uses loading states to make the AI's work visible.</p>
+          </div>
+        </div>
+        <div class="pattern-card">
+          <img src="../assets/images/elite-global-10.png" alt="Link input pattern example" loading="lazy">
+          <div class="body">
+            <h3>Link input</h3>
+            <p>Professional links are structured open-ended inputs, so text fields are enough.</p>
+          </div>
+        </div>
+      </div>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Screen</th>
+            <th>Pattern</th>
+            <th>Why it fits</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>Name</td><td>Text input</td><td>Open-ended, personal, low-friction</td></tr>
+          <tr><td>Documents</td><td>File upload with states</td><td>Binary action that benefits from feedback</td></tr>
+          <tr><td>Experience</td><td>Radio buttons with descriptions</td><td>Mutually exclusive choices</td></tr>
+          <tr><td>Working condition</td><td>Checkboxes with descriptions</td><td>Can support one or more preferences</td></tr>
+          <tr><td>Industry</td><td>Checkboxes</td><td>Multiple valid selections</td></tr>
+          <tr><td>Employment type</td><td>Checkboxes</td><td>Multiple valid selections</td></tr>
+          <tr><td>Salary</td><td>Numeric text input</td><td>Specific quantitative data</td></tr>
+          <tr><td>Links</td><td>URL text input</td><td>Structured open-ended data</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section class="section">
+      <h2>07 — Step Indicator & Skip: Balancing Commitment and Autonomy</h2>
+      <p>
+        The step indicator and Skip link appear on every screen, and that consistency does a lot of emotional work.
+        One tells the user how far they have come; the other tells them they still have control.
+      </p>
+
+      <div class="grid cols-2">
+        <div class="screen-frame crop-top">
+          <img src="../assets/images/elite-global-01.png" alt="Top crop of screen 1 showing the first step indicator state" loading="lazy">
+        </div>
+        <div class="screen-frame crop-top">
+          <img src="../assets/images/elite-global-09.png" alt="Top crop of screen 9 showing a later step indicator state" loading="lazy">
+        </div>
+      </div>
+
+      <p style="margin-top: 16px;">
+        The step indicator communicates progression without making the user feel overwhelmed, and the Skip link signals that
+        the user is not trapped. That combination is what keeps the flow feeling collaborative instead of coercive.
+      </p>
+    </section>
+
+    <section class="section">
+      <h2>08 — Visual Design Language</h2>
+      <p>
+        The visual language is intentionally restrained. The screens rely on soft surfaces, light blue input fields,
+        rounded controls, and a calm background so that the user stays focused on answering the current question.
+      </p>
+
+      <div class="section-split">
+        <div class="visual">
+          <div class="screen-frame">
+            <img src="../assets/images/elite-global-01.png" alt="Screen 1 used as a visual language reference" loading="lazy">
+          </div>
+        </div>
+        <div class="text">
+          <table>
+            <thead>
+              <tr>
+                <th>Element</th>
+                <th>Decision</th>
+                <th>Rationale</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td>Background</td><td>Soft light grey</td><td>Calm, softer than pure white, easy on the eyes</td></tr>
+              <tr><td>Inputs</td><td>Light blue tint with no hard border</td><td>Modern and calm</td></tr>
+              <tr><td>Prompt</td><td>White chat-style bubble</td><td>Reinforces the conversational framing</td></tr>
+              <tr><td>Primary CTA</td><td>Deep blue pill button</td><td>Clear, repeatable, easy to find</td></tr>
+              <tr><td>Progress</td><td>Blue dot indicator with active pill</td><td>Clear but unobtrusive</td></tr>
+              <tr><td>Skip</td><td>Top-right text link</td><td>Available without being over-promoted</td></tr>
+            </tbody>
+          </table>
+          <p class="footer-note">
+            The whitespace is deliberate. Each step asks one question, so the layout leaves room for the interaction to breathe.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>09 — The Payoff Sequence: Closing the Loop</h2>
+      <p>
+        Instead of ending with a generic confirmation screen, the flow gives the user a four-screen payoff sequence.
+        That makes the AI feel active and makes the value of the onboarding visible.
+      </p>
+
+      <article class="section-split">
+        <div class="visual">
+          <div class="screen-frame">
+            <img src="../assets/images/elite-global-11.png" alt="Screen 11: Analyzing your data" loading="lazy">
+          </div>
+        </div>
+        <div class="text">
+          <h3>Screen 11 — Analyzing Your Data</h3>
+          <p>
+            The first loading state makes the AI visible. The user can see that the system is doing something with their input
+            rather than disappearing into a blank wait state.
+          </p>
+          <p>
+            The copy also sets expectations. If the process takes a little while, the screen has already told the user why.
+          </p>
+        </div>
+      </article>
+
+      <article class="section-split reverse" style="margin-top: 288px;">
+        <div class="visual">
+          <div class="screen-frame">
+            <img src="../assets/images/elite-global-12.png" alt="Screen 12: Finding companies that match your profile" loading="lazy">
+          </div>
+        </div>
+        <div class="text">
+          <h3>Screen 12 — Finding Companies That Match Your Profile</h3>
+          <p>
+            This second loading state moves the story forward. The language shifts from analysis to action,
+            which makes the process feel like the AI is actively working on the user’s behalf.
+          </p>
+          <p>
+            Two distinct loading states create a stronger sense of momentum than a single spinner ever could.
+          </p>
+        </div>
+      </article>
+
+      <article class="section-split" style="margin-top: 288px;">
+        <div class="visual">
+          <div class="screen-frame">
+            <img src="../assets/images/elite-global-13.png" alt="Screen 13: Match result and optimisation prompt" loading="lazy">
+          </div>
+        </div>
+        <div class="text">
+          <h3>Screen 13 — Match Result & Optimisation Prompt</h3>
+          <p>
+            The match result is the trust peak of the whole flow. It confirms value first, then introduces a secondary action:
+            optimisation.
+          </p>
+          <p>
+            Because the user has already been shown a concrete result, the suggestion to improve the CV and cover letter
+            lands as helpful advice rather than a sales pitch.
+          </p>
+        </div>
+      </article>
+
+      <article class="section-split reverse" style="margin-top: 288px;">
+        <div class="visual">
+          <div class="screen-frame">
+            <img src="../assets/images/elite-global-14.png" alt="Screen 14: Job results" loading="lazy">
+          </div>
+        </div>
+        <div class="text">
+          <h3>Screen 14 — Job Results</h3>
+          <p>
+            The final screen closes the loop. It does not just list jobs; it frames them as roles the user has a high chance
+            of landing, which makes the result feel personalised and credible.
+          </p>
+          <p>
+            The job list is concise, readable, and focused on the facts the user needs to make a decision.
+          </p>
+        </div>
+      </article>
+    </section>
+
+    <section class="section">
+      <h2>10 — What I Would Do Differently</h2>
+      <ul class="list">
+        <li>Add a hybrid working option alongside Remote and Relocate.</li>
+        <li>Standardise the multi-select helper copy so every similar screen uses the same language.</li>
+        <li>Consider a salary range input instead of a single figure to reduce pressure on the user.</li>
+      </ul>
+    </section>
+
+    <section class="section">
+      <h2>11 — Conclusion</h2>
+      <p>
+        What makes Elite Global AI worth studying is the way the whole flow stays coherent. Every screen reinforces the same
+        idea: the AI is working for the user, not the other way around.
+      </p>
+      <p>
+        The conversational prompts make the intake feel human. The sequencing earns trust before asking for sensitive data.
+        The loading states make the system visible. The match result delivers a believable outcome. And the final job list
+        closes the loop on the promise made at the start.
+      </p>
+      <p>
+        Together, those decisions turn a 10-step form into a guided introduction to a smarter job search experience.
+      </p>
+
+      <div class="footer-note">
+        UI/UX Case Study · Elite Global AI · Full Onboarding & Payoff Flow · Solo Design · 2025
+      </div>
+    </section>
+  </div>
+</body>
+</html>

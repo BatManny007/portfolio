@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pendax — Crypto to NGN Transfer Case Study</title>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #000;
+      --panel: rgba(255, 255, 255, 0.05);
+      --line: rgba(255, 255, 255, 0.12);
+      --text: #ffffff;
+      --muted: rgba(255, 255, 255, 0.72);
+      --soft: rgba(255, 255, 255, 0.52);
+      --accent: #b08cff;
+      --accent-2: #74d7ff;
+      --shadow: 0 24px 80px rgba(0, 0, 0, 0.45);
+      --radius: 22px;
+      --content: 1160px;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-family: Inter, system-ui, sans-serif;
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    a { color: inherit; }
+    img { max-width: 100%; display: block; }
+
+    .page {
+      width: min(var(--content), calc(100% - 32px));
+      margin: 0 auto;
+      padding: 32px 0 120px;
+    }
+
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      padding: 18px 0 30px;
+    }
+
+    .back {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+      font-family: Orbitron, monospace;
+      letter-spacing: 0.08em;
+      font-size: 13px;
+      text-transform: uppercase;
+      color: var(--text);
+    }
+
+    .back span {
+      font-size: 20px;
+      line-height: 1;
+      transform: translateY(-1px);
+    }
+
+    .hero {
+      display: block;
+      padding: 0 0 96px;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 14px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: rgba(255,255,255,0.03);
+      font-family: Orbitron, monospace;
+      font-size: 12px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 18px;
+    }
+
+    .hero-banner {
+      margin-top: 8px;
+    }
+
+    .hero-banner img {
+      width: 100%;
+      height: auto;
+      border-radius: 0;
+      display: block;
+    }
+
+    .hero-copy {
+      max-width: 1240px;
+      margin-top: 52px;
+    }
+
+    h1 {
+      margin: 0;
+      font-family: Orbitron, monospace;
+      font-size: clamp(38px, 4.8vw, 72px);
+      font-weight: 500;
+      line-height: 1.08;
+      letter-spacing: 0;
+      color: var(--text);
+    }
+
+    .lede {
+      max-width: 62ch;
+      margin: 18px 0 0;
+      font-size: 1.05rem;
+      color: var(--muted);
+    }
+
+    .hero-meta {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+      margin-top: 40px;
+    }
+
+    .meta-card {
+      background: rgba(10,10,10,0.92);
+      border: 1px solid rgba(255,255,255,0.10);
+      border-radius: 26px;
+      box-shadow: 0 18px 55px rgba(0,0,0,0.45);
+      backdrop-filter: blur(10px);
+    }
+
+    .section {
+      background: transparent;
+      border: none;
+      box-shadow: none;
+      backdrop-filter: none;
+    }
+
+    .meta-card {
+      padding: 18px;
+      min-height: 110px;
+    }
+
+    .meta-label {
+      display: block;
+      margin-bottom: 8px;
+      font-family: Orbitron, monospace;
+      font-size: 11px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--soft);
+    }
+
+    .meta-value {
+      font-size: 0.98rem;
+      color: var(--text);
+    }
+
+    .section {
+      padding: 56px 0 0;
+      margin-top: 72px;
+    }
+
+    .section h2 {
+      margin: 0 0 14px;
+      font-family: Orbitron, monospace;
+      font-size: 1.45rem;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+
+    .section h3 {
+      margin: 0 0 10px;
+      font-family: Orbitron, monospace;
+      font-size: 1.05rem;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+
+    .section p,
+    .section li {
+      color: var(--muted);
+    }
+
+    .section p {
+      margin: 0 0 12px;
+    }
+
+    .section p:last-child { margin-bottom: 0; }
+
+    .grid {
+      display: grid;
+      gap: 18px;
+    }
+
+    .grid.cols-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .grid.cols-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+
+    .list {
+      margin: 14px 0 0;
+      padding-left: 18px;
+    }
+
+    .list li { margin: 8px 0; }
+
+    .callout {
+      margin-top: 16px;
+      padding: 16px 18px;
+      border-left: 3px solid var(--accent);
+      color: var(--text);
+    }
+
+    .tag {
+      display: inline-flex;
+      margin-bottom: 10px;
+      padding: 7px 10px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.08);
+      font-size: 12px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    .section table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 10px;
+      overflow: hidden;
+    }
+
+    .section th,
+    .section td {
+      text-align: left;
+      vertical-align: top;
+      padding: 12px 12px;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+      color: var(--muted);
+    }
+
+    .section th {
+      color: var(--text);
+      font-family: Orbitron, monospace;
+      font-size: 12px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .case-figure {
+      margin: 18px 0 0;
+      padding: 18px;
+      border: 1px dashed rgba(255,255,255,0.16);
+      border-radius: 18px;
+      color: var(--soft);
+      background: rgba(255,255,255,0.02);
+    }
+
+    .plain-block {
+      margin-top: 16px;
+    }
+
+    .plain-block h3 {
+      margin: 0 0 10px;
+      font-family: Orbitron, monospace;
+      font-size: 1.05rem;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+
+    .case-figure strong {
+      display: block;
+      margin-bottom: 8px;
+      color: var(--text);
+      font-family: Orbitron, monospace;
+      font-size: 12px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .case-figure img {
+      width: 100%;
+      display: block;
+      margin-top: 12px;
+      border-radius: 14px;
+    }
+
+    .brand-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 18px;
+      margin-top: 18px;
+    }
+
+    .case-figure figcaption {
+      margin-top: 10px;
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
+    .footer {
+      padding: 28px 0 0;
+      color: var(--soft);
+      text-align: center;
+      font-size: 0.95rem;
+    }
+
+    .jump {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 20px;
+    }
+
+    .jump a {
+      padding: 10px 14px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      text-decoration: none;
+      color: var(--muted);
+      background: rgba(255,255,255,0.03);
+      transition: transform 0.18s ease, border-color 0.18s ease, color 0.18s ease;
+    }
+
+    .jump a:hover {
+      transform: translateY(-1px);
+      color: var(--text);
+      border-color: rgba(176,140,255,0.45);
+    }
+
+    @media (max-width: 920px) {
+      .grid.cols-2,
+      .grid.cols-3,
+      .hero-meta,
+      .brand-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .page { width: min(var(--content), calc(100% - 22px)); }
+      .section { margin-top: 40px; padding: 28px 0 0; }
+      .topbar { padding-top: 14px; }
+      h1 { font-size: clamp(28px, 7vw, 42px); }
+      .lede { font-size: 1rem; }
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <div class="topbar">
+      <a class="back" href="../index.html#project-grid"><span>←</span> Back</a>
+    </div>
+
+    <section class="hero" id="top">
+      <div class="eyebrow">UI/UX Case Study · Pendax</div>
+      <div class="hero-banner">
+        <img src="../assets/images/pendax-header.png" alt="Pendax crypto transfer header image" />
+      </div>
+      <div class="hero-copy">
+        <h1>Bridging Crypto & Banking:<br>Designing Trust Into a Crypto-to-NGN Transfer Flow</h1>
+        <p class="lede">
+          This case study examines the UI/UX of a mobile-first fintech app with a desktop view that allows users to transfer value from a connected Web3 wallet directly into a Nigerian bank account, denominated in naira (NGN) and settled in USDT.
+        </p>
+
+        <div class="hero-meta">
+          <div class="meta-card">
+            <span class="meta-label">Platform</span>
+            <div class="meta-value">Mobile-first app with desktop support</div>
+          </div>
+          <div class="meta-card">
+            <span class="meta-label">Market</span>
+            <div class="meta-value">Nigeria</div>
+          </div>
+          <div class="meta-card">
+            <span class="meta-label">Feature</span>
+            <div class="meta-value">Crypto to bank account transfer</div>
+          </div>
+          <div class="meta-card">
+            <span class="meta-label">Disciplines</span>
+            <div class="meta-value">Interaction design, visual design, user psychology, information architecture</div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <section class="section" id="overview">
+      <h2>01 — Overview</h2>
+      <p>
+        The product sits at the intersection of decentralised finance and traditional Nigerian banking infrastructure. The design challenge is not just functional, but psychological: the interface must make an unfamiliar action feel as safe and routine as sending money through a regular banking app.
+      </p>
+      <figure class="case-figure">
+        <strong>Overview screenshot</strong>
+        <img src="../assets/images/pendax-overview.png" alt="Pendax connected wallet transfer UI overview" />
+        <figcaption>Full-screen overview of the connected wallet transfer UI.</figcaption>
+      </figure>
+      <div class="callout">
+        The best fintech UX does not make the technology disappear. It makes the technology feel trustworthy.
+      </div>
+    </section>
+
+    <section class="section" id="context">
+      <h2>02 — User Context & Problem Space</h2>
+      <h3>Who Is This Designed For?</h3>
+      <p>
+        The primary user is a Nigerian smartphone owner who already holds crypto, likely USDT, and needs to move that value into a naira bank account for bills, purchases, or transfers. They are mobile-first and are likely familiar with bank apps and P2P platforms such as Binance P2P or LocalBitcoins.
+      </p>
+      <p>
+        The product is designed primarily for mobile use, but it also needs to translate cleanly to desktop for users who prefer a larger screen or manage funds from a laptop.
+      </p>
+
+      <h3>The User's Pain Points Before This Product</h3>
+      <table>
+        <thead>
+          <tr>
+            <th>Pain Point</th>
+            <th>How It Showed Up In Behaviour</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Fear of sending to the wrong account</td>
+            <td>Double-checking P2P counterparty details, screenshot exchanges, disputes</td>
+          </tr>
+          <tr>
+            <td>Rate uncertainty</td>
+            <td>Abandoning transactions mid-flow when rates seemed unfavourable</td>
+          </tr>
+          <tr>
+            <td>Multi-platform friction</td>
+            <td>Switching between 3–4 apps to complete one transfer</td>
+          </tr>
+          <tr>
+            <td>Trust deficit in crypto-native UIs</td>
+            <td>Preferring familiar bank apps even when slower or more expensive</td>
+          </tr>
+          <tr>
+            <td>Volatility anxiety</td>
+            <td>Timing transfers to avoid price drops during settlement</td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="callout">
+        Core challenge: make a Web3 action feel like online banking, without pretending they are the same thing.
+      </div>
+    </section>
+
+    <section class="section" id="hierarchy">
+      <h2>03 — Visual Hierarchy & Layout</h2>
+      <p>
+        The layout follows a clear visual hierarchy that guides the user from context to decision to action. It breaks into four distinct zones.
+      </p>
+      <figure class="case-figure">
+        <strong>Annotated layout</strong>
+        <img src="../assets/images/pendax-layout-annotated.png" alt="Pendax annotated layout showing the four zones" />
+        <figcaption>Annotated full screen showing the four zones in the layout.</figcaption>
+      </figure>
+      <p>
+        Zone 1 anchors identity and trust, Zone 2 frames the wallet balance, Zone 3 contains the transfer inputs, and Zone 4 keeps secondary navigation out of the way.
+      </p>
+    </section>
+
+    <section class="section" id="components">
+      <h2>04 — Component-Level UX Analysis</h2>
+      <div class="plain-block">
+        <h3>NGN Amount Input with Live USD Conversion</h3>
+        <p>
+          The large amount field is paired with subdued helper text showing the crypto cost in real time. It answers the user's most anxious question directly beneath the input, eliminating the mental maths that can trigger abandonment.
+        </p>
+        <figure class="case-figure">
+          <strong>Amount input</strong>
+          <img src="../assets/images/pendax-amount-input.png" alt="Pendax NGN amount input and conversion helper text" />
+          <figcaption>Close-up crop of the NGN amount input and conversion helper text.</figcaption>
+        </figure>
+      </div>
+
+      <div class="plain-block">
+        <h3>Bank Selector with GTBank Logo</h3>
+        <p>
+          Displaying the bank's actual branded logo rather than a generic icon is a deliberate trust design decision. It bridges the familiar world of Nigerian banking with the unfamiliar world of crypto-funded transfer.
+        </p>
+        <figure class="case-figure">
+          <strong>Bank selector</strong>
+          <img src="../assets/images/pendax-bank-selector.png" alt="Pendax bank selector with GTBank logo" />
+          <figcaption>Close-up crop of the bank selector row.</figcaption>
+        </figure>
+      </div>
+
+      <div class="plain-block">
+        <h3>Auto-Resolved Account Name with Checkmark</h3>
+        <p>
+          The verified account name is arguably the most psychologically important element on the screen. It neutralises the fear of sending to the wrong account by showing that the system checked on the user's behalf.
+        </p>
+        <figure class="case-figure">
+          <strong>Verified account</strong>
+          <img src="../assets/images/pendax-verified-account.png" alt="Pendax verified account name with checkmark" />
+          <figcaption>Close-up crop of the verified account name field and checkmark.</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <section class="section" id="trust">
+      <h2>05 — Trust Design</h2>
+      <p>Trust is built cumulatively through small, consistent decisions rather than one headline feature.</p>
+      <div class="plain-block">
+        <h3>Institutional Familiarity</h3>
+        <p>Bank logos, the account name lookup, and the NGN denomination anchor the new action to familiar Nigerian banking infrastructure.</p>
+      </div>
+      <div class="plain-block">
+        <h3>Radical Transparency</h3>
+        <p>Balance, exchange rate, recipient name, and token selection are surfaced proactively so the user never has to take anything on faith.</p>
+      </div>
+      <div class="plain-block">
+        <h3>System Verification</h3>
+        <p>The auto-resolved account name with a checkmark mirrors confirmation patterns users already know from mobile banking and payment apps.</p>
+      </div>
+      <div class="plain-block">
+        <h3>Visual Consistency</h3>
+        <p>A coherent colour language and clean layout project competence and stability, which users often read as reliability.</p>
+      </div>
+      <div class="plain-block">
+        <h3>Stablecoin Default</h3>
+        <p>Defaulting to USDT removes the final trust barrier by removing price unpredictability from the first decision.</p>
+      </div>
+    </section>
+
+    <section class="section" id="brand-visuals">
+      <h2>06 — Brand & Visuals</h2>
+      <p>
+        Pendax also includes a visual identity system and social-ready campaign art. These pieces support the product by keeping the brand recognizable across different moments: launches, promos, rate pushes, and playful seasonal posts.
+      </p>
+      <div class="brand-grid">
+        <figure class="case-figure">
+          <strong>New month</strong>
+          <img src="../assets/images/pendax-new-month.png" alt="Pendax New Month brand visual" />
+          <figcaption>Monthly brand post with the Pendax identity and campaign message.</figcaption>
+        </figure>
+        <figure class="case-figure">
+          <strong>Limit orders</strong>
+          <img src="../assets/images/pendax-limit-orders.png" alt="Pendax limit orders brand visual" />
+          <figcaption>Feature-focused visual for limit orders on Pendax.</figcaption>
+        </figure>
+        <figure class="case-figure">
+          <strong>May 4th</strong>
+          <img src="../assets/images/pendax-may-4th.png" alt="Pendax May 4th brand visual" />
+          <figcaption>Campaign visual for May 4th with the Pendax brand and message.</figcaption>
+        </figure>
+        <figure class="case-figure">
+          <strong>Weekend</strong>
+          <img src="../assets/images/pendax-weekend-3.png" alt="Pendax weekend brand visual" />
+          <figcaption>Lifestyle-style weekend post featuring the Pendax product.</figcaption>
+        </figure>
+        <figure class="case-figure">
+          <strong>Frame 1244831042</strong>
+          <img src="../assets/images/pendax-frame-1244831042.png" alt="Pendax branded visual frame 1244831042" />
+          <figcaption>Brand visual showing the crypto to NGN value proposition.</figcaption>
+        </figure>
+        <figure class="case-figure">
+          <strong>Frame 1244831041</strong>
+          <img src="../assets/images/pendax-frame-1244831041.png" alt="Pendax branded visual frame 1244831041" />
+          <figcaption>Brand visual highlighting the Pendax offer in a social-friendly format.</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <section class="section" id="conclusion">
+      <h2>07 — Conclusion</h2>
+      <p>
+        The crypto-to-NGN bank transfer screen demonstrates a sophisticated understanding of its users' psychology. It does not try to educate users about blockchain; instead, it wraps crypto rails in a banking-native experience without pretending they are the same thing.
+      </p>
+      <p>
+        The result is an interface that feels safe, legible, and efficient. Each component earns its place by answering a specific user anxiety, and the cumulative effect is a transaction flow where pressing Send does not feel like a leap of faith. It feels like the obvious next step.
+      </p>
+      <div class="jump">
+        <a href="#top">Back to top</a>
+        <a href="../index.html">Home</a>
+        <a href="../index.html#project-grid">More work</a>
+      </div>
+    </section>
+
+    <div class="footer">
+      *UI/UX Case Study · Crypto-to-Bank Transfer Flow · 2026
+    </div>
+  </main>
+</body>
+</html>

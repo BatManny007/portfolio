@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cosmic Gunner — Case Study</title>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #000;
+      --panel: rgba(255, 255, 255, 0.05);
+      --panel-strong: rgba(255, 255, 255, 0.08);
+      --line: rgba(255, 255, 255, 0.12);
+      --text: #ffffff;
+      --muted: rgba(255, 255, 255, 0.72);
+      --soft: rgba(255, 255, 255, 0.52);
+      --accent: #54daff;
+      --accent-2: #33badf;
+      --shadow: 0 24px 80px rgba(0, 0, 0, 0.45);
+      --radius: 22px;
+      --content: 1160px;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      background: #000;
+      color: var(--text);
+      font-family: Inter, system-ui, sans-serif;
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    a { color: inherit; }
+    img { max-width: 100%; display: block; }
+
+    .page {
+      width: min(var(--content), calc(100% - 32px));
+      margin: 0 auto;
+      padding: 32px 0 120px;
+    }
+
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      gap: 16px;
+      padding: 20px 0 34px;
+    }
+
+    .back {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+      font-family: Orbitron, monospace;
+      letter-spacing: 0.08em;
+      font-size: 13px;
+      text-transform: uppercase;
+    }
+
+    .back span {
+      font-size: 20px;
+      line-height: 1;
+      transform: translateY(-1px);
+    }
+
+    .hero {
+      display: block;
+      padding: 0 0 96px;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 14px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: rgba(255,255,255,0.03);
+      font-family: Orbitron, monospace;
+      font-size: 12px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 18px;
+    }
+
+    .hero-banner {
+      margin-top: 8px;
+    }
+
+    .hero-banner img {
+      width: 100%;
+      height: auto;
+      aspect-ratio: auto;
+      object-fit: contain;
+      border-radius: 0;
+      display: block;
+    }
+
+    .hero-copy {
+      max-width: 1240px;
+      margin-top: 52px;
+    }
+
+    h1 {
+      margin: 0;
+      font-family: Orbitron, monospace;
+      font-size: clamp(36px, 4.5vw, 64px);
+      font-weight: 500;
+      line-height: 1.15;
+      letter-spacing: 0;
+      color: var(--text);
+    }
+
+    .lede {
+      max-width: 60ch;
+      margin: 18px 0 0;
+      font-size: 1.05rem;
+      color: var(--muted);
+    }
+
+    .hero-meta {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+      margin-top: 40px;
+    }
+
+    .meta-card,
+    .section,
+    .image-card {
+      background: linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.03));
+      border: none;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(14px);
+    }
+
+    .meta-card {
+      background: rgba(10,10,10,0.92);
+      border: 1px solid rgba(255,255,255,0.10);
+      border-radius: 26px;
+      box-shadow: 0 18px 55px rgba(0,0,0,0.45);
+      backdrop-filter: blur(10px);
+      padding: 18px;
+      min-height: 110px;
+    }
+
+    .meta-label {
+      display: block;
+      margin-bottom: 8px;
+      font-family: Orbitron, monospace;
+      font-size: 11px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--soft);
+    }
+
+    .meta-value {
+      font-size: 0.98rem;
+      color: var(--text);
+    }
+
+    .hero-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      margin-top: 22px;
+      padding: 14px 18px;
+      border: 1px solid rgba(255,255,255,0.16);
+      border-radius: 999px;
+      text-decoration: none;
+      color: var(--text);
+      font-family: Orbitron, monospace;
+      font-size: 12px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      background: rgba(255,255,255,0.04);
+      transition: transform 0.18s ease, border-color 0.18s ease, background 0.18s ease;
+    }
+
+    .hero-cta:hover {
+      transform: translateY(-1px);
+      background: rgba(255,255,255,0.08);
+      border-color: rgba(84,218,255,0.45);
+    }
+
+    .grid {
+      display: grid;
+      gap: 18px;
+    }
+
+    .grid.cols-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .grid.cols-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+
+    .section {
+      padding: 56px 0 0;
+      margin-top: 72px;
+      background: transparent;
+      box-shadow: none;
+      backdrop-filter: none;
+    }
+
+    #overview ~ .section,
+    #overview {
+      background: transparent;
+      border: none;
+      box-shadow: none;
+      backdrop-filter: none;
+    }
+
+    .section h2 {
+      margin: 0 0 14px;
+      font-family: Orbitron, monospace;
+      font-size: 1.45rem;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+
+    .section p {
+      margin: 0 0 12px;
+      color: var(--muted);
+    }
+
+    .section p:last-child { margin-bottom: 0; }
+
+    .change-block {
+      margin-top: 72px;
+    }
+
+    .change-block h3 {
+      margin: 0 0 10px;
+      font-family: Orbitron, monospace;
+      font-size: 1.05rem;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+
+    .change-block p {
+      margin: 0 0 12px;
+      color: var(--muted);
+    }
+
+    .case-figure {
+      margin: 18px 0 0;
+    }
+
+    .case-figure img {
+      width: 100%;
+      height: auto;
+      display: block;
+      border-radius: 18px;
+    }
+
+    .case-figure figcaption {
+      margin-top: 10px;
+      color: var(--soft);
+      font-size: 0.95rem;
+    }
+
+    .stat,
+    .note,
+    .step {
+      background: transparent;
+      border: none;
+      box-shadow: none;
+    }
+
+    .stat strong,
+    .step strong,
+    .note strong {
+      display: block;
+      margin-bottom: 8px;
+      font-family: Orbitron, monospace;
+      font-size: 12px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--accent);
+    }
+
+    .list {
+      margin: 14px 0 0;
+      padding-left: 18px;
+      color: var(--muted);
+    }
+
+    .list li { margin: 8px 0; }
+
+    .callout {
+      margin-top: 16px;
+      padding: 16px 18px;
+      border-left: 3px solid var(--accent);
+      background: rgba(84, 218, 255, 0.08);
+      border-radius: 14px;
+      color: var(--text);
+    }
+
+    .step {
+      min-height: 100%;
+    }
+
+    .step .tag {
+      display: inline-flex;
+      margin-bottom: 10px;
+      padding: 7px 10px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.08);
+      font-size: 12px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    .footer {
+      padding: 28px 0 0;
+      color: var(--soft);
+      text-align: center;
+      font-size: 0.95rem;
+    }
+
+    .jump {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 20px;
+    }
+
+    .jump a {
+      padding: 10px 14px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      text-decoration: none;
+      color: var(--muted);
+      background: rgba(255,255,255,0.03);
+      transition: transform 0.18s ease, border-color 0.18s ease, color 0.18s ease;
+    }
+
+    .jump a:hover {
+      transform: translateY(-1px);
+      color: var(--text);
+      border-color: rgba(84,218,255,0.45);
+    }
+
+    @media (max-width: 920px) {
+      .grid.cols-2,
+      .grid.cols-3 {
+        grid-template-columns: 1fr;
+      }
+
+      .hero-meta {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .page { width: min(var(--content), calc(100% - 22px)); }
+      .section { margin-top: 40px; padding: 28px 0 0; }
+      .topbar { padding-top: 14px; }
+      .hero-banner img { width: 100%; height: auto; }
+      h1 { font-size: clamp(28px, 7vw, 42px); }
+      .lede { font-size: 1rem; }
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <div class="topbar">
+      <a class="back" href="../index.html#project-grid"><span>←</span> Back</a>
+    </div>
+
+    <section class="hero" id="top">
+      <div class="eyebrow">Case Study · Cosmic Gunner</div>
+      <div class="hero-banner">
+        <img src="../assets/images/cosmic-gunner-header.png" alt="Cosmic Gunner header image" />
+      </div>
+      <div class="hero-copy">
+        <h1>Cosmic Gunner UI/UX<br>Portfolio Case Study</h1>
+        <p class="lede">
+          Cosmic Gunner is a mobile-first arcade shooter built for quick sessions and readable gameplay. The project focused on making the game easy to understand in the first few seconds, easy to read while playing, and satisfying enough that players would want to try again immediately after a run ends.
+        </p>
+
+        <div class="hero-meta">
+          <div class="meta-card">
+            <span class="meta-label">Project</span>
+            <div class="meta-value">Cosmic Gunner, a mobile-first arcade shooter</div>
+          </div>
+          <div class="meta-card">
+            <span class="meta-label">Role</span>
+            <div class="meta-value">UI/UX design, product thinking, and frontend implementation</div>
+          </div>
+          <div class="meta-card">
+            <span class="meta-label">Platform</span>
+            <div class="meta-value">Mobile first, with desktop support</div>
+          </div>
+          <div class="meta-card">
+            <span class="meta-label">Focus</span>
+            <div class="meta-value">Clarity, fairness, readability, and replayability</div>
+          </div>
+        </div>
+
+        <a class="hero-cta" href="https://cosmic-gunner.vercel.app/" target="_blank" rel="noopener noreferrer">
+          Test the game
+          <span aria-hidden="true">↗</span>
+        </a>
+      </div>
+    </section>
+
+    <section class="section" id="overview">
+      <h2>Overview</h2>
+      <p>
+        Cosmic Gunner started as a playable game prototype and evolved into a more polished player experience.
+      </p>
+      <p>
+        The main design goal was simple: make the game easy to understand in the first few seconds, easy to read while playing, and satisfying enough that players would want to try again immediately after a run ends.
+      </p>
+    </section>
+
+    <section class="section" id="problem">
+      <h2>The Problem</h2>
+      <p>
+        The core mechanics were fun, but the experience had a few issues that made the game feel harder than it should have been:
+      </p>
+      <ul class="list">
+        <li>New players were not always sure how to start or what the controls were.</li>
+        <li>The original score-focused system did not reflect the full experience of surviving a run.</li>
+        <li>The interface needed to stay readable while the action was moving quickly.</li>
+        <li>Mobile players needed a layout that felt native, not squeezed inside a framed desktop-style layout.</li>
+        <li>The game needed stronger feedback around progress, danger, and failure.</li>
+      </ul>
+    </section>
+
+    <section class="section" id="changes">
+      <h2>What I Changed</h2>
+
+        <div class="change-block">
+        <h3>1. Onboarding redesign for new players</h3>
+        <p>
+          I added a clearer onboarding flow after testing the game with 32 participants, most of whom had limited gaming experience. Playtesting also showed that 70% of first-time testers understood the game instantly once the tutorial was in place. That feedback made it clear that the game needed a proper tutorial instead of expecting players to infer the controls.
+        </p>
+        <p>The new onboarding was designed to:</p>
+        <ul class="list">
+          <li>Teach the basic controls immediately.</li>
+          <li>Show the player what to do instead of only describing it in text.</li>
+          <li>Keep the tutorial short so it does not interrupt the fun.</li>
+          <li>Let experienced players move through it quickly.</li>
+        </ul>
+        <p>The result was a more welcoming first-time experience and less confusion at the start of the game.</p>
+        <figure class="case-figure">
+          <img src="../assets/images/cosmic-gunner-onboarding-tutorials.png" alt="Cosmic Gunner onboarding tutorials" />
+          <figcaption>Onboarding tutorials showing the touch controls in a mobile-first layout.</figcaption>
+        </figure>
+      </div>
+
+      <div class="change-block">
+        <h3>2. Scoring system redesign</h3>
+        <p>
+          The original high-score-only approach was too narrow. It made the game feel like a number chase instead of a survival experience. That can work for some arcade games, but for this one it did not fully capture what made the gameplay enjoyable.
+        </p>
+        <p>I changed the measuring system so progress could be felt in more than one way:</p>
+        <ul class="list">
+          <li><strong>Time survived</strong> shows endurance and how long the player stayed alive.</li>
+          <li><strong>Kills</strong> reward active play and good aim.</li>
+          <li><strong>Lives</strong> give a clear sense of risk and remaining safety.</li>
+          <li><strong>Enemies / threat pressure</strong> help show how difficult the run is becoming.</li>
+        </ul>
+        <p>
+          This made the game feel more rewarding because players were not judged by one score alone. They could see progress in survival, combat, and decision-making at the same time. It also made runs feel more dynamic and enjoyable, because the player could understand what they were doing well even before the final result.
+        </p>
+        <figure class="case-figure">
+          <img src="../assets/images/cosmic-gunner-hud.png" alt="Cosmic Gunner HUD and scoring system" />
+          <figcaption>HUD and scoring system showing lives, kills, and time survived.</figcaption>
+        </figure>
+      </div>
+
+      <div class="change-block">
+        <h3>3. Mobile-first layout improvements</h3>
+        <p>
+          The game needed to work properly on smaller screens, especially for portrait mobile play. I adjusted the layout so the playable area stayed open and the interface respected safe areas on devices with notches or home indicators.
+        </p>
+        <p>
+          This mattered because the game feels better when the screen is dedicated to gameplay instead of being boxed into a decorative frame.
+        </p>
+        <figure class="case-figure">
+          <img src="../assets/images/cosmic-gunner-mobile-first.png" alt="Cosmic Gunner mobile-first safe area layout" />
+          <figcaption>Gameplay and controls kept within the safe area on mobile.</figcaption>
+        </figure>
+      </div>
+
+      <div class="change-block">
+        <h3>4. Better feedback and end-of-run flow</h3>
+        <p>I also improved the way the game communicates success, failure, and next steps:</p>
+        <ul class="list">
+          <li>Clearer state changes when the player is hit or loses a run.</li>
+          <li>A game-over summary that gives useful feedback.</li>
+          <li>A restart flow that makes it easy to jump back into another attempt.</li>
+          <li>Visual emphasis that helps players understand what happened and why.</li>
+        </ul>
+        <p>These details matter because they turn a failed run into a learning moment instead of just a dead end.</p>
+        <figure class="case-figure">
+          <img src="../assets/images/cosmic-gunner-game-over.png" alt="Cosmic Gunner game over display" />
+          <figcaption>Game over screen with the run summary and replay prompt.</figcaption>
+        </figure>
+      </div>
+
+      <div class="change-block">
+        <h3>5. Audio and settings</h3>
+        <p>
+          I added audio controls so players could manage their experience more comfortably. This included volume options and persistence so settings stayed consistent between sessions.
+        </p>
+        <p>
+          That small addition improved usability because players could adjust the game to fit their environment without leaving the play experience.
+        </p>
+        <figure class="case-figure">
+          <img src="../assets/images/cosmic-gunner-audio-settings.png" alt="Cosmic Gunner audio and settings screen" />
+          <figcaption>Audio and settings controls, kept simple and easy to revisit.</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <section class="section" id="notes">
+      <h2>Other Important Things I Noticed</h2>
+      <ul class="list">
+        <li>The game works better when the UI stays lightweight and does not compete with the action.</li>
+        <li>Players understand the game faster when mechanics are demonstrated visually.</li>
+        <li>Mobile users need immediate clarity because there is less room for exploration.</li>
+        <li>A run feels more satisfying when the summary includes more than one performance measure.</li>
+        <li>Clear feedback after mistakes makes the game feel more fair and more replayable.</li>
+        <li>The overall experience is stronger when the first playthrough teaches, rather than overwhelms.</li>
+      </ul>
+    </section>
+
+    <section class="section" id="outcome">
+      <h2>Outcome</h2>
+      <p>
+        The final experience is easier to understand, easier to play on mobile, and more rewarding to replay. The onboarding helps new users get started faster, the updated scoring system makes progress feel richer, and the interface stays focused on the gameplay instead of distracting from it.
+      </p>
+      <p>
+        Testers were also more willing to play again after the changes, which was a good sign that the experience felt clearer and more inviting.
+      </p>
+    </section>
+
+    <section class="section" id="bonus">
+      <h2>Bonus</h2>
+      <p>The game characters were designed by me.</p>
+      <figure class="case-figure">
+        <img src="../assets/images/cosmic-gunner-character-design-sheet.png" alt="Cosmic Gunner character design sheet" />
+        <figcaption>Character design sheet used for the game’s cast and enemies.</figcaption>
+      </figure>
+    </section>
+
+    <section class="section" id="final-note">
+      <h2>Final Portfolio Note</h2>
+      <p>
+        If I were presenting this case study in a portfolio, I would position it as a design project that improved both clarity and enjoyment. The biggest wins were not just visual polish, but the product decisions behind the UI: better onboarding, a more meaningful progress system, and a cleaner player experience from start to finish.
+      </p>
+      <div class="jump">
+        <a href="#top">Back to top</a>
+        <a href="../index.html">Home</a>
+        <a href="../index.html#project-grid">More work</a>
+      </div>
+    </section>
+
+    <div class="footer">
+      Built as part of the Batmanny portfolio.
+    </div>
+  </main>
+</body>
+</html>
