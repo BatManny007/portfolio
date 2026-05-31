@@ -1,0 +1,729 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Razor Wallet - UX Case Study</title>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #000;
+      --line: rgba(255, 255, 255, 0.12);
+      --text: #fff;
+      --muted: rgba(255, 255, 255, 0.72);
+      --soft: rgba(255, 255, 255, 0.5);
+      --accent: #ffb84a;
+      --accent-2: #ff8d3a;
+      --shadow: 0 24px 80px rgba(0, 0, 0, 0.45);
+      --radius: 22px;
+      --content: 1160px;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-family: Inter, system-ui, sans-serif;
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    a { color: inherit; }
+    img { max-width: 100%; display: block; }
+
+    .page {
+      width: min(var(--content), calc(100% - 32px));
+      margin: 0 auto;
+      padding: 32px 0 120px;
+    }
+
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      gap: 16px;
+      padding: 20px 0 34px;
+    }
+
+    .back {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+      font-family: Orbitron, monospace;
+      letter-spacing: 0.08em;
+      font-size: 13px;
+      text-transform: uppercase;
+    }
+
+    .back span {
+      font-size: 20px;
+      line-height: 1;
+      transform: translateY(-1px);
+    }
+
+    .hero {
+      padding-bottom: 96px;
+    }
+
+    .hero-banner {
+      margin-bottom: 28px;
+    }
+
+    .hero-banner img {
+      width: 100%;
+      height: auto;
+      border-radius: 0;
+      display: block;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 14px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: rgba(255,255,255,0.03);
+      font-family: Orbitron, monospace;
+      font-size: 12px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 18px;
+    }
+
+    .hero-copy {
+      max-width: 1240px;
+    }
+
+    .hero-kicker {
+      margin: 0 0 10px;
+      font-family: Orbitron, monospace;
+      font-size: 13px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--soft);
+    }
+
+    h1 {
+      margin: 0;
+      font-family: Orbitron, monospace;
+      font-size: clamp(42px, 5vw, 72px);
+      font-weight: 500;
+      line-height: 1.06;
+      letter-spacing: 0;
+      color: var(--text);
+    }
+
+    .subhead {
+      margin: 14px 0 0;
+      font-size: clamp(18px, 2vw, 22px);
+      color: var(--text);
+      font-weight: 600;
+    }
+
+    .lede {
+      max-width: 66ch;
+      margin: 18px 0 0;
+      font-size: 1.05rem;
+      color: var(--muted);
+    }
+
+    .hero-meta {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+      margin-top: 40px;
+    }
+
+    .meta-card,
+    .section,
+    .screen-shot,
+    .note-card {
+      background: linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.03));
+      border: none;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(14px);
+    }
+
+    .meta-card {
+      background: rgba(10,10,10,0.92);
+      border: 1px solid rgba(255,255,255,0.10);
+      border-radius: 26px;
+      box-shadow: 0 18px 55px rgba(0,0,0,0.45);
+      backdrop-filter: blur(10px);
+      padding: 18px;
+      min-height: 110px;
+    }
+
+    .meta-label {
+      display: block;
+      margin-bottom: 8px;
+      font-family: Orbitron, monospace;
+      font-size: 11px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--soft);
+    }
+
+    .meta-value {
+      font-size: 0.98rem;
+      color: var(--text);
+    }
+
+    .section {
+      padding: 56px 0 0;
+      margin-top: 72px;
+      background: transparent;
+      box-shadow: none;
+      backdrop-filter: none;
+    }
+
+    .section h2 {
+      margin: 0 0 14px;
+      font-family: Orbitron, monospace;
+      font-size: 1.45rem;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+
+    .section h3 {
+      margin: 0 0 10px;
+      font-family: Orbitron, monospace;
+      font-size: 1.02rem;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+
+    .section p,
+    .section li {
+      color: var(--muted);
+    }
+
+    .section p {
+      margin: 0 0 12px;
+    }
+
+    .section p:last-child { margin-bottom: 0; }
+
+    .grid {
+      display: grid;
+      gap: 18px;
+    }
+
+    .grid.cols-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .grid.cols-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+
+    .callout {
+      margin-top: 16px;
+      padding: 16px 18px;
+      border-left: 3px solid var(--accent);
+      color: var(--text);
+    }
+
+    .section-split {
+      display: block;
+    }
+
+    .split-gap {
+      margin-top: clamp(640px, 60vw, 1152px);
+    }
+
+    .text {
+      min-width: 0;
+      max-width: 72ch;
+      margin-bottom: 22px;
+    }
+
+    .note-card {
+      padding: 18px 18px 16px;
+      border: 1px solid rgba(255,255,255,0.08);
+      background: rgba(255,255,255,0.03);
+    }
+
+    .note-card strong {
+      display: block;
+      margin-bottom: 8px;
+      font-family: Orbitron, monospace;
+      font-size: 11px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--accent);
+    }
+
+    .screen-shot {
+      overflow: hidden;
+      padding: 14px;
+      border: 1px solid rgba(255,255,255,0.08);
+      background: rgba(255,255,255,0.03);
+      width: min(100%, 1120px);
+      margin: 0 auto;
+    }
+
+    .screen-shot img {
+      width: 100%;
+      aspect-ratio: 1512 / 982;
+      object-fit: cover;
+      border-radius: calc(var(--radius) - 10px);
+      border: 1px solid rgba(255,255,255,0.08);
+    }
+
+    .screen-shot figcaption {
+      padding: 12px 2px 2px;
+      color: var(--soft);
+      font-size: 0.92rem;
+    }
+
+    .bonus-section {
+      margin-top: 90px;
+      padding-top: 56px;
+      border-top: 1px solid rgba(255,255,255,0.08);
+    }
+
+    .bonus-section h2 {
+      margin: 0 0 14px;
+      font-family: Orbitron, monospace;
+      font-size: 1.35rem;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+
+    .bonus-section p {
+      max-width: 68ch;
+      margin: 0 0 22px;
+      color: var(--muted);
+    }
+
+    .bonus-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 18px;
+    }
+
+    .bonus-card {
+      overflow: hidden;
+      margin: 0;
+      padding: 14px;
+      border-radius: var(--radius);
+      border: 1px solid rgba(255,255,255,0.08);
+      background: rgba(255,255,255,0.03);
+      box-shadow: var(--shadow);
+    }
+
+    .bonus-card img {
+      width: 100%;
+      aspect-ratio: 1 / 1;
+      object-fit: cover;
+      border-radius: calc(var(--radius) - 10px);
+      border: 1px solid rgba(255,255,255,0.08);
+    }
+
+    .bonus-card figcaption {
+      padding: 12px 2px 2px;
+      color: var(--soft);
+      font-size: 0.92rem;
+    }
+
+    .list {
+      margin: 14px 0 0;
+      padding-left: 18px;
+    }
+
+    .list li { margin: 8px 0; }
+
+    .table-wrap {
+      overflow-x: auto;
+      border-radius: 20px;
+      border: 1px solid rgba(255,255,255,0.08);
+      margin-top: 22px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 640px;
+      background: rgba(255,255,255,0.02);
+    }
+
+    th, td {
+      padding: 14px 14px;
+      text-align: left;
+      vertical-align: top;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+
+    th {
+      font-family: Orbitron, monospace;
+      font-size: 11px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--soft);
+      background: rgba(255,255,255,0.03);
+    }
+
+    tr:last-child td { border-bottom: none; }
+
+    .footer-note {
+      margin-top: 40px;
+      padding-top: 18px;
+      border-top: 1px solid rgba(255,255,255,0.08);
+      color: var(--soft);
+      font-size: 0.94rem;
+    }
+
+    .screen-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      margin-top: 18px;
+      padding: 12px 16px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,184,74,0.4);
+      background: rgba(255,184,74,0.12);
+      color: var(--text);
+      font-family: Orbitron, monospace;
+      font-size: 11px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      text-decoration: none;
+    }
+
+    .screen-cta:hover {
+      border-color: rgba(255,184,74,0.7);
+      background: rgba(255,184,74,0.18);
+    }
+
+    @media (max-width: 980px) {
+      .grid.cols-2,
+      .grid.cols-3,
+      .bonus-grid,
+      .hero-meta,
+      .section-split {
+        grid-template-columns: 1fr;
+      }
+
+      .section {
+        margin-top: 44px;
+      }
+
+      h1 {
+        font-size: clamp(36px, 10vw, 58px);
+      }
+
+      .split-gap {
+        margin-top: 120px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <header class="topbar">
+      <a class="back" href="../index.html#project-grid" aria-label="Back to project grid"><span>←</span> Back</a>
+    </header>
+
+    <section class="hero">
+      <div class="eyebrow">Case Study · Razor Wallet</div>
+      <div class="hero-banner">
+        <img src="../assets/images/razor-wallet-hero.png" alt="Razor Wallet mascot artwork" loading="eager" />
+      </div>
+      <div class="hero-copy">
+        <p class="hero-kicker">Desktop-first onboarding for a browser wallet</p>
+        <h1>Razor Wallet</h1>
+        <div class="subhead">Designing a Web3 onboarding flow that does not lose the user before they begin</div>
+        <p class="lede">
+          Razor Wallet is a browser extension wallet for the Movement blockchain. The redesign focused on reducing
+          friction without softening the security steps that make a non-custodial wallet trustworthy.
+        </p>
+
+        <div class="hero-meta">
+          <div class="meta-card">
+            <span class="meta-label">Product</span>
+            <div class="meta-value">Browser extension wallet for Movement</div>
+          </div>
+          <div class="meta-card">
+            <span class="meta-label">Role</span>
+            <div class="meta-value">Product design, UX writing, interaction design</div>
+          </div>
+          <div class="meta-card">
+            <span class="meta-label">Scope</span>
+            <div class="meta-value">Splash to wallet creation confirmation</div>
+          </div>
+          <div class="meta-card">
+            <span class="meta-label">Outcome</span>
+            <div class="meta-value">1,000 users in 24 hours, 50,000 in 72 hours</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>Overview</h2>
+      <p>
+        Web3 wallets often ask people to make three high-stakes decisions before they have a real sense of the product:
+        accept terms, create a password, and store a recovery phrase. The original Razor Wallet flow had more steps than
+        it needed, which gave users more chances to drop off.
+      </p>
+      <p>
+        The goal was to cut the flow down, keep every security requirement, and make each screen feel clear instead of
+        intimidating.
+      </p>
+      <div class="callout">
+        Security steps do not have to feel like obstacles. The harder part is explaining why they matter at the exact moment the user needs that context.
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>The Problem</h2>
+      <p>
+        The standard wallet onboarding pattern asks too much too early. Users are expected to agree to terms, create a
+        password they cannot recover, and write down a 12-word phrase that controls access to their funds before they
+        have had a single meaningful interaction with the product.
+      </p>
+      <p>
+        For a devnet launch aimed at developers and early adopters, that means every abandoned sign-up is a lost signal.
+        For a mainnet launch aimed at general users, it becomes a lost customer.
+      </p>
+      <div class="note-card">
+        <strong>The brief</strong>
+        Cut the flow down, keep every security requirement, and make users feel informed rather than overwhelmed at each step.
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>The Central Argument</h2>
+      <p>
+        Most wallets bury the reason for each step in a help article no one reads. This redesign puts the explanation
+        beside the action, on the same screen, at the moment the user needs it.
+      </p>
+      <div class="callout">
+        The question is not whether to include security steps. The question is how to frame them so users understand why they matter.
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>The Flow</h2>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Screen</th>
+              <th>Purpose</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>1. Splash - Terms of Service</td><td>Entry gate with legal acknowledgement</td></tr>
+            <tr><td>2. Welcome - Wallet Choice</td><td>Route returning vs new users</td></tr>
+            <tr><td>3. Create a Password</td><td>Security layer 1 - local access</td></tr>
+            <tr><td>4. Secret Recovery Phrase</td><td>Security layer 2 - wallet ownership</td></tr>
+            <tr><td>5. Congratulations</td><td>Confirmation and entry into the product</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>Screen By Screen</h2>
+
+      <article class="section-split">
+        <div class="text">
+          <h3>Screen 1 - Splash / Terms of Service</h3>
+          <p>
+            The first screen establishes the product identity and gates entry behind a single consent action. It is
+            almost entirely negative space: brand, one sentence, one checkbox, one CTA.
+          </p>
+          <p>
+            That is deliberate friction. The checkbox forces an active acknowledgement instead of a passive scroll-past,
+            but nothing else competes for attention.
+          </p>
+          <div class="note-card">
+            <strong>What it avoids</strong>
+            A full-screen terms modal, a wall of legal text, or multiple actions on the same screen.
+          </div>
+        </div>
+        <figure class="screen-shot">
+          <img src="../assets/images/razor-wallet-updates/screen-01.png" alt="Razor Wallet splash screen and terms of service step" loading="lazy" />
+          <figcaption>Screen 1 · Splash / Terms of Service</figcaption>
+        </figure>
+      </article>
+
+      <article class="section-split split-gap">
+        <div class="text">
+          <h3>Screen 2 - Welcome / Wallet Choice</h3>
+          <p>
+            The copy matters here because the buttons are really user self-identification statements. A returning user
+            should know instantly which path is theirs; a new user should feel clearly invited to continue.
+          </p>
+          <p>
+            The main weakness in the current draft is tone. The screen works, but the body copy leans too far into
+            marketing language for a flow that is otherwise plain and functional.
+          </p>
+          <div class="note-card">
+            <strong>Better body copy</strong>
+            Razor Wallet lets you store, send, and manage assets on Movement Chain.
+          </div>
+        </div>
+        <figure class="screen-shot">
+          <img src="../assets/images/razor-wallet-updates/screen-02.png" alt="Razor Wallet welcome screen with wallet choice buttons" loading="lazy" />
+          <figcaption>Screen 2 · Welcome / Wallet Choice</figcaption>
+        </figure>
+      </article>
+
+      <article class="section-split split-gap">
+        <div class="text">
+          <h3>Screen 3 - Create a Password</h3>
+          <p>
+            This is the first moment where a user might pause and ask why the product needs more from them. The layout
+            answers that question without forcing them into a separate help screen.
+          </p>
+          <p>
+            The left panel handles the action. The right panel handles the explanation. That separation keeps the screen
+            calm, readable, and easy to scan.
+          </p>
+          <div class="note-card">
+            <strong>What it avoids</strong>
+            A modal, a separate help screen, or tooltip-only explanations that do not work well on mobile.
+          </div>
+        </div>
+        <figure class="screen-shot">
+          <img src="../assets/images/razor-wallet-updates/screen-03.png" alt="Razor Wallet password creation screen with security guidance" loading="lazy" />
+          <figcaption>Screen 3 · Create a Password</figcaption>
+        </figure>
+      </article>
+
+      <article class="section-split split-gap">
+        <div class="text">
+          <h3>Screen 4 - Secret Recovery Phrase</h3>
+          <p>
+            This is the most consequential screen in the entire flow. The design has to avoid both extremes: warning
+            overload and under-explaining the risk.
+          </p>
+          <p>
+            The structure returns to the same two-panel layout, which gives the user visual familiarity after Screen 3.
+            The left panel handles the phrase. The right panel answers the actual questions people have in the moment.
+          </p>
+          <div class="note-card">
+            <strong>Security note</strong>
+            The support line should make phishing risk explicit. Razor support will never ask for your recovery phrase.
+          </div>
+        </div>
+        <figure class="screen-shot">
+          <img src="../assets/images/razor-wallet-updates/screen-04.png" alt="Razor Wallet secret recovery phrase screen with copy and safety guidance" loading="lazy" />
+          <figcaption>Screen 4 · Secret Recovery Phrase</figcaption>
+        </figure>
+      </article>
+
+      <article class="section-split split-gap">
+        <div class="text">
+          <h3>Screen 5 - Congratulations</h3>
+          <p>
+            The final screen closes the loop, confirms success, and gives the user one clear way forward. The Razor logo
+            appears here as a reward signal after the effort of the setup flow.
+          </p>
+          <p>
+            The CTA should stay final and simple. Done works better than any eager onboarding language because it ends the
+            chapter instead of opening a new one.
+          </p>
+          <div class="note-card">
+            <strong>What this screen avoids</strong>
+            Upsells, notification prompts, social sharing prompts, or any secondary action.
+          </div>
+        </div>
+        <figure class="screen-shot">
+          <img src="../assets/images/razor-wallet-updates/screen-05.png" alt="Razor Wallet completion screen confirming the wallet is ready" loading="lazy" />
+          <figcaption>Screen 5 · Congratulations</figcaption>
+        </figure>
+      </article>
+    </section>
+
+    <section class="section">
+      <h2>What Made This Redesign Work</h2>
+      <div class="grid cols-2">
+        <div class="note-card">
+          <strong>1. Two-panel education</strong>
+          Every security-heavy screen pairs action on one side with explanation on the other. Users who want context get it; users who do not are not slowed down.
+        </div>
+        <div class="note-card">
+          <strong>2. Friction with purpose</strong>
+          The legal acknowledgement and the hidden recovery phrase are deliberate friction. Everything else is reduced.
+        </div>
+        <div class="note-card">
+          <strong>3. Commitment copy</strong>
+          "I have saved my secret phrase" turns a button into an affirmation. That changes the tone of the action.
+        </div>
+        <div class="note-card">
+          <strong>4. Visual consistency</strong>
+          Amber becomes the system language for primary actions, so the user learns the pattern once and keeps moving.
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>Honest Critiques</h2>
+      <ul class="list">
+        <li>Screen 2 body copy still sounds too much like marketing and should be revised to something more functional.</li>
+        <li>The flow needs a progress indicator. A simple step counter would reduce abandonment anxiety.</li>
+        <li>The two-panel layout is elegant on desktop, but the right panel will need a mobile treatment.</li>
+        <li>The "Copy to clipboard" action on Screen 4 is risky and could probably be removed entirely.</li>
+      </ul>
+    </section>
+
+    <section class="section">
+      <h2>Outcome</h2>
+      <p>The redesigned flow launched on devnet.</p>
+      <ul class="list">
+        <li>1,000 users onboarded in the first 24 hours</li>
+        <li>50,000 users onboarded in 72 hours</li>
+      </ul>
+      <p>
+        The result was a five-minute reduction in average onboarding time without removing any of the security steps
+        that make a non-custodial wallet trustworthy.
+      </p>
+      <p>
+        Devnet users are not casual. They have seen enough wallets to recognise bad onboarding quickly, which makes the
+        numbers here meaningful.
+      </p>
+    </section>
+
+    <section class="section">
+      <h2>Key Takeaway</h2>
+      <p>
+        Security and simplicity are not opposites in Web3 onboarding. The better question is whether you explain the why
+        at the right moment, on the right screen, in plain language.
+      </p>
+      <div class="callout">
+        This flow answers the question where it is asked, instead of pushing the user off to a help article they will never open.
+      </div>
+
+      <div class="footer-note">
+        UX Case Study · Razor Wallet · Browser Extension Onboarding · Solo Design · 2026
+      </div>
+    </section>
+
+    <section class="bonus-section">
+      <h2>Bonus Graphics</h2>
+      <p>
+        A few extra mascot explorations from the Razor world, kept here as a small visual appendix after the case study.
+      </p>
+      <div class="bonus-grid">
+        <figure class="bonus-card">
+          <img src="../assets/images/razor-wallet-bonus/bonus-01.png" alt="Razor wallet mascot illustration showing the character in a dark promotional composition" loading="lazy" />
+          <figcaption>Bonus 01 · Razor Wallet promo art</figcaption>
+        </figure>
+        <figure class="bonus-card">
+          <img src="../assets/images/razor-wallet-bonus/bonus-02.png" alt="Razor DAO seasonal mascot illustration with holiday styling and snowflakes" loading="lazy" />
+          <figcaption>Bonus 02 · Seasonal Razor DAO art</figcaption>
+        </figure>
+        <figure class="bonus-card">
+          <img src="../assets/images/razor-wallet-bonus/bonus-03.png" alt="Razor DAO new year mascot illustration with large 2026 lettering and festive styling" loading="lazy" />
+          <figcaption>Bonus 03 · Razor DAO new year art</figcaption>
+        </figure>
+      </div>
+    </section>
+  </div>
+</body>
+</html>
