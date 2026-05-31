@@ -246,6 +246,7 @@ module.exports = async function handler(req, res) {
     if (!smtpHost || !toEmail || !fromEmail) {
       return json(res, 500, {
         ok: false,
+        code: 'SMTP_NOT_CONFIGURED',
         error: 'Email settings are not configured yet. Add SMTP_HOST, SMTP_USER, SMTP_PASS, and CONTACT_TO_EMAIL in Vercel.',
       });
     }

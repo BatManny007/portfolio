@@ -972,7 +972,10 @@
       /* Contact mobile */
       .contact-inner {
         grid-template-columns: 1fr;
-        gap: 24px;
+        gap: 160px;
+      }
+      #contact.section {
+        padding-top: 120px;
       }
 
       /* Works mobile */
@@ -1015,22 +1018,19 @@
         align-self: center;
       }
       .card-thumbnail {
-        height: 154px;
-        aspect-ratio: auto;
+        aspect-ratio: 16 / 9;
+        height: auto;
         min-height: 0;
         border-right: 0;
         border-bottom: 1px solid rgba(255,255,255,0.08);
         background: rgba(238,242,251,0.95);
-        display: flex;
-        align-items: center;
-        justify-content: center;
+        display: block;
       }
       .card-thumbnail img {
-        width: min(58%, 240px);
-        height: auto;
-        max-height: 118px;
-        object-fit: contain;
-        padding: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: center;
       }
       .card-info {
         padding: 16px 16px 18px;
@@ -1088,12 +1088,14 @@
         width: 100%;
       }
       .card-thumbnail {
-        height: 132px;
-        aspect-ratio: auto;
+        aspect-ratio: 16 / 9;
+        height: auto;
       }
       .card-thumbnail img {
-        width: min(60%, 190px);
-        max-height: 98px;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: center;
       }
       .card-info {
         padding: 14px 14px 16px;
@@ -1482,12 +1484,11 @@
 
         <div class="about-copy">
           <h2 class="about-title" data-typewriter>ABOUT ME</h2>
-          <p class="about-lead">I’m a product designer who codes — focused on building digital experiences that feel sharp, immersive, and impossible to ignore.</p>
-          <p>My work lives at the intersection of design, interaction, illustration, and engineering. I design interfaces, visual systems, and product experiences for startups exploring the future of technology — from Web3 ecosystems and trading products to gaming-inspired consumer experiences and experimental tools.</p>
-          <p>Beyond product design, I create illustrations and visual assets that bring personality and narrative into digital products. I enjoy blending technical structure with stylized visuals to create experiences that feel both functional and memorable.</p>
-          <p>I care deeply about how products feel in motion: the onboarding flow, the micro-interactions, the emotional pull, and the clarity behind complexity. Whether I’m designing in Figma, illustrating concepts, or building directly with code, I approach design as both a visual craft and a systems problem.</p>
-          <p>Using tools like Figma, HTML, CSS, JavaScript, Codex, and Claude Code, I move quickly from concept to execution — bridging the gap between idea and implementation. My process combines product thinking, creative experimentation, and technical precision to build experiences that stand out without sacrificing usability.</p>
-          <p>I’m especially drawn to ambitious teams building category-defining products — the kind that refuse to ship mediocre experiences.</p>
+          <p class="about-lead">I’m Emmanuel, a product designer who likes to get close to the work: sketching the idea, shaping the interface, and sometimes building the thing myself.</p>
+          <p>I enjoy products that have a bit of character. The kind where the empty states, buttons, motion, and tiny details all feel like someone actually cared. That is the part of design I keep coming back to: making useful things feel clear, alive, and easy to trust.</p>
+          <p>Most of my work sits around product design, UI systems, visual design, and front-end implementation. I have worked across Web3, fintech, games, dashboards, and experimental tools, usually in places where the product needs to feel sharp without becoming confusing.</p>
+          <p>I also make illustrations and brand visuals, so I think a lot about mood and personality, not just screens. Sometimes the right visual language can explain a product faster than another paragraph ever could.</p>
+          <p>I use tools like Figma, HTML, CSS, JavaScript, Codex, and Claude Code to move from rough idea to working prototype quickly. I like teams that care about taste, clarity, and shipping work that feels considered.</p>
         </div>
       </div>
     </section>
@@ -1498,8 +1499,6 @@
         <div class="contact-copy">
           <h2 class="contact-title" data-typewriter>CONTACT</h2>
           <p>If you’re building something ambitious (or you want your product to feel like it has a pulse), let’s talk. I’m open to product design, interaction design, and design-engineering collaborations.</p>
-          <p>Best way to reach me is email, and the quick note form below sends straight through the site.</p>
-
           <div class="contact-actions">
             <a class="contact-btn primary" id="contact-email-link" href="mailto:eosadolor382@gmail.com">EMAIL ME</a>
             <button class="contact-btn" type="button" id="contact-copy-email" data-email="eosadolor382@gmail.com">COPY EMAIL</button>
@@ -1531,8 +1530,6 @@
               </svg>
             </a>
           </div>
-
-          <div class="contact-note">Messages sent here go straight through the Vercel contact endpoint.</div>
         </div>
 
         <div class="contact-panel">
@@ -1556,7 +1553,6 @@
             </div>
             <input id="c-company" name="company" type="text" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;opacity:0;height:1px;width:1px;" />
           </form>
-          <div class="contact-note">Send a message and I’ll receive it through the site, not your mail app.</div>
         </div>
       </div>
     </section>
@@ -1590,7 +1586,7 @@
         cardLabel: "Case Study",
         displayTitle: "Cosmic Gunner UI/UX Portfolio Case Study",
         category: ["side-quests", "vibe-coded", "case-study"],
-        thumbnail: "assets/images/cosmic-gunner.png",
+        thumbnail: "assets/images/cosmic-gunner.jpg",
         description: "A game UI case study focused on onboarding, scoring, and a lighter interface that stays readable and responsive while the action is moving.",
         link: "work/cosmic-gunner.html"
       },
@@ -1601,7 +1597,7 @@
         cardLabel: "Case Study",
         displayTitle: "Bridging Crypto & Banking: Designing Trust Into a Crypto-to-NGN Transfer Flow",
         category: ["case-study", "brand-visual"],
-        thumbnail: "assets/images/pendax.png",
+        thumbnail: "assets/images/pendax.jpg",
         description: "A mobile-first fintech flow that makes crypto-to-bank transfers feel familiar, secure, and easy to understand for everyday users.",
         link: "work/pendax.html"
       },
@@ -1872,6 +1868,30 @@
     const emailLink = document.getElementById('contact-email-link');
     const contactForm = document.getElementById('contact-form');
 
+    function buildMailtoHref({ name, from, msg, company }) {
+      const to = emailLink?.getAttribute('href')?.replace(/^mailto:/, '') || 'eosadolor382@gmail.com';
+      const subject = `Portfolio contact from ${name || 'Website visitor'}`;
+      const lines = [
+        `Name: ${name || ''}`,
+        `Email: ${from || ''}`,
+        ...(company ? [`Company: ${company}`] : []),
+        '',
+        msg || '',
+      ];
+
+      const params = new URLSearchParams({
+        subject,
+        body: lines.join('\n'),
+      });
+
+      return `mailto:${to}?${params.toString()}`;
+    }
+
+    function fallbackToEmailClient(payload) {
+      window.location.href = buildMailtoHref(payload);
+      showToast('OPENING EMAIL APP');
+    }
+
     if (copyBtn) {
       copyBtn.addEventListener('click', async () => {
         const email = copyBtn.getAttribute('data-email') || '';
@@ -1916,12 +1936,20 @@
           const result = await response.json().catch(() => ({}));
 
           if (!response.ok || !result.ok) {
+            if (result.code === 'SMTP_NOT_CONFIGURED' || response.status >= 500) {
+              fallbackToEmailClient(payload);
+              return;
+            }
             throw new Error(result.error || 'SEND FAILED');
           }
 
           contactForm.reset();
           showToast('MESSAGE SENT');
         } catch (err) {
+          if (/failed to fetch|networkerror/i.test(String(err?.message || ''))) {
+            fallbackToEmailClient(payload);
+            return;
+          }
           showToast(err?.message || 'SEND FAILED');
         } finally {
           if (submitBtn) submitBtn.disabled = false;
