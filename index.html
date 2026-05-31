@@ -655,11 +655,11 @@
 
     /* ─── WORKS SECTION ────────────────────────────────── */
     #work {
-      min-height: 100vh;
+      height: 100vh;
       display: flex;
       flex-direction: column;
       padding-top: calc(var(--nav-h) + 40px);
-      padding-bottom: 80px;
+      padding-bottom: 0;
       position: relative;
       overflow: hidden;
       background: #000000;
@@ -672,7 +672,9 @@
       flex: 1;
       display: grid;
       grid-template-columns: 1fr 500px;
-      align-items: start;
+      align-items: stretch;
+      min-height: 0;
+      height: 100%;
     }
 
     .work-content {
@@ -680,6 +682,9 @@
       display: flex;
       flex-direction: column;
       gap: 28px;
+      min-height: 0;
+      padding-bottom: 32px;
+      height: 100%;
     }
 
     /* Filter tabs */
@@ -724,6 +729,24 @@
       flex-direction: column;
       gap: 18px;
       width: min(100%, 1120px);
+      flex: 1;
+      min-height: 0;
+      overflow-y: auto;
+      padding-right: 16px;
+      scrollbar-color: rgba(255,255,255,0.22) transparent;
+      scrollbar-width: thin;
+    }
+    .project-grid::-webkit-scrollbar { width: 5px; }
+    .project-grid::-webkit-scrollbar-track {
+      background: transparent;
+      border-radius: 999px;
+    }
+    .project-grid::-webkit-scrollbar-thumb {
+      background: rgba(255,255,255,0.20);
+      border-radius: 999px;
+    }
+    .project-grid:hover::-webkit-scrollbar-thumb {
+      background: rgba(255,255,255,0.32);
     }
 
     /* Project card */
@@ -731,6 +754,7 @@
       display: grid;
       grid-template-columns: minmax(240px, 330px) minmax(0, 1fr);
       align-items: stretch;
+      flex: 0 0 auto;
       background: rgba(10, 10, 10, 0.94);
       cursor: pointer;
       border: 1px solid rgba(255,255,255,0.10);
@@ -850,21 +874,22 @@
 
     .work-batman {
       width: 500px;
-      min-height: 100vh;
       display: flex;
       align-items: flex-end;
       justify-content: flex-end;
-      position: sticky;
-      top: 0;
+      position: relative;
       flex-shrink: 0;
       overflow: visible;
+      min-height: 0;
+      height: 100%;
     }
 
     #batman-beyond-wrap {
-      width: 520px;
-      margin-right: -80px;
-      margin-bottom: -10px;
-      position: relative;
+      height: 100%;
+      width: auto;
+      position: absolute;
+      right: -80px;
+      bottom: 0;
     }
 
     /* Lift the dark illustration off pure black without changing its cyan fills */
@@ -877,8 +902,8 @@
       z-index: 0;
     }
     #batman-beyond-wrap svg {
-      width: 100%;
-      height: auto;
+      width: auto;
+      height: 100%;
       display: block;
       position: relative;
       z-index: 1;
@@ -980,10 +1005,15 @@
 
       /* Works mobile */
       #work {
+        height: auto;
+        min-height: 100vh;
         padding-top: calc(var(--nav-h) + 18px);
+        padding-bottom: 80px;
+        overflow: visible;
       }
       .work-inner {
         grid-template-columns: 1fr;
+        align-items: start;
       }
       .work-content {
         padding: 0 18px;
@@ -1004,9 +1034,12 @@
       .project-grid {
         width: 100%;
         max-width: 430px;
+        flex: none;
         align-items: center;
         justify-content: center;
         gap: 14px;
+        overflow: visible;
+        padding-right: 0;
       }
       .project-card {
         grid-template-columns: 1fr;
@@ -1500,7 +1533,7 @@
           <h2 class="contact-title" data-typewriter>CONTACT</h2>
           <p>If you’re building something ambitious (or you want your product to feel like it has a pulse), let’s talk. I’m open to product design, interaction design, and design-engineering collaborations.</p>
           <div class="contact-actions">
-            <a class="contact-btn primary" id="contact-email-link" href="mailto:eosadolor382@gmail.com">EMAIL ME</a>
+            <a class="contact-btn primary" id="contact-email-link" href="#contact-form">MESSAGE ME</a>
             <button class="contact-btn" type="button" id="contact-copy-email" data-email="eosadolor382@gmail.com">COPY EMAIL</button>
           </div>
 
@@ -1561,12 +1594,19 @@
 
   </div><!-- /homepage -->
 
+  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js" crossorigin="anonymous"></script>
   <script>
     /* ══════════════════════════════════════════════════════
        PROJECTS DATA — top works only for now
        Categories: case-study | vibe-coded | shots |
                    micro-interactions | side-quests | brand-visual
     ══════════════════════════════════════════════════════ */
+    const EMAILJS_CONFIG = {
+      publicKey: 'YOUR_EMAILJS_PUBLIC_KEY',
+      serviceId: 'YOUR_EMAILJS_SERVICE_ID',
+      templateId: 'YOUR_EMAILJS_TEMPLATE_ID',
+    };
+
     const PROJECTS = [
       {
         id: "elite-global",
@@ -1600,6 +1640,17 @@
         thumbnail: "assets/images/pendax.jpg",
         description: "A mobile-first fintech flow that makes crypto-to-bank transfers feel familiar, secure, and easy to understand for everyday users.",
         link: "work/pendax.html"
+      },
+      {
+        id: "razor-wallet",
+        title: "Razor Wallet UX Case Study",
+        company: "Razor Wallet",
+        cardLabel: "Case Study",
+        displayTitle: "Razor Wallet UX Case Study",
+        category: ["case-study", "brand-visual"],
+        thumbnail: "assets/images/razor-wallet-thumb.png",
+        description: "A browser-wallet onboarding flow that keeps the security steps intact while making each screen easier to understand and less intimidating.",
+        link: "work/razor-wallet.html"
       },
     ];
 
@@ -1868,28 +1919,10 @@
     const emailLink = document.getElementById('contact-email-link');
     const contactForm = document.getElementById('contact-form');
 
-    function buildMailtoHref({ name, from, msg, company }) {
-      const to = emailLink?.getAttribute('href')?.replace(/^mailto:/, '') || 'eosadolor382@gmail.com';
-      const subject = `Portfolio contact from ${name || 'Website visitor'}`;
-      const lines = [
-        `Name: ${name || ''}`,
-        `Email: ${from || ''}`,
-        ...(company ? [`Company: ${company}`] : []),
-        '',
-        msg || '',
-      ];
+    const emailjsReady = typeof emailjs !== 'undefined' && EMAILJS_CONFIG.publicKey && EMAILJS_CONFIG.publicKey !== 'YOUR_EMAILJS_PUBLIC_KEY';
 
-      const params = new URLSearchParams({
-        subject,
-        body: lines.join('\n'),
-      });
-
-      return `mailto:${to}?${params.toString()}`;
-    }
-
-    function fallbackToEmailClient(payload) {
-      window.location.href = buildMailtoHref(payload);
-      showToast('OPENING EMAIL APP');
+    if (emailjsReady) {
+      emailjs.init({ publicKey: EMAILJS_CONFIG.publicKey });
     }
 
     if (copyBtn) {
@@ -1920,37 +1953,32 @@
 
         const submitBtn = contactForm.querySelector('button[type="submit"]');
         const resetBtn = contactForm.querySelector('button[type="reset"]');
-        const payload = { name, email: from, message: msg, company };
-
         try {
+          if (!emailjsReady) {
+            showToast('ADD EMAILJS KEYS');
+            return;
+          }
+
           if (submitBtn) submitBtn.disabled = true;
           if (resetBtn) resetBtn.disabled = true;
           if (submitBtn) submitBtn.textContent = 'SENDING...';
 
-          const response = await fetch('/api/contact', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(payload),
+          await emailjs.send(EMAILJS_CONFIG.serviceId, EMAILJS_CONFIG.templateId, {
+            from_name: name,
+            from_email: from,
+            message: msg,
+            company,
+            reply_to: from,
+            to_email: 'eosadolor382@gmail.com',
+            subject: `Portfolio contact from ${name}`,
+          }, {
+            publicKey: EMAILJS_CONFIG.publicKey,
           });
-
-          const result = await response.json().catch(() => ({}));
-
-          if (!response.ok || !result.ok) {
-            if (result.code === 'SMTP_NOT_CONFIGURED' || response.status >= 500) {
-              fallbackToEmailClient(payload);
-              return;
-            }
-            throw new Error(result.error || 'SEND FAILED');
-          }
 
           contactForm.reset();
           showToast('MESSAGE SENT');
         } catch (err) {
-          if (/failed to fetch|networkerror/i.test(String(err?.message || ''))) {
-            fallbackToEmailClient(payload);
-            return;
-          }
-          showToast(err?.message || 'SEND FAILED');
+          showToast(String(err?.text || err?.message || 'SEND FAILED'));
         } finally {
           if (submitBtn) submitBtn.disabled = false;
           if (resetBtn) resetBtn.disabled = false;
