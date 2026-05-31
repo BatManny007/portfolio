@@ -185,6 +185,28 @@ async function smtpSend({ host, port, secure, user, pass, from, to, subject, tex
   }
 }
 
+async function resendSend({ apiKey, from, to, subject, text, replyTo }) {
+  const response = await fetch('https://api.resend.com/emails', {
+    method: 'POST',
+    headers: {
+      Authorization: `Bearer ${apiKey}`,
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      from,
+      to: [to],
+      subject,
+      text,
+      reply_to: replyTo,
+    }),
+  });
+
+  const payload = await response.json().catch(() => ({}));
+  if (!response.ok) {
+    throw new Error(payload?.message || payload?.error || `Resend ${response.status}: unable to send email`);
+  }
+}
+
 function json(res, statusCode, payload) {
   res.statusCode = statusCode;
   res.setHeader('Content-Type', 'application/json; charset=utf-8');
@@ -235,19 +257,21 @@ module.exports = async function handler(req, res) {
       return json(res, 400, { ok: false, error: 'Please use a valid email address.' });
     }
 
-    const smtpHost = process.env.SMTP_HOST;
+    const toEmail = process.env.CONTACT_TO_EMAIL || 'eosadolor382@gmail.com';
+    const fromEmail = process.env.SMTP_FROM_EMAIL || process.env.RESEND_FROM_EMAIL || process.env.SMTP_USER || toEmail;
+    const resendApiKey = process.env.RESEND_API_KEY || '';
+
+    const smtpHost = process.env.SMTP_HOST || '';
     const smtpPort = Number(process.env.SMTP_PORT || '587');
     const smtpUser = process.env.SMTP_USER || '';
     const smtpPass = process.env.SMTP_PASS || '';
     const smtpSecure = String(process.env.SMTP_SECURE || '').toLowerCase() === 'true' || smtpPort === 465;
-    const toEmail = process.env.CONTACT_TO_EMAIL || 'eosadolor382@gmail.com';
-    const fromEmail = process.env.SMTP_FROM_EMAIL || smtpUser || toEmail;
 
-    if (!smtpHost || !toEmail || !fromEmail) {
+    if (!toEmail || !fromEmail || (!resendApiKey && !smtpHost)) {
       return json(res, 500, {
         ok: false,
-        code: 'SMTP_NOT_CONFIGURED',
-        error: 'Email settings are not configured yet. Add SMTP_HOST, SMTP_USER, SMTP_PASS, and CONTACT_TO_EMAIL in Vercel.',
+        code: 'EMAIL_NOT_CONFIGURED',
+        error: 'Email settings are not configured yet. Add RESEND_API_KEY and RESEND_FROM_EMAIL, or SMTP_HOST, SMTP_USER, SMTP_PASS, and CONTACT_TO_EMAIL in Vercel.',
       });
     }
 
@@ -266,17 +290,28 @@ module.exports = async function handler(req, res) {
       `Reply-to: ${email}`,
     ].join('\n');
 
-    await smtpSend({
-      host: smtpHost,
-      port: smtpPort,
-      secure: smtpSecure,
-      user: smtpUser,
-      pass: smtpPass,
-      from: fromEmail,
-      to: toEmail,
-      subject,
-      text,
-    });
+    if (resendApiKey) {
+      await resendSend({
+        apiKey: resendApiKey,
+        from: fromEmail,
+        to: toEmail,
+        subject,
+        text,
+        replyTo: email,
+      });
+    } else {
+      await smtpSend({
+        host: smtpHost,
+        port: smtpPort,
+        secure: smtpSecure,
+        user: smtpUser,
+        pass: smtpPass,
+        from: fromEmail,
+        to: toEmail,
+        subject,
+        text,
+      });
+    }
 
     return json(res, 200, { ok: true });
   } catch (error) {
