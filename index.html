@@ -1594,19 +1594,12 @@
 
   </div><!-- /homepage -->
 
-  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js" crossorigin="anonymous"></script>
   <script>
     /* ══════════════════════════════════════════════════════
        PROJECTS DATA — top works only for now
        Categories: case-study | vibe-coded | shots |
                    micro-interactions | side-quests | brand-visual
     ══════════════════════════════════════════════════════ */
-    const EMAILJS_CONFIG = {
-      publicKey: 'YOUR_EMAILJS_PUBLIC_KEY',
-      serviceId: 'YOUR_EMAILJS_SERVICE_ID',
-      templateId: 'YOUR_EMAILJS_TEMPLATE_ID',
-    };
-
     const PROJECTS = [
       {
         id: "elite-global",
@@ -1919,12 +1912,6 @@
     const emailLink = document.getElementById('contact-email-link');
     const contactForm = document.getElementById('contact-form');
 
-    const emailjsReady = typeof emailjs !== 'undefined' && EMAILJS_CONFIG.publicKey && EMAILJS_CONFIG.publicKey !== 'YOUR_EMAILJS_PUBLIC_KEY';
-
-    if (emailjsReady) {
-      emailjs.init({ publicKey: EMAILJS_CONFIG.publicKey });
-    }
-
     if (copyBtn) {
       copyBtn.addEventListener('click', async () => {
         const email = copyBtn.getAttribute('data-email') || '';
@@ -1954,31 +1941,26 @@
         const submitBtn = contactForm.querySelector('button[type="submit"]');
         const resetBtn = contactForm.querySelector('button[type="reset"]');
         try {
-          if (!emailjsReady) {
-            showToast('ADD EMAILJS KEYS');
-            return;
-          }
-
           if (submitBtn) submitBtn.disabled = true;
           if (resetBtn) resetBtn.disabled = true;
           if (submitBtn) submitBtn.textContent = 'SENDING...';
 
-          await emailjs.send(EMAILJS_CONFIG.serviceId, EMAILJS_CONFIG.templateId, {
-            from_name: name,
-            from_email: from,
-            message: msg,
-            company,
-            reply_to: from,
-            to_email: 'eosadolor382@gmail.com',
-            subject: `Portfolio contact from ${name}`,
-          }, {
-            publicKey: EMAILJS_CONFIG.publicKey,
-          });
+          const mailto = `mailto:eosadolor382@gmail.com?subject=${encodeURIComponent(`Portfolio contact from ${name}`)}&body=${encodeURIComponent([
+            `Name: ${name}`,
+            `Email: ${from}`,
+            '',
+            msg,
+          ].join('\n'))}`;
 
+          if (emailLink) {
+            emailLink.href = mailto;
+          }
+
+          window.location.href = mailto;
+          showToast('OPENING EMAIL APP');
           contactForm.reset();
-          showToast('MESSAGE SENT');
         } catch (err) {
-          showToast(String(err?.text || err?.message || 'SEND FAILED'));
+          showToast(String(err?.message || 'EMAIL APP FAILED'));
         } finally {
           if (submitBtn) submitBtn.disabled = false;
           if (resetBtn) resetBtn.disabled = false;
