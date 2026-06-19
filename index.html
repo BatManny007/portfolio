@@ -262,7 +262,7 @@
     .hero-text { display: flex; flex-direction: column; gap: 16px; }
 
     .hero-headline {
-      font-size: clamp(36px, 4.5vw, 64px);
+      font-size: clamp(30px, 3.6vw, 52px);
       font-weight: 500;
       line-height: 1.15;
       color: var(--white);
@@ -278,7 +278,20 @@
       font-family: Inter, system-ui, sans-serif;
     }
 
+    .hero-stat {
+      font-size: clamp(13px, 1.1vw, 16px);
+      font-weight: 400;
+      line-height: 1.6;
+      color: var(--dim);
+      max-width: 580px;
+      font-family: Inter, system-ui, sans-serif;
+      margin-top: 4px;
+    }
+    .hero-stat strong { color: var(--white); font-weight: 600; }
+
     .hero-actions { display: flex; flex-direction: column; gap: 32px; }
+
+    .hero-buttons { display: flex; flex-wrap: wrap; gap: 16px; }
 
     .cta-btn {
       display: inline-flex;
@@ -299,6 +312,13 @@
       align-self: flex-start;
     }
     .cta-btn:hover { background: var(--cyan); color: var(--black); }
+
+    .cta-btn--ghost {
+      background: transparent;
+      color: var(--white);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+    }
+    .cta-btn--ghost:hover { background: var(--white); color: var(--black); border-color: var(--white); }
 
     .social-icons {
       display: flex;
@@ -381,6 +401,10 @@
       opacity: 1;
       transform: translateY(0);
     }
+
+    /* GSAP hero entrance — elements start hidden, GSAP animates them in */
+    .gsap-hide { opacity: 0; }
+    .hero-headline .word { display: inline-block; will-change: transform, opacity; }
 
     /* ─── PLACEHOLDER SECTIONS ──────────────────────────── */
     .section {
@@ -780,6 +804,8 @@
       outline-offset: 2px;
     }
     .project-card.hidden { display: none; }
+    /* While GSAP drives the entrance, suppress the CSS transition so frames don't smear */
+    .project-card.animating { transition: none; }
 
     .card-thumbnail {
       width: 100%;
@@ -1055,9 +1081,9 @@
         box-shadow: 0 14px 36px rgba(0,0,0,0.35);
         width: 100%;
         margin: 0 auto;
+        align-self: center;
         touch-action: manipulation;
         -webkit-tap-highlight-color: transparent;
-        align-self: center;
       }
       .card-thumbnail {
         aspect-ratio: 16 / 9;
@@ -1128,9 +1154,9 @@
         overflow-y: visible;
       }
       .project-card {
+        width: 100%;
         touch-action: manipulation;
         -webkit-tap-highlight-color: transparent;
-        width: 100%;
       }
       .card-thumbnail {
         aspect-ratio: 16 / 9;
@@ -1247,14 +1273,18 @@
       <!-- Left -->
       <div class="hero-left">
         <div class="hero-text">
-          <h1 class="hero-headline"><span id="typewriter-h1"></span><span class="cursor" id="cursor-h1">|</span></h1>
-          <p class="hero-sub" id="typewriter-sub" style="opacity:0"><span id="typewriter-sub-text"></span><span class="cursor" id="cursor-sub" style="display:none">|</span></p>
+          <h1 class="hero-headline gsap-hide" id="hero-headline">Designing products people trust with their money, time, and attention.</h1>
+          <p class="hero-sub gsap-hide" id="hero-sub">Product Designer with 4+ years of experience across Web3, Gaming, and AI.</p>
+          <p class="hero-stat gsap-hide" id="hero-stat">Redesigned Razor DAO onboarding, contributing to <strong>100K+ users in 72 hours</strong>.</p>
         </div>
 
         <div class="hero-actions">
-          <a href="#contact" class="cta-btn reveal-after" style="transition-delay:0s">Send the Bat-Signal</a>
+          <div class="hero-buttons">
+            <a href="#work" class="cta-btn gsap-hide">View Work</a>
+            <a href="#contact" class="cta-btn cta-btn--ghost gsap-hide">Send the Bat-Signal</a>
+          </div>
 
-          <div class="social-icons reveal-after" style="transition-delay:0.15s">
+          <div class="social-icons gsap-hide">
             <!-- X (Twitter) -->
             <a href="https://x.com/BatMannyXBT" aria-label="X (Twitter)" target="_blank" rel="noopener noreferrer">
               <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -1606,6 +1636,7 @@
 
   </div><!-- /homepage -->
 
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
   <script>
     /* ══════════════════════════════════════════════════════
        PROJECTS DATA — top works only for now
@@ -1614,48 +1645,48 @@
     ══════════════════════════════════════════════════════ */
     const PROJECTS = [
       {
+        id: "razor-wallet",
+        title: "Redesigned onboarding, contributing to 100K+ users in 72 hours",
+        company: "Razor Wallet",
+        cardLabel: "Case Study",
+        displayTitle: "Redesigned onboarding, contributing to 100K+ users in 72 hours",
+        category: ["case-study", "brand-visual"],
+        thumbnail: "assets/images/razor-wallet-thumb.png",
+        description: "Reduced friction during wallet creation and built a scalable design system.",
+        link: "work/razor-wallet.html"
+      },
+      {
         id: "elite-global",
-        title: "Conversational Onboarding Case Study",
+        title: "Onboarding That Feels Like a Conversation, Not a Form",
         company: "Elite Global AI",
         cardLabel: "Case Study",
-        displayTitle: "Conversational Onboarding Case Study",
+        displayTitle: "Onboarding That Feels Like a Conversation, Not a Form",
         category: ["case-study", "brand-visual"],
         thumbnail: "assets/images/elite-global.png",
         description: "A 14-screen onboarding and payoff flow designed to feel like a conversation, making a complex AI job-matching experience clearer and more trustworthy.",
         link: "work/elite-global.html"
       },
       {
-        id: "cosmic-gunner",
-        title: "Cosmic Gunner UI/UX Portfolio Case Study",
-        company: "Cosmic Gunner",
-        cardLabel: "Case Study",
-        displayTitle: "Cosmic Gunner UI/UX Portfolio Case Study",
-        category: ["side-quests", "vibe-coded", "case-study"],
-        thumbnail: "assets/images/cosmic-gunner.jpg",
-        description: "A game UI case study focused on onboarding, scoring, and a lighter interface that stays readable and responsive while the action is moving.",
-        link: "work/cosmic-gunner.html"
-      },
-      {
         id: "pendax",
-        title: "Bridging Crypto & Banking: Designing Trust Into a Crypto-to-NGN Transfer Flow",
+        title: "Making Crypto-to-Naira Transfers Feel as Safe as Banking",
         company: "Pendax",
         cardLabel: "Case Study",
-        displayTitle: "Bridging Crypto & Banking: Designing Trust Into a Crypto-to-NGN Transfer Flow",
+        displayTitle: "Making Crypto-to-Naira Transfers Feel as Safe as Banking",
         category: ["case-study", "brand-visual"],
         thumbnail: "assets/images/pendax.jpg",
         description: "A mobile-first fintech flow that makes crypto-to-bank transfers feel familiar, secure, and easy to understand for everyday users.",
         link: "work/pendax.html"
       },
       {
-        id: "razor-wallet",
-        title: "Razor Wallet UX Case Study",
-        company: "Razor Wallet",
+        id: "cosmic-gunner",
+        title: "A Game UI Built to Stay Readable at Full Throttle",
+        company: "Cosmic Gunner",
         cardLabel: "Case Study",
-        displayTitle: "Razor Wallet UX Case Study",
-        category: ["case-study", "brand-visual"],
-        thumbnail: "assets/images/razor-wallet-thumb.png",
-        description: "A browser-wallet onboarding flow that keeps the security steps intact while making each screen easier to understand and less intimidating.",
-        link: "work/razor-wallet.html"
+        displayTitle: "A Game UI Built to Stay Readable at Full Throttle",
+        category: ["side-quests", "vibe-coded", "case-study"],
+        thumbnail: "assets/images/cosmic-gunner.jpg",
+        description: "A game UI case study focused on onboarding, scoring, and a lighter interface that stays readable and responsive while the action is moving.",
+        link: "work/cosmic-gunner.html"
       },
     ];
 
@@ -1708,6 +1739,39 @@
     };
 
     /* ── BUILD PROJECT CARDS ────────────────────────────── */
+    // Has the work section been scrolled into view yet? Controls whether new
+    // cards animate immediately (filter changes) or wait for the scroll trigger.
+    let workRevealed = false;
+
+    // GSAP stagger entrance for any not-yet-revealed cards in the grid.
+    function revealCards() {
+      const cards = Array.from(
+        document.querySelectorAll('#project-grid .project-card:not(.visible)')
+      );
+      if (!cards.length) return;
+
+      // Fallback: no GSAP — keep the original CSS-transition stagger.
+      if (typeof window.gsap === 'undefined') {
+        cards.forEach((c, i) => setTimeout(() => c.classList.add('visible'), i * 80));
+        return;
+      }
+
+      cards.forEach(c => c.classList.add('animating'));
+      gsap.set(cards, { opacity: 0, y: 28 });
+      gsap.to(cards, {
+        opacity: 1,
+        y: 0,
+        duration: 0.6,
+        ease: 'power3.out',
+        stagger: 0.1,
+        onComplete() {
+          cards.forEach(c => { c.classList.remove('animating'); c.classList.add('visible'); });
+          // Drop GSAP's inline transform/opacity so :hover transforms work again.
+          gsap.set(cards, { clearProps: 'transform,opacity' });
+        }
+      });
+    }
+
     function buildCards(filter) {
       const grid       = document.getElementById('project-grid');
       const emptyState = document.getElementById('empty-state');
@@ -1723,7 +1787,7 @@
       }
       emptyState.classList.remove('visible');
 
-      filtered.forEach((project, i) => {
+      filtered.forEach((project) => {
         const card = document.createElement('a');
         card.className = 'project-card';
         card.href = project.link || '#';
@@ -1751,8 +1815,11 @@
         `;
 
         grid.appendChild(card);
-        setTimeout(() => card.classList.add('visible'), i * 80);
       });
+
+      // Initial build waits for the scroll trigger; filter changes (work already
+      // in view) animate right away.
+      if (workRevealed) revealCards();
     }
 
     /* ── FILTER TABS ────────────────────────────────────── */
@@ -1858,10 +1925,7 @@
 
     startBtn.addEventListener('click', launchHomepage);
 
-    /* ── TYPEWRITER + ENTRANCE SEQUENCE ────────────────── */
-    const H1_TEXT  = 'Design is my weapon of choice';
-    const SUB_TEXT = "I'm Batmanny; product designer for teams who refuse to ship mediocre. I bring sharp thinking and clean execution to whatever you're building.";
-
+    /* ── TYPEWRITER (used for section headings only) ────── */
     function typeWriter(el, text, speed, onDone) {
       let i = 0;
       el.textContent = '';
@@ -1902,6 +1966,11 @@
         if (!entry.isIntersecting) return;
         entry.target.classList.add('in');
         typeHeading(entry.target);
+        // First time the work section appears, stagger the case-study cards in.
+        if (entry.target.id === 'work') {
+          workRevealed = true;
+          revealCards();
+        }
         sectionObserver.unobserve(entry.target);
       });
     }, { threshold: 0.18 });
@@ -1980,58 +2049,48 @@
       });
     }
 
+    // Split a heading's text into per-word spans so they can stagger in
+    function splitWords(el) {
+      const text = el.textContent.trim();
+      el.innerHTML = text.split(/\s+/)
+        .map((w) => '<span class="word">' + w + '</span>')
+        .join(' ');
+      return Array.from(el.querySelectorAll('.word'));
+    }
+
     function triggerReveal(options = {}) {
-      const instant = !!options.instant;
-      // 1. Batman slides in immediately
-      const batmanEl = document.getElementById('batman-svg-wrap');
+      const instant   = !!options.instant;
+      const batmanEl  = document.getElementById('batman-svg-wrap');
+      const headline  = document.getElementById('hero-headline');
+      const sub       = document.getElementById('hero-sub');
+      const stat      = document.getElementById('hero-stat');
+      const buttons   = Array.from(document.querySelectorAll('.hero-buttons .cta-btn'));
+      const socials   = document.querySelector('.social-icons');
+      const words     = splitWords(headline);
+
+      // Batman slides in immediately (CSS-driven)
       batmanEl.classList.add('in');
 
-      if (instant) {
-        const h1El      = document.getElementById('typewriter-h1');
-        const cursorH1  = document.getElementById('cursor-h1');
-        const subWrap   = document.getElementById('typewriter-sub');
-        const subEl     = document.getElementById('typewriter-sub-text');
-        const cursorSub = document.getElementById('cursor-sub');
-
-        h1El.textContent = H1_TEXT;
-        cursorH1.style.display = 'none';
-        subWrap.style.opacity = '1';
-        subEl.textContent = SUB_TEXT;
-        cursorSub.style.display = 'none';
-        document.querySelectorAll('.reveal-after').forEach((el) => {
-          el.classList.add('in');
+      // Instant return (came back from a work page) or GSAP unavailable:
+      // skip the animation and just show everything.
+      if (instant || typeof window.gsap === 'undefined') {
+        [headline, sub, stat, socials, ...buttons].forEach((el) => {
+          if (el) el.style.opacity = '1';
         });
+        words.forEach((w) => { w.style.opacity = '1'; w.style.transform = 'none'; });
         return;
       }
 
-      // 2. Start typing H1 after a short pause
-      setTimeout(() => {
-        const h1El     = document.getElementById('typewriter-h1');
-        const cursorH1 = document.getElementById('cursor-h1');
+      // GSAP entrance timeline — staggered word reveal, then the rest slide up
+      gsap.set(headline, { opacity: 1 });
+      gsap.set([sub, stat, socials, ...buttons], { y: 24 });
 
-        typeWriter(h1El, H1_TEXT, 52, () => {
-          // H1 done — hide H1 cursor, start subtext
-          cursorH1.style.display = 'none';
-
-          const subWrap   = document.getElementById('typewriter-sub');
-          const subEl     = document.getElementById('typewriter-sub-text');
-          const cursorSub = document.getElementById('cursor-sub');
-
-          subWrap.style.transition = 'opacity 0.3s ease';
-          subWrap.style.opacity    = '1';
-          cursorSub.style.display  = 'inline-block';
-
-          typeWriter(subEl, SUB_TEXT, 22, () => {
-            // Subtext done — hide cursor, reveal actions
-            setTimeout(() => { cursorSub.style.display = 'none'; }, 600);
-
-            // Fade in CTA + socials
-            document.querySelectorAll('.reveal-after').forEach((el, i) => {
-              setTimeout(() => el.classList.add('in'), i * 150);
-            });
-          });
-        });
-      }, 200);
+      gsap.timeline({ defaults: { ease: 'power3.out' } })
+        .from(words,   { yPercent: 110, opacity: 0, duration: 0.85, stagger: 0.045 }, 0.2)
+        .to(sub,       { opacity: 1, y: 0, duration: 0.7 }, '-=0.45')
+        .to(stat,      { opacity: 1, y: 0, duration: 0.6 }, '-=0.45')
+        .to(buttons,   { opacity: 1, y: 0, duration: 0.55, stagger: 0.12 }, '-=0.3')
+        .to(socials,   { opacity: 1, y: 0, duration: 0.55 }, '-=0.25');
     }
 
     if (skipLoader) {
