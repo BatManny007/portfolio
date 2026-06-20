@@ -1217,6 +1217,18 @@
       98%             { transform: scaleY(1); }
     }
   </style>
+  <!-- With JS disabled (incl. many crawlers/scrapers): skip the loader gate and
+       reveal all content so the work section and copy are readable. -->
+  <noscript>
+    <style>
+      #loader { display: none !important; }
+      #homepage { opacity: 1 !important; visibility: visible !important; }
+      .section-transition, .reveal-after, .project-card, .hero-headline .word {
+        opacity: 1 !important;
+        transform: none !important;
+      }
+    </style>
+  </noscript>
 </head>
 <body>
 
@@ -1379,8 +1391,52 @@
           <button class="filter-btn" data-filter="brand-visual">Brand & Visual</button>
         </div>
 
-        <!-- Project grid — built by JS from PROJECTS array -->
+        <!-- Project grid — real HTML so it's visible to crawlers/scrapers.
+             To add/edit a project, edit a card below. The `data-category`
+             attribute drives the filter tabs (space-separated categories).
+             Archived (not shown): razor-dao, unity-core, white-dogs. -->
         <div class="project-grid" id="project-grid">
+
+          <a class="project-card" href="work/razor-wallet.html" target="_self" rel="noopener noreferrer" data-category="case-study brand-visual">
+            <div class="card-thumbnail"><img src="assets/images/razor-wallet-thumb.png" alt="Redesigned onboarding, contributing to 100K+ users in 72 hours by Razor Wallet" loading="lazy"></div>
+            <div class="card-info">
+              <div class="card-title">Redesigned onboarding, contributing to 100K+ users in 72 hours</div>
+              <div class="card-tags"><span class="card-tag">Case Study</span><span class="card-tag">Brand &amp; Visuals</span></div>
+              <div class="card-description">Reduced friction during wallet creation and built a scalable design system.</div>
+              <div class="card-company">Razor Wallet</div>
+            </div>
+          </a>
+
+          <a class="project-card" href="work/elite-global.html" target="_self" rel="noopener noreferrer" data-category="case-study brand-visual">
+            <div class="card-thumbnail"><img src="assets/images/elite-global.png" alt="Onboarding That Feels Like a Conversation, Not a Form by Elite Global AI" loading="lazy"></div>
+            <div class="card-info">
+              <div class="card-title">Onboarding That Feels Like a Conversation, Not a Form</div>
+              <div class="card-tags"><span class="card-tag">Case Study</span><span class="card-tag">Brand &amp; Visuals</span></div>
+              <div class="card-description">A 14-screen onboarding and payoff flow designed to feel like a conversation, making a complex AI job-matching experience clearer and more trustworthy.</div>
+              <div class="card-company">Elite Global AI</div>
+            </div>
+          </a>
+
+          <a class="project-card" href="work/pendax.html" target="_self" rel="noopener noreferrer" data-category="case-study brand-visual">
+            <div class="card-thumbnail"><img src="assets/images/pendax.jpg" alt="Making Crypto-to-Naira Transfers Feel as Safe as Banking by Pendax" loading="lazy"></div>
+            <div class="card-info">
+              <div class="card-title">Making Crypto-to-Naira Transfers Feel as Safe as Banking</div>
+              <div class="card-tags"><span class="card-tag">Case Study</span><span class="card-tag">Brand &amp; Visuals</span></div>
+              <div class="card-description">A mobile-first fintech flow that makes crypto-to-bank transfers feel familiar, secure, and easy to understand for everyday users.</div>
+              <div class="card-company">Pendax</div>
+            </div>
+          </a>
+
+          <a class="project-card" href="work/cosmic-gunner.html" target="_self" rel="noopener noreferrer" data-category="side-quests vibe-coded case-study">
+            <div class="card-thumbnail"><img src="assets/images/cosmic-gunner.jpg" alt="A Game UI Built to Stay Readable at Full Throttle by Cosmic Gunner" loading="lazy"></div>
+            <div class="card-info">
+              <div class="card-title">A Game UI Built to Stay Readable at Full Throttle</div>
+              <div class="card-tags"><span class="card-tag">Side Quests</span><span class="card-tag">Vibe-Coded</span><span class="card-tag">Case Study</span></div>
+              <div class="card-description">A game UI case study focused on onboarding, scoring, and a lighter interface that stays readable and responsive while the action is moving.</div>
+              <div class="card-company">Cosmic Gunner</div>
+            </div>
+          </a>
+
           <div class="empty-state" id="empty-state">
             <p>NO PROJECTS IN THIS CATEGORY YET</p>
           </div>
@@ -1644,181 +1700,48 @@
 
   <script>
     /* ══════════════════════════════════════════════════════
-       PROJECTS DATA — top works only for now
-       Categories: case-study | vibe-coded | shots |
-                   micro-interactions | side-quests | brand-visual
+       PROJECT CARDS are authored as static HTML in #project-grid
+       (so crawlers/scrapers can read them). The JS below only
+       FILTERS the existing cards and animates them in — it does
+       not build them. To add/edit a project, edit the markup.
     ══════════════════════════════════════════════════════ */
-    const PROJECTS = [
-      {
-        id: "razor-wallet",
-        title: "Redesigned onboarding, contributing to 100K+ users in 72 hours",
-        company: "Razor Wallet",
-        cardLabel: "Case Study",
-        displayTitle: "Redesigned onboarding, contributing to 100K+ users in 72 hours",
-        category: ["case-study", "brand-visual"],
-        thumbnail: "assets/images/razor-wallet-thumb.png",
-        description: "Reduced friction during wallet creation and built a scalable design system.",
-        link: "work/razor-wallet.html"
-      },
-      {
-        id: "elite-global",
-        title: "Onboarding That Feels Like a Conversation, Not a Form",
-        company: "Elite Global AI",
-        cardLabel: "Case Study",
-        displayTitle: "Onboarding That Feels Like a Conversation, Not a Form",
-        category: ["case-study", "brand-visual"],
-        thumbnail: "assets/images/elite-global.png",
-        description: "A 14-screen onboarding and payoff flow designed to feel like a conversation, making a complex AI job-matching experience clearer and more trustworthy.",
-        link: "work/elite-global.html"
-      },
-      {
-        id: "pendax",
-        title: "Making Crypto-to-Naira Transfers Feel as Safe as Banking",
-        company: "Pendax",
-        cardLabel: "Case Study",
-        displayTitle: "Making Crypto-to-Naira Transfers Feel as Safe as Banking",
-        category: ["case-study", "brand-visual"],
-        thumbnail: "assets/images/pendax.jpg",
-        description: "A mobile-first fintech flow that makes crypto-to-bank transfers feel familiar, secure, and easy to understand for everyday users.",
-        link: "work/pendax.html"
-      },
-      {
-        id: "cosmic-gunner",
-        title: "A Game UI Built to Stay Readable at Full Throttle",
-        company: "Cosmic Gunner",
-        cardLabel: "Case Study",
-        displayTitle: "A Game UI Built to Stay Readable at Full Throttle",
-        category: ["side-quests", "vibe-coded", "case-study"],
-        thumbnail: "assets/images/cosmic-gunner.jpg",
-        description: "A game UI case study focused on onboarding, scoring, and a lighter interface that stays readable and responsive while the action is moving.",
-        link: "work/cosmic-gunner.html"
-      },
-    ];
 
-    /*
-      Archived works for later.
-      Bring these back by moving them into PROJECTS when you want the full set visible again.
-    */
-    const ARCHIVED_PROJECTS = [
-      {
-        id: "razor-dao",
-        title: "Razor DAO",
-        company: "Razor DAO",
-        cardLabel: "Case Study",
-        displayTitle: "Razor DAO",
-        category: ["case-study", "brand-visual"],
-        thumbnail: "assets/images/razor-dao.png",
-        description: "A brand and product concept exploring how a sharper interface and clearer hierarchy can make a DAO experience easier to scan.",
-        link: "work/razor-dao.html"
-      },
-      {
-        id: "unity-core",
-        title: "Unity Core",
-        company: "Unity Core",
-        cardLabel: "Case Study",
-        displayTitle: "Unity Core",
-        category: ["case-study", "brand-visual"],
-        thumbnail: "assets/images/unity-core.png",
-        description: "A product visual exploration centered on structure, clarity, and a more intentional interface language.",
-        link: "work/unity-core.html"
-      },
-      {
-        id: "white-dogs",
-        title: "White Dogs",
-        company: "White Dogs",
-        cardLabel: "Case Study",
-        displayTitle: "White Dogs",
-        category: ["case-study", "brand-visual"],
-        thumbnail: "assets/images/white-dogs.png",
-        description: "A visual case study with a cleaner composition and stronger presentation rhythm across the card and page experience.",
-        link: "work/white-dogs.html"
-      },
-    ];
-
-    /* Category display names */
-    const CATEGORY_LABELS = {
-      'case-study':         'Case Study',
-      'vibe-coded':         'Vibe-Coded',
-      'side-quests':        'Side Quests',
-      'brand-visual':       'Brand & Visuals',
-    };
-
-    /* ── BUILD PROJECT CARDS ────────────────────────────── */
-    // Has the work section been scrolled into view yet? Controls whether new
-    // cards animate immediately (filter changes) or wait for the scroll trigger.
+    // Has the work section been scrolled into view yet?
     let workRevealed = false;
 
-    // CSS stagger entrance for any not-yet-revealed cards in the grid.
-    // Each card's '.visible' is flipped on a short delay; the .project-card
-    // CSS transition (opacity/transform) does the actual animation.
+    // CSS stagger entrance for any visible, not-yet-revealed cards.
+    // '.visible' is flipped on a short delay; the .project-card CSS
+    // transition (opacity/transform) does the actual animation.
     function revealCards() {
       const cards = Array.from(
-        document.querySelectorAll('#project-grid .project-card:not(.visible)')
+        document.querySelectorAll('#project-grid .project-card:not(.hidden):not(.visible)')
       );
       cards.forEach((c, i) => setTimeout(() => c.classList.add('visible'), i * 80));
     }
 
-    function buildCards(filter) {
-      const grid       = document.getElementById('project-grid');
+    // Show/hide the static cards based on their data-category.
+    function applyFilter(filter) {
       const emptyState = document.getElementById('empty-state');
-      grid.querySelectorAll('.project-card').forEach(c => c.remove());
-
-      const filtered = filter === 'all'
-        ? PROJECTS
-        : PROJECTS.filter(p => p.category.includes(filter));
-
-      if (filtered.length === 0) {
-        emptyState.classList.add('visible');
-        return;
-      }
-      emptyState.classList.remove('visible');
-
-      filtered.forEach((project) => {
-        const card = document.createElement('a');
-        card.className = 'project-card';
-        card.href = project.link || '#';
-        card.target = '_self';
-        card.rel = 'noopener noreferrer';
-
-        const company = project.company || project.title;
-        const displayTitle = project.displayTitle || project.title;
-        const description = project.description || '';
-        const thumb = project.thumbnail
-          ? `<img src="${project.thumbnail}" alt="${displayTitle} by ${company}" loading="lazy">`
-          : `<div class="card-thumbnail-placeholder"><span>COMING SOON</span></div>`;
-
-        const tags = project.category
-          .map(c => `<span class="card-tag">${CATEGORY_LABELS[c] || c}</span>`)
-          .join('');
-        card.innerHTML = `
-          <div class="card-thumbnail">${thumb}</div>
-          <div class="card-info">
-            <div class="card-title">${displayTitle}</div>
-            <div class="card-tags">${tags}</div>
-            ${description ? `<div class="card-description">${description}</div>` : ''}
-            <div class="card-company">${company}</div>
-          </div>
-        `;
-
-        grid.appendChild(card);
+      let anyVisible = false;
+      document.querySelectorAll('#project-grid .project-card').forEach((card) => {
+        const cats = (card.dataset.category || '').split(/\s+/);
+        const show = filter === 'all' || cats.includes(filter);
+        card.classList.toggle('hidden', !show);
+        if (show) anyVisible = true;
       });
-
-      // Initial build waits for the scroll trigger; filter changes (work already
-      // in view) animate right away.
+      emptyState.classList.toggle('visible', !anyVisible);
       if (workRevealed) revealCards();
     }
 
     /* ── FILTER TABS ────────────────────────────────────── */
-    document.querySelectorAll('.filter-btn').forEach(btn => {
+    document.querySelectorAll('.filter-btn').forEach((btn) => {
       btn.addEventListener('click', () => {
-        document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+        document.querySelectorAll('.filter-btn').forEach((b) => b.classList.remove('active'));
         btn.classList.add('active');
-        buildCards(btn.dataset.filter);
+        applyFilter(btn.dataset.filter);
       });
     });
 
-    // Build on load
-    buildCards('all');
 
     /* ── BATMAN BEYOND — animations handled by embedded SVG script ── */
 
