@@ -391,20 +391,28 @@
       transform: translate(0);
     }
 
-    /* Actions that reveal after typewriter finishes */
+    /* Hero actions / sub / stat — fade + slide up when '.in' is added */
     .reveal-after {
       opacity: 0;
       transform: translateY(16px);
-      transition: opacity 0.6s ease, transform 0.6s ease;
+      transition: opacity 0.6s ease, transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
     }
     .reveal-after.in {
       opacity: 1;
       transform: translateY(0);
     }
 
-    /* GSAP hero entrance — elements start hidden, GSAP animates them in */
-    .gsap-hide { opacity: 0; }
-    .hero-headline .word { display: inline-block; will-change: transform, opacity; }
+    /* Hero headline — each word staggers up (delays set per-word in JS) */
+    .hero-headline .word {
+      display: inline-block;
+      opacity: 0;
+      transform: translateY(0.7em);
+      transition: opacity 0.55s ease, transform 0.55s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    .hero-headline .word.in {
+      opacity: 1;
+      transform: translateY(0);
+    }
 
     /* ─── PLACEHOLDER SECTIONS ──────────────────────────── */
     .section {
@@ -804,8 +812,6 @@
       outline-offset: 2px;
     }
     .project-card.hidden { display: none; }
-    /* While GSAP drives the entrance, suppress the CSS transition so frames don't smear */
-    .project-card.animating { transition: none; }
 
     .card-thumbnail {
       width: 100%;
@@ -1273,18 +1279,18 @@
       <!-- Left -->
       <div class="hero-left">
         <div class="hero-text">
-          <h1 class="hero-headline gsap-hide" id="hero-headline">Designing products people trust with their money, time, and attention.</h1>
-          <p class="hero-sub gsap-hide" id="hero-sub">Product Designer with 4+ years of experience across Web3, Gaming, and AI.</p>
-          <p class="hero-stat gsap-hide" id="hero-stat">Redesigned Razor DAO onboarding, contributing to <strong>100K+ users in 72 hours</strong>.</p>
+          <h1 class="hero-headline" id="hero-headline">Designing products people trust with their money, time, and attention.</h1>
+          <p class="hero-sub reveal-after" id="hero-sub">Product Designer with 4+ years of experience across Web3, Gaming, and AI.</p>
+          <p class="hero-stat reveal-after" id="hero-stat">Redesigned Razor DAO onboarding, contributing to <strong>100K+ users in 72 hours</strong>.</p>
         </div>
 
         <div class="hero-actions">
           <div class="hero-buttons">
-            <a href="#work" class="cta-btn gsap-hide">View Work</a>
-            <a href="#contact" class="cta-btn cta-btn--ghost gsap-hide">Send the Bat-Signal</a>
+            <a href="#work" class="cta-btn reveal-after">View Work</a>
+            <a href="#contact" class="cta-btn cta-btn--ghost reveal-after">Send the Bat-Signal</a>
           </div>
 
-          <div class="social-icons gsap-hide">
+          <div class="social-icons reveal-after">
             <!-- X (Twitter) -->
             <a href="https://x.com/BatMannyXBT" aria-label="X (Twitter)" target="_blank" rel="noopener noreferrer">
               <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -1636,7 +1642,6 @@
 
   </div><!-- /homepage -->
 
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
   <script>
     /* ══════════════════════════════════════════════════════
        PROJECTS DATA — top works only for now
@@ -1743,33 +1748,14 @@
     // cards animate immediately (filter changes) or wait for the scroll trigger.
     let workRevealed = false;
 
-    // GSAP stagger entrance for any not-yet-revealed cards in the grid.
+    // CSS stagger entrance for any not-yet-revealed cards in the grid.
+    // Each card's '.visible' is flipped on a short delay; the .project-card
+    // CSS transition (opacity/transform) does the actual animation.
     function revealCards() {
       const cards = Array.from(
         document.querySelectorAll('#project-grid .project-card:not(.visible)')
       );
-      if (!cards.length) return;
-
-      // Fallback: no GSAP — keep the original CSS-transition stagger.
-      if (typeof window.gsap === 'undefined') {
-        cards.forEach((c, i) => setTimeout(() => c.classList.add('visible'), i * 80));
-        return;
-      }
-
-      cards.forEach(c => c.classList.add('animating'));
-      gsap.set(cards, { opacity: 0, y: 28 });
-      gsap.to(cards, {
-        opacity: 1,
-        y: 0,
-        duration: 0.6,
-        ease: 'power3.out',
-        stagger: 0.1,
-        onComplete() {
-          cards.forEach(c => { c.classList.remove('animating'); c.classList.add('visible'); });
-          // Drop GSAP's inline transform/opacity so :hover transforms work again.
-          gsap.set(cards, { clearProps: 'transform,opacity' });
-        }
-      });
+      cards.forEach((c, i) => setTimeout(() => c.classList.add('visible'), i * 80));
     }
 
     function buildCards(filter) {
@@ -2067,30 +2053,34 @@
       const buttons   = Array.from(document.querySelectorAll('.hero-buttons .cta-btn'));
       const socials   = document.querySelector('.social-icons');
       const words     = splitWords(headline);
+      const tail      = [sub, stat, ...buttons, socials].filter(Boolean);
 
       // Batman slides in immediately (CSS-driven)
       batmanEl.classList.add('in');
 
-      // Instant return (came back from a work page) or GSAP unavailable:
-      // skip the animation and just show everything.
-      if (instant || typeof window.gsap === 'undefined') {
-        [headline, sub, stat, socials, ...buttons].forEach((el) => {
-          if (el) el.style.opacity = '1';
+      // Instant return (came back from a work page): show everything, no animation.
+      if (instant) {
+        [...words, ...tail].forEach((el) => {
+          el.style.transition = 'none';
+          el.classList.add('in');
         });
-        words.forEach((w) => { w.style.opacity = '1'; w.style.transform = 'none'; });
+        // Restore transitions next frame so :hover effects still animate.
+        requestAnimationFrame(() => {
+          [...words, ...tail].forEach((el) => { el.style.transition = ''; });
+        });
         return;
       }
 
-      // GSAP entrance timeline — staggered word reveal, then the rest slide up
-      gsap.set(headline, { opacity: 1 });
-      gsap.set([sub, stat, socials, ...buttons], { y: 24 });
-
-      gsap.timeline({ defaults: { ease: 'power3.out' } })
-        .from(words,   { yPercent: 110, opacity: 0, duration: 0.85, stagger: 0.045 }, 0.2)
-        .to(sub,       { opacity: 1, y: 0, duration: 0.7 }, '-=0.45')
-        .to(stat,      { opacity: 1, y: 0, duration: 0.6 }, '-=0.45')
-        .to(buttons,   { opacity: 1, y: 0, duration: 0.55, stagger: 0.12 }, '-=0.3')
-        .to(socials,   { opacity: 1, y: 0, duration: 0.55 }, '-=0.25');
+      // Staggered CSS entrance: headline words cascade first, then the rest follow.
+      // Toggling '.in' on a timer (rather than transition-delay) keeps the delay
+      // off the elements, so their :hover transitions stay snappy afterward.
+      words.forEach((w, i) => {
+        setTimeout(() => w.classList.add('in'), 150 + i * 45);
+      });
+      const tailStart = 150 + Math.max(words.length - 2, 0) * 45;
+      tail.forEach((el, i) => {
+        setTimeout(() => el.classList.add('in'), tailStart + i * 110);
+      });
     }
 
     if (skipLoader) {
