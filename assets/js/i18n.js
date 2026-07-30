@@ -1,9 +1,19 @@
 /**
- * i18n.js — Internationalization (EN / FR) system for Batmanny Portfolio
+ * i18n.js — Internationalization (EN / FR / ES / DE / JA) system for Batmanny Portfolio
  */
 
 (function () {
   const STORAGE_KEY = 'batmanny_lang';
+
+  const SUPPORTED_LANGS = ['en', 'fr', 'es', 'de', 'ja'];
+
+  const FLAGS = {
+    en: '🇬🇧',
+    fr: '🇫🇷',
+    es: '🇪🇸',
+    de: '🇩🇪',
+    ja: '🇯🇵'
+  };
 
   const translations = {
     en: {
@@ -152,32 +162,252 @@
       'cs.home': 'Accueil',
       'cs.moreWork': 'Autres projets',
       'cs.footer': 'Conçu dans le cadre du portfolio Batmanny.'
+    },
+
+    es: {
+      // General / Nav
+      'nav.home': 'INICIO',
+      'nav.work': 'PROYECTOS',
+      'nav.about': 'SOBRE MÍ',
+      'nav.contact': 'CONTACTO',
+
+      // Loader
+      'loader.loading': 'Cargando',
+      'loader.start': 'Iniciar',
+
+      // Hero
+      'hero.headline': 'Diseñando productos en los que la gente confía su dinero, tiempo y atención.',
+      'hero.sub': 'Diseñador de Productos con más de 4 años de experiencia en Web3, videojuegos e IA.',
+      'hero.stat': 'Rediseñé la incorporación de Razor DAO, contribuyendo a <strong>más de 100K usuarios en 72 horas</strong>.',
+      'hero.btn.work': 'Ver Proyectos',
+      'hero.btn.contact': 'Enviar la Bat-Señal',
+
+      // Work section & Filter tabs
+      'filter.all': 'Todos',
+      'filter.caseStudy': 'Caso de Estudio',
+      'filter.vibeCoded': 'Código Vibe',
+      'filter.sideQuests': 'Proyectos Secundarios',
+      'filter.brandVisual': 'Marca y Visual',
+      'filter.empty': 'NO HAY PROYECTOS EN ESTA CATEGORÍA TODAVÍA',
+
+      // Project Cards
+      'card.razor.title': 'Rediseño de incorporación, contribuyendo a más de 100K usuarios en 72 horas',
+      'card.razor.desc': 'Reduje la fricción durante la creación de carteras y creé un sistema de diseño escalable.',
+      'card.elite.title': 'Una incorporación que se siente como una conversación, no como un formulario',
+      'card.elite.desc': 'Un flujo de 14 pantallas diseñado como un diálogo, haciendo que la experiencia de coincidencia de empleo con IA sea clara y confiable.',
+      'card.pendax.title': 'Transferencias de Cripto a Naira tan seguras como la banca',
+      'card.pendax.desc': 'Un flujo fintech enfocado en móviles que hace que las transferencias cripto a banco se sientan familiares y seguras.',
+      'card.cosmic.title': 'Una interfaz de juego diseñada para mantenerse legible a máxima velocidad',
+      'card.cosmic.desc': 'Caso de estudio de interfaz enfocado en incorporación, puntuación y una UI ligera que se mantiene clara durante la acción.',
+
+      // About Section
+      'about.heading': 'SOBRE MÍ',
+      'about.p1': 'Soy Emmanuel, un diseñador de productos al que le gusta estar cerca del proceso: bocetar la idea, dar forma a la interfaz y a veces construirla yo mismo.',
+      'about.p2': 'Disfruto de los productos con personalidad. Esos donde los estados vacíos, botones, animaciones y pequeños detalles muestran un cuidado real. Ese es el aspecto del diseño al que siempre vuelvo.',
+      'about.p3': 'La mayor parte de mi trabajo abarca diseño de productos, sistemas UI, diseño visual e integración front-end en Web3, fintech, videojuegos y herramientas experimentales.',
+      'about.p4': 'También hago ilustraciones y gráficos de marca, por lo que pienso mucho en el tono y la personalidad. A veces, el lenguaje visual adecuado explica un producto más rápido que un párrafo.',
+      'about.p5': 'Utilizo herramientas como Figma, HTML, CSS, JavaScript, Codex y Claude Code para crear prototipos funcionales rápidamente. Me gustan los equipos que valoran el gusto, la claridad y el trabajo bien hecho.',
+
+      // Contact Section
+      'contact.heading': 'CONTACTO',
+      'contact.lead': 'Si estás construyendo algo ambicioso, hablemos. Estoy abierto a colaboraciones en diseño de producto, diseño de interacción e ingeniería de diseño.',
+      'contact.btn.message': 'ENVIAR MENSAJE',
+      'contact.btn.copy': 'COPIAR EMAIL',
+      'contact.quick': 'MENSAJE RÁPIDO',
+      'contact.label.name': 'NOMBRE',
+      'contact.label.email': 'EMAIL',
+      'contact.label.message': 'MENSAJE',
+      'contact.ph.name': 'Tu nombre',
+      'contact.ph.email': 'tu@email.com',
+      'contact.ph.message': '¿Qué vamos a construir?',
+      'contact.btn.send': 'ENVIAR',
+      'contact.btn.sending': 'ENVIANDO...',
+      'contact.btn.reset': 'REINICIAR',
+      'toast.emailCopied': 'EMAIL COPIADO',
+      'toast.copyFailed': 'ERROR AL COPIAR',
+      'toast.fillAll': 'LLENA TODOS LOS CAMPOS',
+      'toast.openingMail': 'ABRIENDO CORREO',
+      'toast.mailFailed': 'ERROR DE CORREO',
+
+      // Shared Case Study UI
+      'cs.back': 'Volver',
+      'cs.backWork': 'Volver a proyectos',
+      'cs.backTop': 'Ir arriba',
+      'cs.home': 'Inicio',
+      'cs.moreWork': 'Más proyectos',
+      'cs.footer': 'Construido como parte del portafolio de Batmanny.'
+    },
+
+    de: {
+      // General / Nav
+      'nav.home': 'START',
+      'nav.work': 'PROJEKTE',
+      'nav.about': 'ÜBER MICH',
+      'nav.contact': 'KONTAKT',
+
+      // Loader
+      'loader.loading': 'Laden',
+      'loader.start': 'Starten',
+
+      // Hero
+      'hero.headline': 'Entwicklung von Produkten, denen Menschen ihr Geld, ihre Zeit und ihre Aufmerksamkeit anvertrauen.',
+      'hero.sub': 'Product Designer mit mehr als 4 Jahren Erfahrung in Web3, Gaming und KI.',
+      'hero.stat': 'Neugestaltung des Razor DAO Onboardings mit <strong>über 100.000 Nutzern in 72 Stunden</strong>.',
+      'hero.btn.work': 'Projekte Ansehen',
+      'hero.btn.contact': 'Bat-Signal Senden',
+
+      // Work section & Filter tabs
+      'filter.all': 'Alle',
+      'filter.caseStudy': 'Fallstudie',
+      'filter.vibeCoded': 'Vibe-Code',
+      'filter.sideQuests': 'Nebenprojekte',
+      'filter.brandVisual': 'Marke & Visuelles',
+      'filter.empty': 'NOCH KEINE PROJEKTE IN DIESER KATEGORIE',
+
+      // Project Cards
+      'card.razor.title': 'Onboarding-Neugestaltung für über 100K Nutzer in 72 Stunden',
+      'card.razor.desc': 'Reduzierung von Hürden bei der Wallet-Erstellung und Aufbau eines skalierbaren Design-Systems.',
+      'card.elite.title': 'Ein Onboarding, das sich wie ein Gespräch anfühlt, nicht wie ein Formular',
+      'card.elite.desc': 'Ein 14-Bildschirm-Ablauf, der als Dialog gestaltet ist und KI-Job-Matching klarer und vertrauenswürdiger macht.',
+      'card.pendax.title': 'Krypto-zu-Naira Überweisungen so sicher wie Bankgeschäfte',
+      'card.pendax.desc': 'Ein Mobile-First Fintech-Ablauf, der Krypto-Überweisungen vertraut und einfach verständlich macht.',
+      'card.cosmic.title': 'Eine Spiel-UI, die auch bei voller Geschwindigkeit lesbar bleibt',
+      'card.cosmic.desc': 'Eine Spiel-UI Fallstudie mit Fokus auf Onboarding, Punktesystem und eine übersichtliche Benutzeroberfläche.',
+
+      // About Section
+      'about.heading': 'ÜBER MICH',
+      'about.p1': 'Ich bin Emmanuel, ein Product Designer, der gerne nah am Projekt arbeitet: Ideen skizzieren, Interfaces gestalten und Dinge selbst bauen.',
+      'about.p2': 'Ich mag Produkte mit Charakter. Solche, bei denen leere Zustände, Buttons, Motion und kleine Details echte Sorgfalt zeigen. Das ist der Teil des Designs, der mich begeistert.',
+      'about.p3': 'Mein Schwerpunkt liegt auf Product Design, UI-Systemen, visuellem Design und Frontend-Entwicklung in Web3, Fintech, Spielen und experimentellen Tools.',
+      'about.p4': 'Ich erstelle auch Illustrationen und Markenauftritte und denke viel über Stimmung und Persönlichkeit nach. Manchmal erklärt eine gute Bildsprache ein Produkt schneller als ein Text.',
+      'about.p5': 'Mit Figma, HTML, CSS, JavaScript, Codex und Claude Code erstelle ich schnell funktionierende Prototypen. Ich mag Teams, die Wert auf Geschmack, Klarheit und Qualität legen.',
+
+      // Contact Section
+      'contact.heading': 'KONTAKT',
+      'contact.lead': 'Wenn Sie etwas Ambitioniertes bauen, lassen Sie uns sprechen. Ich bin offen für Kooperationen in Product Design, Interaction Design und Design-Engineering.',
+      'contact.btn.message': 'NACHRICHT SENDEN',
+      'contact.btn.copy': 'E-MAIL KOPIEREN',
+      'contact.quick': 'SCHNELLE NACHRICHT',
+      'contact.label.name': 'NAME',
+      'contact.label.email': 'E-MAIL',
+      'contact.label.message': 'NACHRICHT',
+      'contact.ph.name': 'Ihr Name',
+      'contact.ph.email': 'ihre@email.com',
+      'contact.ph.message': 'Was bauen wir?',
+      'contact.btn.send': 'SENDEN',
+      'contact.btn.sending': 'SENDEN...',
+      'contact.btn.reset': 'ZURÜCKSETZEN',
+      'toast.emailCopied': 'E-MAIL KOPIERT',
+      'toast.copyFailed': 'KOPIEREN FEHLGESCHLAGEN',
+      'toast.fillAll': 'ALLE FELDER AUSFÜLLEN',
+      'toast.openingMail': 'E-MAIL APP WIRD GEÖFFNET',
+      'toast.mailFailed': 'E-MAIL APP FEHLER',
+
+      // Shared Case Study UI
+      'cs.back': 'Zurück',
+      'cs.backWork': 'Zurück zu Projekten',
+      'cs.backTop': 'Nach oben',
+      'cs.home': 'Start',
+      'cs.moreWork': 'Weitere Projekte',
+      'cs.footer': 'Erstellt als Teil des Batmanny Portfolios.'
+    },
+
+    ja: {
+      // General / Nav
+      'nav.home': 'ホーム',
+      'nav.work': '実績',
+      'nav.about': '私について',
+      'nav.contact': 'お問い合わせ',
+
+      // Loader
+      'loader.loading': '読み込み中',
+      'loader.start': 'スタート',
+
+      // Hero
+      'hero.headline': 'お金、時間、注意を安心して託せるプロダクトをデザインする。',
+      'hero.sub': 'Web3、ゲーム、AI領域で4年以上の実績を持つプロダクトデザイナー。',
+      'hero.stat': 'Razor DAOのオンボーディングを再設計し、<strong>72時間で10万人以上のユーザー獲得に貢献</strong>。',
+      'hero.btn.work': '実績を見る',
+      'hero.btn.contact': 'バットシグナルを送る',
+
+      // Work section & Filter tabs
+      'filter.all': 'すべて',
+      'filter.caseStudy': 'ケーススタディ',
+      'filter.vibeCoded': 'バイブコード',
+      'filter.sideQuests': 'サイドクエスト',
+      'filter.brandVisual': 'ブランド＆ビジュアル',
+      'filter.empty': 'このカテゴリーのプロジェクトはまだありません',
+
+      // Project Cards
+      'card.razor.title': 'オンボーディングの再設計により72時間で10万人以上のユーザー獲得に貢献',
+      'card.razor.desc': 'ウォレット作成時の摩擦を削減し、拡張可能なデザインシステムを構築。',
+      'card.elite.title': 'フォームではなく、会話のように感じられるオンボーディング',
+      'card.elite.desc': 'AIマッチング体験をより明確で信頼できるものにする、14画面の会話型フロー。',
+      'card.pendax.title': '暗号資産からナイラへの送金を銀行並みに安全に',
+      'card.pendax.desc': '暗号資産から銀行口座への送金を親しみやすく安全に感じさせるモバイルファーストのUI。',
+      'card.cosmic.title': '全速力でも読みやすさを保つゲームUI',
+      'card.cosmic.desc': 'アクションが激しく動く中でも高い視認性とレスポンスを維持するゲームUIケーススタディ。',
+
+      // About Section
+      'about.heading': '私について',
+      'about.p1': '私はエマニュエルです。アイデアのスケッチ、UIの設計、時には自らコードを書いて開発まで手がけるプロダクトデザイナーです。',
+      'about.p2': '空の状態、ボタン、モーション、細部に至るまでこだわりが感じられる、個性あるプロダクトが好きです。それこそがデザインで私が探求し続ける部分です。',
+      'about.p3': 'Web3、フィンテック、ゲーム、ダッシュボード領域で、プロダクトデザイン、UIシステム、フロントエンド実装を担当してきました。',
+      'about.p4': 'イラストやブランドビジュアルも制作しており、単なる画面構成だけでなく雰囲気や世界観も大切にしています。言葉以上に適切なビジュアル言語が雄弁に語ることもあります。',
+      'about.p5': 'Figma、HTML、CSS、JavaScript、Codex、Claude Codeを活用し、アイデアから動くプロトタイプへ迅速に落とし込みます。品質と美意識を重視するチームでの作業を愛しています。',
+
+      // Contact Section
+      'contact.heading': 'お問い合わせ',
+      'contact.lead': '野心的なプロダクトの開発やデザインコラボレーションについて、ぜひお気軽にご相談ください。',
+      'contact.btn.message': 'メッセージを送る',
+      'contact.btn.copy': 'メールをコピー',
+      'contact.quick': 'クイックメッセージ',
+      'contact.label.name': 'お名前',
+      'contact.label.email': 'メールアドレス',
+      'contact.label.message': 'メッセージ',
+      'contact.ph.name': 'お名前を入力',
+      'contact.ph.email': 'example@email.com',
+      'contact.ph.message': '制作内容について記述してください',
+      'contact.btn.send': '送信',
+      'contact.btn.sending': '送信中...',
+      'contact.btn.reset': 'リセット',
+      'toast.emailCopied': 'メールアドレスをコピーしました',
+      'toast.copyFailed': 'コピーに失敗しました',
+      'toast.fillAll': 'すべての項目を入力してください',
+      'toast.openingMail': 'メールアプリを起動しています',
+      'toast.mailFailed': 'メールアプリの起動に失敗しました',
+
+      // Shared Case Study UI
+      'cs.back': '戻る',
+      'cs.backWork': '実績一覧へ戻る',
+      'cs.backTop': 'ページ上部へ',
+      'cs.home': 'ホーム',
+      'cs.moreWork': '他の実績を見る',
+      'cs.footer': 'Batmanny Portfolioの一部として制作されました。'
     }
   };
 
   /**
    * Get current selected language
-   * Priority:
-   * 1. URL parameter (?lang=fr)
-   * 2. LocalStorage saved choice
-   * 3. Browser language settings (France / French locales -> 'fr')
    */
   function getLanguage() {
     // 1. Check URL query parameter
     try {
       const urlParams = new URLSearchParams(window.location.search);
       const urlLang = (urlParams.get('lang') || '').toLowerCase();
-      if (urlLang === 'fr' || urlLang === 'en') return urlLang;
+      if (SUPPORTED_LANGS.includes(urlLang)) return urlLang;
     } catch (e) {}
 
     // 2. Check saved choice in localStorage
     const saved = localStorage.getItem(STORAGE_KEY);
-    if (saved === 'fr' || saved === 'en') return saved;
+    if (SUPPORTED_LANGS.includes(saved)) return saved;
 
-    // 3. Automatic browser detection for users in France / French language settings
+    // 3. Automatic browser language detection
     const userLangs = Array.from(navigator.languages || [navigator.language || '']);
-    const isFrench = userLangs.some((l) => (l || '').toLowerCase().startsWith('fr'));
-    if (isFrench) return 'fr';
+    for (let l of userLangs) {
+      const code = (l || '').toLowerCase().slice(0, 2);
+      if (SUPPORTED_LANGS.includes(code)) return code;
+    }
 
     return 'en';
   }
@@ -186,6 +416,7 @@
    * Translate the DOM elements
    */
   function applyLanguage(lang) {
+    if (!SUPPORTED_LANGS.includes(lang)) lang = 'en';
     document.documentElement.lang = lang;
     const dict = translations[lang] || translations.en;
 
@@ -193,7 +424,6 @@
     document.querySelectorAll('[data-i18n]').forEach((el) => {
       const key = el.getAttribute('data-i18n');
       if (dict[key] !== undefined) {
-        // If element uses typewriter, update data-text as well
         if (el.hasAttribute('data-typewriter')) {
           el.setAttribute('data-text', dict[key]);
           if (el.textContent.trim() !== '') {
@@ -205,7 +435,7 @@
       }
     });
 
-    // HTML content replacements (e.g. strong tags inside text)
+    // HTML content replacements
     document.querySelectorAll('[data-i18n-html]').forEach((el) => {
       const key = el.getAttribute('data-i18n-html');
       if (dict[key] !== undefined) {
@@ -237,8 +467,17 @@
       }
     });
 
-    // Update active states on toggle buttons
-    document.querySelectorAll('.lang-btn').forEach((btn) => {
+    // Update dropdown button label (flag + code)
+    const upperCode = lang.toUpperCase();
+    document.querySelectorAll('.lang-current').forEach((el) => {
+      el.textContent = upperCode;
+    });
+    document.querySelectorAll('.lang-current-flag').forEach((el) => {
+      el.textContent = FLAGS[lang] || '';
+    });
+
+    // Mark active option
+    document.querySelectorAll('.lang-option').forEach((btn) => {
       const btnLang = btn.getAttribute('data-lang');
       btn.classList.toggle('active', btnLang === lang);
     });
@@ -248,7 +487,7 @@
    * Change current language
    */
   function setLanguage(lang) {
-    if (lang !== 'en' && lang !== 'fr') return;
+    if (!SUPPORTED_LANGS.includes(lang)) return;
     localStorage.setItem(STORAGE_KEY, lang);
     applyLanguage(lang);
   }
@@ -269,12 +508,56 @@
     const currentLang = getLanguage();
     applyLanguage(currentLang);
 
-    // Event delegation for language toggle buttons
+    // Event delegation for language dropdown toggle
     document.body.addEventListener('click', function (e) {
-      const toggleBtn = e.target.closest('.lang-btn');
+      const toggleBtn = e.target.closest('.lang-dropdown-btn');
       if (toggleBtn) {
-        const lang = toggleBtn.getAttribute('data-lang');
-        if (lang) setLanguage(lang);
+        e.stopPropagation();
+        const dropdown = toggleBtn.closest('.lang-dropdown');
+        const isExpanded = dropdown.classList.contains('open');
+
+        // Close all other dropdowns
+        document.querySelectorAll('.lang-dropdown').forEach((d) => {
+          if (d !== dropdown) {
+            d.classList.remove('open');
+            d.querySelector('.lang-dropdown-btn')?.setAttribute('aria-expanded', 'false');
+          }
+        });
+
+        dropdown.classList.toggle('open', !isExpanded);
+        toggleBtn.setAttribute('aria-expanded', !isExpanded ? 'true' : 'false');
+        return;
+      }
+
+      // Handle selecting a language option
+      const optionBtn = e.target.closest('.lang-option');
+      if (optionBtn) {
+        const lang = optionBtn.getAttribute('data-lang');
+        if (lang) {
+          setLanguage(lang);
+          const dropdown = optionBtn.closest('.lang-dropdown');
+          if (dropdown) {
+            dropdown.classList.remove('open');
+            dropdown.querySelector('.lang-dropdown-btn')?.setAttribute('aria-expanded', 'false');
+          }
+        }
+        return;
+      }
+
+      // Click outside to close dropdowns
+      document.querySelectorAll('.lang-dropdown.open').forEach((dropdown) => {
+        dropdown.classList.remove('open');
+        dropdown.querySelector('.lang-dropdown-btn')?.setAttribute('aria-expanded', 'false');
+      });
+    });
+
+    // Press Escape to close dropdowns
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape') {
+        document.querySelectorAll('.lang-dropdown.open').forEach((dropdown) => {
+          dropdown.classList.remove('open');
+          dropdown.querySelector('.lang-dropdown-btn')?.setAttribute('aria-expanded', 'false');
+        });
       }
     });
   });

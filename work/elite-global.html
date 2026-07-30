@@ -51,43 +51,98 @@
     }
 
     /* Language Toggle */
-    .lang-toggle {
+    /* Language Dropdown */
+    .lang-dropdown {
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+
+    .lang-dropdown-btn {
       display: flex;
       align-items: center;
       gap: 6px;
+      background: transparent;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 8px;
+      padding: 6px 10px;
       font-family: Orbitron, monospace;
-      font-size: 13px;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      color: var(--muted);
+      cursor: pointer;
+      transition: border-color 0.2s ease, color 0.2s ease, background 0.2s ease;
+      white-space: nowrap;
     }
 
-    .lang-btn {
+    .lang-dropdown-btn:hover,
+    .lang-dropdown.open .lang-dropdown-btn {
+      border-color: var(--accent);
+      color: var(--text);
+      background: rgba(255, 255, 255, 0.04);
+    }
+
+    .lang-current-flag { font-size: 15px; line-height: 1; }
+    .lang-current { font-size: 12px; }
+
+    .lang-arrow {
+      font-size: 9px;
+      opacity: 0.6;
+      transition: transform 0.2s ease;
+      margin-left: 2px;
+    }
+
+    .lang-dropdown.open .lang-arrow { transform: rotate(180deg); }
+
+    .lang-dropdown-menu {
+      position: absolute;
+      top: calc(100% + 10px);
+      right: 0;
+      min-width: 155px;
+      background: rgba(8, 8, 12, 0.97);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 12px;
+      padding: 6px;
+      z-index: 200;
+      display: none;
+      flex-direction: column;
+      gap: 2px;
+      box-shadow: 0 16px 48px rgba(0, 0, 0, 0.7);
+      animation: dropdownFadeIn 0.18s ease;
+    }
+
+    @keyframes dropdownFadeIn {
+      from { opacity: 0; transform: translateY(-6px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .lang-dropdown.open .lang-dropdown-menu { display: flex; }
+
+    .lang-option {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      width: 100%;
       background: transparent;
       border: none;
-      color: var(--muted);
+      border-radius: 8px;
+      padding: 9px 12px;
       font-family: Orbitron, monospace;
-      font-size: 13px;
-      font-weight: 500;
-      letter-spacing: 0.08em;
-      cursor: pointer;
-      padding: 4px 6px;
-      border-radius: 4px;
-      transition: color 0.2s ease, text-shadow 0.2s ease;
-    }
-
-    .lang-btn:hover {
-      color: var(--text);
-    }
-
-    .lang-btn.active {
-      color: var(--accent);
-      font-weight: 600;
-      text-shadow: 0 0 10px rgba(79, 124, 255, 0.4);
-    }
-
-    .lang-divider {
-      color: rgba(255, 255, 255, 0.25);
       font-size: 12px;
-      user-select: none;
+      font-weight: 500;
+      letter-spacing: 0.06em;
+      color: rgba(255, 255, 255, 0.65);
+      cursor: pointer;
+      text-align: left;
+      transition: background 0.15s ease, color 0.15s ease;
     }
+
+    .lang-option:hover { background: rgba(255,255,255,0.06); color: var(--text); }
+    .lang-option.active { color: var(--accent); background: rgba(255,255,255,0.06); }
+    .lang-option .opt-flag { font-size: 16px; line-height: 1; }
 
     .back {
       display: inline-flex;
@@ -487,10 +542,19 @@
   <div class="page">
     <header class="topbar">
       <a class="back" href="../index.html#project-grid" aria-label="Back to project grid"><span>←</span> <span data-i18n="cs.back">Back</span></a>
-      <div class="lang-toggle" style="margin-left: auto;">
-        <button type="button" class="lang-btn" data-lang="en" aria-label="Switch to English">EN</button>
-        <span class="lang-divider">/</span>
-        <button type="button" class="lang-btn" data-lang="fr" aria-label="Passer au français">FR</button>
+      <div class="lang-dropdown" style="margin-left: auto;">
+        <button type="button" class="lang-dropdown-btn" aria-haspopup="listbox" aria-expanded="false" aria-label="Select language">
+          <span class="lang-current-flag">🇬🇧</span>
+          <span class="lang-current">EN</span>
+          <span class="lang-arrow">▾</span>
+        </button>
+        <div class="lang-dropdown-menu" role="listbox">
+          <button type="button" class="lang-option active" data-lang="en"><span class="opt-flag">🇬🇧</span> English</button>
+          <button type="button" class="lang-option" data-lang="fr"><span class="opt-flag">🇫🇷</span> Français</button>
+          <button type="button" class="lang-option" data-lang="es"><span class="opt-flag">🇪🇸</span> Español</button>
+          <button type="button" class="lang-option" data-lang="de"><span class="opt-flag">🇩🇪</span> Deutsch</button>
+          <button type="button" class="lang-option" data-lang="ja"><span class="opt-flag">🇯🇵</span> 日本語</button>
+        </div>
       </div>
     </header>
 

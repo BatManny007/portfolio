@@ -181,48 +181,133 @@
     #nav-links a.active,
     #nav-links a:hover { color: var(--white); }
 
-    /* ─── LANGUAGE TOGGLE ────────────────────────────── */
-    .lang-toggle {
+    /* ─── LANGUAGE DROPDOWN ─────────────────────────── */
+    .lang-dropdown {
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+
+    .lang-dropdown-btn {
       display: flex;
       align-items: center;
       gap: 6px;
+      background: transparent;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 8px;
+      padding: 6px 10px;
       font-family: 'Orbitron', monospace;
-      font-size: 13px;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      color: var(--dim);
+      cursor: pointer;
+      transition: border-color 0.2s ease, color 0.2s ease, background 0.2s ease;
+      white-space: nowrap;
     }
 
-    .lang-btn {
+    .lang-dropdown-btn:hover,
+    .lang-dropdown.open .lang-dropdown-btn {
+      border-color: var(--cyan);
+      color: var(--white);
+      background: rgba(84, 218, 255, 0.06);
+    }
+
+    .lang-current-flag {
+      font-size: 15px;
+      line-height: 1;
+    }
+
+    .lang-current {
+      font-size: 12px;
+    }
+
+    .lang-arrow {
+      font-size: 9px;
+      opacity: 0.6;
+      transition: transform 0.2s ease;
+      margin-left: 2px;
+    }
+
+    .lang-dropdown.open .lang-arrow {
+      transform: rotate(180deg);
+    }
+
+    .lang-dropdown-menu {
+      position: absolute;
+      top: calc(100% + 10px);
+      right: 0;
+      min-width: 155px;
+      background: rgba(8, 8, 12, 0.96);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid rgba(84, 218, 255, 0.18);
+      border-radius: 12px;
+      padding: 6px;
+      z-index: 200;
+      display: none;
+      flex-direction: column;
+      gap: 2px;
+      box-shadow: 0 16px 48px rgba(0, 0, 0, 0.7), 0 0 0 1px rgba(84, 218, 255, 0.06) inset;
+      animation: dropdownFadeIn 0.18s ease;
+    }
+
+    @keyframes dropdownFadeIn {
+      from { opacity: 0; transform: translateY(-6px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .lang-dropdown.open .lang-dropdown-menu {
+      display: flex;
+    }
+
+    .lang-option {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      width: 100%;
       background: transparent;
       border: none;
-      color: var(--dim);
+      border-radius: 8px;
+      padding: 9px 12px;
       font-family: 'Orbitron', monospace;
-      font-size: 13px;
+      font-size: 12px;
       font-weight: 500;
-      letter-spacing: 0.08em;
+      letter-spacing: 0.06em;
+      color: rgba(255, 255, 255, 0.65);
       cursor: pointer;
-      padding: 4px 6px;
-      border-radius: 4px;
-      transition: color 0.2s ease, text-shadow 0.2s ease;
+      text-align: left;
+      transition: background 0.15s ease, color 0.15s ease;
     }
 
-    .lang-btn:hover {
+    .lang-option:hover {
+      background: rgba(255, 255, 255, 0.06);
       color: var(--white);
     }
 
-    .lang-btn.active {
+    .lang-option.active {
       color: var(--cyan);
-      font-weight: 600;
-      text-shadow: 0 0 10px rgba(84, 218, 255, 0.4);
+      background: rgba(84, 218, 255, 0.08);
     }
 
-    .lang-divider {
-      color: rgba(255, 255, 255, 0.25);
-      font-size: 12px;
-      user-select: none;
+    .lang-option .opt-flag {
+      font-size: 16px;
+      line-height: 1;
     }
 
-    .lang-toggle--mobile {
-      margin-top: 24px;
-      justify-content: center;
+    /* Mobile dropdown — open upward */
+    #mobile-nav .lang-dropdown-menu {
+      top: auto;
+      bottom: calc(100% + 10px);
+      right: 0;
+      left: auto;
+      transform: none;
+    }
+
+    #mobile-nav .lang-dropdown {
+      justify-content: flex-end;
+      margin-top: 20px;
+      padding-right: 24px;
     }
 
     /* Hamburger */
@@ -1317,10 +1402,20 @@
         <li><a href="#contact" data-i18n="nav.contact">CONTACT</a></li>
       </ul>
 
-      <div class="lang-toggle">
-        <button type="button" class="lang-btn" data-lang="en" aria-label="Switch to English">EN</button>
-        <span class="lang-divider">/</span>
-        <button type="button" class="lang-btn" data-lang="fr" aria-label="Passer au français">FR</button>
+      <!-- Language Dropdown -->
+      <div class="lang-dropdown" id="lang-dropdown-desktop">
+        <button type="button" class="lang-dropdown-btn" aria-haspopup="listbox" aria-expanded="false" aria-label="Select language">
+          <span class="lang-current-flag">🇬🇧</span>
+          <span class="lang-current">EN</span>
+          <span class="lang-arrow">▾</span>
+        </button>
+        <div class="lang-dropdown-menu" role="listbox" aria-label="Language options">
+          <button type="button" class="lang-option active" data-lang="en" role="option"><span class="opt-flag">🇬🇧</span> English</button>
+          <button type="button" class="lang-option" data-lang="fr" role="option"><span class="opt-flag">🇫🇷</span> Français</button>
+          <button type="button" class="lang-option" data-lang="es" role="option"><span class="opt-flag">🇪🇸</span> Español</button>
+          <button type="button" class="lang-option" data-lang="de" role="option"><span class="opt-flag">🇩🇪</span> Deutsch</button>
+          <button type="button" class="lang-option" data-lang="ja" role="option"><span class="opt-flag">🇯🇵</span> 日本語</button>
+        </div>
       </div>
 
       <div id="hamburger" aria-label="Menu" role="button" tabindex="0">
@@ -1334,10 +1429,20 @@
       <a href="#work" data-i18n="nav.work">WORK</a>
       <a href="#about" data-i18n="nav.about">ABOUT</a>
       <a href="#contact" data-i18n="nav.contact">CONTACT</a>
-      <div class="lang-toggle lang-toggle--mobile">
-        <button type="button" class="lang-btn" data-lang="en">EN</button>
-        <span class="lang-divider">/</span>
-        <button type="button" class="lang-btn" data-lang="fr">FR</button>
+      <!-- Language Dropdown (Mobile) -->
+      <div class="lang-dropdown" id="lang-dropdown-mobile">
+        <button type="button" class="lang-dropdown-btn" aria-haspopup="listbox" aria-expanded="false" aria-label="Select language">
+          <span class="lang-current-flag">🇬🇧</span>
+          <span class="lang-current">EN</span>
+          <span class="lang-arrow">▾</span>
+        </button>
+        <div class="lang-dropdown-menu" role="listbox" aria-label="Language options">
+          <button type="button" class="lang-option active" data-lang="en" role="option"><span class="opt-flag">🇬🇧</span> English</button>
+          <button type="button" class="lang-option" data-lang="fr" role="option"><span class="opt-flag">🇫🇷</span> Français</button>
+          <button type="button" class="lang-option" data-lang="es" role="option"><span class="opt-flag">🇪🇸</span> Español</button>
+          <button type="button" class="lang-option" data-lang="de" role="option"><span class="opt-flag">🇩🇪</span> Deutsch</button>
+          <button type="button" class="lang-option" data-lang="ja" role="option"><span class="opt-flag">🇯🇵</span> 日本語</button>
+        </div>
       </div>
     </div>
 
