@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Batmanny — Product Designer</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Orbitron:wght@400;500;600&display=swap" rel="stylesheet">
+  <script src="assets/js/i18n.js"></script>
   <style>
     /* ─── Reset & Variables ─────────────────────────────── */
     *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
@@ -179,6 +180,50 @@
 
     #nav-links a.active,
     #nav-links a:hover { color: var(--white); }
+
+    /* ─── LANGUAGE TOGGLE ────────────────────────────── */
+    .lang-toggle {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-family: 'Orbitron', monospace;
+      font-size: 13px;
+    }
+
+    .lang-btn {
+      background: transparent;
+      border: none;
+      color: var(--dim);
+      font-family: 'Orbitron', monospace;
+      font-size: 13px;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      cursor: pointer;
+      padding: 4px 6px;
+      border-radius: 4px;
+      transition: color 0.2s ease, text-shadow 0.2s ease;
+    }
+
+    .lang-btn:hover {
+      color: var(--white);
+    }
+
+    .lang-btn.active {
+      color: var(--cyan);
+      font-weight: 600;
+      text-shadow: 0 0 10px rgba(84, 218, 255, 0.4);
+    }
+
+    .lang-divider {
+      color: rgba(255, 255, 255, 0.25);
+      font-size: 12px;
+      user-select: none;
+    }
+
+    .lang-toggle--mobile {
+      margin-top: 24px;
+      justify-content: center;
+    }
 
     /* Hamburger */
     #hamburger {
@@ -1266,11 +1311,17 @@
       </a>
 
       <ul id="nav-links">
-        <li><a href="#home" class="active">HOME</a></li>
-        <li><a href="#work">WORK</a></li>
-        <li><a href="#about">ABOUT</a></li>
-        <li><a href="#contact">CONTACT</a></li>
+        <li><a href="#home" class="active" data-i18n="nav.home">HOME</a></li>
+        <li><a href="#work" data-i18n="nav.work">WORK</a></li>
+        <li><a href="#about" data-i18n="nav.about">ABOUT</a></li>
+        <li><a href="#contact" data-i18n="nav.contact">CONTACT</a></li>
       </ul>
+
+      <div class="lang-toggle">
+        <button type="button" class="lang-btn" data-lang="en" aria-label="Switch to English">EN</button>
+        <span class="lang-divider">/</span>
+        <button type="button" class="lang-btn" data-lang="fr" aria-label="Passer au français">FR</button>
+      </div>
 
       <div id="hamburger" aria-label="Menu" role="button" tabindex="0">
         <span></span><span></span><span></span>
@@ -1279,10 +1330,15 @@
 
     <!-- Mobile nav drawer -->
     <div id="mobile-nav">
-      <a href="#home" class="active">HOME</a>
-      <a href="#work">WORK</a>
-      <a href="#about">ABOUT</a>
-      <a href="#contact">CONTACT</a>
+      <a href="#home" class="active" data-i18n="nav.home">HOME</a>
+      <a href="#work" data-i18n="nav.work">WORK</a>
+      <a href="#about" data-i18n="nav.about">ABOUT</a>
+      <a href="#contact" data-i18n="nav.contact">CONTACT</a>
+      <div class="lang-toggle lang-toggle--mobile">
+        <button type="button" class="lang-btn" data-lang="en">EN</button>
+        <span class="lang-divider">/</span>
+        <button type="button" class="lang-btn" data-lang="fr">FR</button>
+      </div>
     </div>
 
     <!-- ── HERO SECTION ── -->
@@ -1292,15 +1348,15 @@
       <!-- Left -->
       <div class="hero-left">
         <div class="hero-text">
-          <h1 class="hero-headline" id="hero-headline">Designing products people trust with their money, time, and attention.</h1>
-          <p class="hero-sub reveal-after" id="hero-sub">Product Designer with 4+ years of experience across Web3, Gaming, and AI.</p>
-          <p class="hero-stat reveal-after" id="hero-stat">Redesigned Razor DAO onboarding, contributing to <strong>100K+ users in 72 hours</strong>.</p>
+          <h1 class="hero-headline" id="hero-headline" data-i18n="hero.headline">Designing products people trust with their money, time, and attention.</h1>
+          <p class="hero-sub reveal-after" id="hero-sub" data-i18n="hero.sub">Product Designer with 4+ years of experience across Web3, Gaming, and AI.</p>
+          <p class="hero-stat reveal-after" id="hero-stat" data-i18n-html="hero.stat">Redesigned Razor DAO onboarding, contributing to <strong>100K+ users in 72 hours</strong>.</p>
         </div>
 
         <div class="hero-actions">
           <div class="hero-buttons">
-            <a href="#work" class="cta-btn reveal-after">View Work</a>
-            <a href="#contact" class="cta-btn cta-btn--ghost reveal-after">Send the Bat-Signal</a>
+            <a href="#work" class="cta-btn reveal-after" data-i18n="hero.btn.work">View Work</a>
+            <a href="#contact" class="cta-btn cta-btn--ghost reveal-after" data-i18n="hero.btn.contact">Send the Bat-Signal</a>
           </div>
 
           <div class="social-icons reveal-after">
@@ -1385,11 +1441,11 @@
 
         <!-- Filter bar -->
         <div class="filter-bar" id="filter-bar">
-          <button class="filter-btn active" data-filter="all">All</button>
-          <button class="filter-btn" data-filter="case-study">Case Study</button>
-          <button class="filter-btn" data-filter="vibe-coded">Vibe-Coded</button>
-          <button class="filter-btn" data-filter="side-quests">Side Quests</button>
-          <button class="filter-btn" data-filter="brand-visual">Brand & Visual</button>
+          <button class="filter-btn active" data-filter="all" data-i18n="filter.all">All</button>
+          <button class="filter-btn" data-filter="case-study" data-i18n="filter.caseStudy">Case Study</button>
+          <button class="filter-btn" data-filter="vibe-coded" data-i18n="filter.vibeCoded">Vibe-Coded</button>
+          <button class="filter-btn" data-filter="side-quests" data-i18n="filter.sideQuests">Side Quests</button>
+          <button class="filter-btn" data-filter="brand-visual" data-i18n="filter.brandVisual">Brand & Visual</button>
         </div>
 
         <!-- Project grid — real HTML so it's visible to crawlers/scrapers.
@@ -1401,9 +1457,9 @@
           <a class="project-card" href="work/razor-wallet.html" target="_self" rel="noopener noreferrer" data-category="case-study brand-visual">
             <div class="card-thumbnail"><img src="assets/images/razor-wallet-thumb.png" alt="Redesigned onboarding, contributing to 100K+ users in 72 hours by Razor Wallet" loading="lazy"></div>
             <div class="card-info">
-              <div class="card-title">Redesigned onboarding, contributing to 100K+ users in 72 hours</div>
-              <div class="card-tags"><span class="card-tag">Case Study</span><span class="card-tag">Brand &amp; Visuals</span></div>
-              <div class="card-description">Reduced friction during wallet creation and built a scalable design system.</div>
+              <div class="card-title" data-i18n="card.razor.title">Redesigned onboarding, contributing to 100K+ users in 72 hours</div>
+              <div class="card-tags"><span class="card-tag" data-i18n="filter.caseStudy">Case Study</span><span class="card-tag" data-i18n="filter.brandVisual">Brand &amp; Visuals</span></div>
+              <div class="card-description" data-i18n="card.razor.desc">Reduced friction during wallet creation and built a scalable design system.</div>
               <div class="card-company">Razor Wallet</div>
             </div>
           </a>
@@ -1411,9 +1467,9 @@
           <a class="project-card" href="work/elite-global.html" target="_self" rel="noopener noreferrer" data-category="case-study brand-visual">
             <div class="card-thumbnail"><img src="assets/images/elite-global.png" alt="Onboarding That Feels Like a Conversation, Not a Form by Elite Global AI" loading="lazy"></div>
             <div class="card-info">
-              <div class="card-title">Onboarding That Feels Like a Conversation, Not a Form</div>
-              <div class="card-tags"><span class="card-tag">Case Study</span><span class="card-tag">Brand &amp; Visuals</span></div>
-              <div class="card-description">A 14-screen onboarding and payoff flow designed to feel like a conversation, making a complex AI job-matching experience clearer and more trustworthy.</div>
+              <div class="card-title" data-i18n="card.elite.title">Onboarding That Feels Like a Conversation, Not a Form</div>
+              <div class="card-tags"><span class="card-tag" data-i18n="filter.caseStudy">Case Study</span><span class="card-tag" data-i18n="filter.brandVisual">Brand &amp; Visuals</span></div>
+              <div class="card-description" data-i18n="card.elite.desc">A 14-screen onboarding and payoff flow designed to feel like a conversation, making a complex AI job-matching experience clearer and more trustworthy.</div>
               <div class="card-company">Elite Global AI</div>
             </div>
           </a>
@@ -1421,9 +1477,9 @@
           <a class="project-card" href="work/pendax.html" target="_self" rel="noopener noreferrer" data-category="case-study brand-visual">
             <div class="card-thumbnail"><img src="assets/images/pendax.jpg" alt="Making Crypto-to-Naira Transfers Feel as Safe as Banking by Pendax" loading="lazy"></div>
             <div class="card-info">
-              <div class="card-title">Making Crypto-to-Naira Transfers Feel as Safe as Banking</div>
-              <div class="card-tags"><span class="card-tag">Case Study</span><span class="card-tag">Brand &amp; Visuals</span></div>
-              <div class="card-description">A mobile-first fintech flow that makes crypto-to-bank transfers feel familiar, secure, and easy to understand for everyday users.</div>
+              <div class="card-title" data-i18n="card.pendax.title">Making Crypto-to-Naira Transfers Feel as Safe as Banking</div>
+              <div class="card-tags"><span class="card-tag" data-i18n="filter.caseStudy">Case Study</span><span class="card-tag" data-i18n="filter.brandVisual">Brand &amp; Visuals</span></div>
+              <div class="card-description" data-i18n="card.pendax.desc">A mobile-first fintech flow that makes crypto-to-bank transfers feel familiar, secure, and easy to understand for everyday users.</div>
               <div class="card-company">Pendax</div>
             </div>
           </a>
@@ -1431,15 +1487,15 @@
           <a class="project-card" href="work/cosmic-gunner.html" target="_self" rel="noopener noreferrer" data-category="side-quests vibe-coded case-study">
             <div class="card-thumbnail"><img src="assets/images/cosmic-gunner.jpg" alt="A Game UI Built to Stay Readable at Full Throttle by Cosmic Gunner" loading="lazy"></div>
             <div class="card-info">
-              <div class="card-title">A Game UI Built to Stay Readable at Full Throttle</div>
-              <div class="card-tags"><span class="card-tag">Side Quests</span><span class="card-tag">Vibe-Coded</span><span class="card-tag">Case Study</span></div>
-              <div class="card-description">A game UI case study focused on onboarding, scoring, and a lighter interface that stays readable and responsive while the action is moving.</div>
+              <div class="card-title" data-i18n="card.cosmic.title">A Game UI Built to Stay Readable at Full Throttle</div>
+              <div class="card-tags"><span class="card-tag" data-i18n="filter.sideQuests">Side Quests</span><span class="card-tag" data-i18n="filter.vibeCoded">Vibe-Coded</span><span class="card-tag" data-i18n="filter.caseStudy">Case Study</span></div>
+              <div class="card-description" data-i18n="card.cosmic.desc">A game UI case study focused on onboarding, scoring, and a lighter interface that stays readable and responsive while the action is moving.</div>
               <div class="card-company">Cosmic Gunner</div>
             </div>
           </a>
 
           <div class="empty-state" id="empty-state">
-            <p>NO PROJECTS IN THIS CATEGORY YET</p>
+            <p data-i18n="filter.empty">NO PROJECTS IN THIS CATEGORY YET</p>
           </div>
         </div>
 
@@ -1621,12 +1677,12 @@
         </div>
 
         <div class="about-copy">
-          <h2 class="about-title" data-typewriter>ABOUT ME</h2>
-          <p class="about-lead">I’m Emmanuel, a product designer who likes to get close to the work: sketching the idea, shaping the interface, and sometimes building the thing myself.</p>
-          <p>I enjoy products that have a bit of character. The kind where the empty states, buttons, motion, and tiny details all feel like someone actually cared. That is the part of design I keep coming back to: making useful things feel clear, alive, and easy to trust.</p>
-          <p>Most of my work sits around product design, UI systems, visual design, and front-end implementation. I have worked across Web3, fintech, games, dashboards, and experimental tools, usually in places where the product needs to feel sharp without becoming confusing.</p>
-          <p>I also make illustrations and brand visuals, so I think a lot about mood and personality, not just screens. Sometimes the right visual language can explain a product faster than another paragraph ever could.</p>
-          <p>I use tools like Figma, HTML, CSS, JavaScript, Codex, and Claude Code to move from rough idea to working prototype quickly. I like teams that care about taste, clarity, and shipping work that feels considered.</p>
+          <h2 class="about-title" data-typewriter data-i18n="about.heading">ABOUT ME</h2>
+          <p class="about-lead" data-i18n="about.p1">I’m Emmanuel, a product designer who likes to get close to the work: sketching the idea, shaping the interface, and sometimes building the thing myself.</p>
+          <p data-i18n="about.p2">I enjoy products that have a bit of character. The kind where the empty states, buttons, motion, and tiny details all feel like someone actually cared. That is the part of design I keep coming back to: making useful things feel clear, alive, and easy to trust.</p>
+          <p data-i18n="about.p3">Most of my work sits around product design, UI systems, visual design, and front-end implementation. I have worked across Web3, fintech, games, dashboards, and experimental tools, usually in places where the product needs to feel sharp without becoming confusing.</p>
+          <p data-i18n="about.p4">I also make illustrations and brand visuals, so I think a lot about mood and personality, not just screens. Sometimes the right visual language can explain a product faster than another paragraph ever could.</p>
+          <p data-i18n="about.p5">I use tools like Figma, HTML, CSS, JavaScript, Codex, and Claude Code to move from rough idea to working prototype quickly. I like teams that care about taste, clarity, and shipping work that feels considered.</p>
         </div>
       </div>
     </section>
@@ -1635,11 +1691,11 @@
     <section id="contact" class="section section-transition">
       <div class="contact-inner">
         <div class="contact-copy">
-          <h2 class="contact-title" data-typewriter>CONTACT</h2>
-          <p>If you’re building something ambitious (or you want your product to feel like it has a pulse), let’s talk. I’m open to product design, interaction design, and design-engineering collaborations.</p>
+          <h2 class="contact-title" data-typewriter data-i18n="contact.heading">CONTACT</h2>
+          <p data-i18n="contact.lead">If you’re building something ambitious (or you want your product to feel like it has a pulse), let’s talk. I’m open to product design, interaction design, and design-engineering collaborations.</p>
           <div class="contact-actions">
-            <a class="contact-btn primary" id="contact-email-link" href="#contact-form">MESSAGE ME</a>
-            <button class="contact-btn" type="button" id="contact-copy-email" data-email="eosadolor382@gmail.com">COPY EMAIL</button>
+            <a class="contact-btn primary" id="contact-email-link" href="#contact-form" data-i18n="contact.btn.message">MESSAGE ME</a>
+            <button class="contact-btn" type="button" id="contact-copy-email" data-email="eosadolor382@gmail.com" data-i18n="contact.btn.copy">COPY EMAIL</button>
           </div>
 
           <div class="social-icons contact-socials">
@@ -1671,23 +1727,23 @@
         </div>
 
         <div class="contact-panel">
-          <h3>QUICK MESSAGE</h3>
+          <h3 data-i18n="contact.quick">QUICK MESSAGE</h3>
           <form id="contact-form">
             <div class="contact-field">
-              <label for="c-name">NAME</label>
-              <input id="c-name" name="name" type="text" autocomplete="name" placeholder="Your name" required />
+              <label for="c-name" data-i18n="contact.label.name">NAME</label>
+              <input id="c-name" name="name" type="text" autocomplete="name" placeholder="Your name" data-i18n-ph="contact.ph.name" required />
             </div>
             <div class="contact-field">
-              <label for="c-email">EMAIL</label>
-              <input id="c-email" name="email" type="email" autocomplete="email" placeholder="you@email.com" required />
+              <label for="c-email" data-i18n="contact.label.email">EMAIL</label>
+              <input id="c-email" name="email" type="email" autocomplete="email" placeholder="you@email.com" data-i18n-ph="contact.ph.email" required />
             </div>
             <div class="contact-field">
-              <label for="c-message">MESSAGE</label>
-              <textarea id="c-message" name="message" placeholder="What are we building?" required></textarea>
+              <label for="c-message" data-i18n="contact.label.message">MESSAGE</label>
+              <textarea id="c-message" name="message" placeholder="What are we building?" data-i18n-ph="contact.ph.message" required></textarea>
             </div>
             <div class="contact-actions">
-              <button class="contact-btn primary" type="submit">SEND</button>
-              <button class="contact-btn" type="reset">RESET</button>
+              <button class="contact-btn primary" type="submit" data-i18n="contact.btn.send">SEND</button>
+              <button class="contact-btn" type="reset" data-i18n="contact.btn.reset">RESET</button>
             </div>
             <input id="c-company" name="company" type="text" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;opacity:0;height:1px;width:1px;" />
           </form>
@@ -1908,9 +1964,9 @@
         if (!email) return;
         try {
           await navigator.clipboard.writeText(email);
-          showToast('EMAIL COPIED');
+          showToast(window.i18n.t('toast.emailCopied'));
         } catch {
-          showToast('COPY FAILED');
+          showToast(window.i18n.t('toast.copyFailed'));
         }
       });
     }
@@ -1924,7 +1980,7 @@
         const company = (document.getElementById('c-company')?.value || '').trim();
 
         if (!name || !from || !msg) {
-          showToast('FILL ALL FIELDS');
+          showToast(window.i18n.t('toast.fillAll'));
           return;
         }
 
@@ -1933,7 +1989,7 @@
         try {
           if (submitBtn) submitBtn.disabled = true;
           if (resetBtn) resetBtn.disabled = true;
-          if (submitBtn) submitBtn.textContent = 'SENDING...';
+          if (submitBtn) submitBtn.textContent = window.i18n.t('contact.btn.sending');
 
           const mailto = `mailto:eosadolor382@gmail.com?subject=${encodeURIComponent(`Portfolio contact from ${name}`)}&body=${encodeURIComponent([
             `Name: ${name}`,
@@ -1947,14 +2003,14 @@
           }
 
           window.location.href = mailto;
-          showToast('OPENING EMAIL APP');
+          showToast(window.i18n.t('toast.openingMail'));
           contactForm.reset();
         } catch (err) {
-          showToast(String(err?.message || 'EMAIL APP FAILED'));
+          showToast(String(err?.message || window.i18n.t('toast.mailFailed')));
         } finally {
           if (submitBtn) submitBtn.disabled = false;
           if (resetBtn) resetBtn.disabled = false;
-          if (submitBtn) submitBtn.textContent = 'SEND';
+          if (submitBtn) submitBtn.textContent = window.i18n.t('contact.btn.send');
         }
       });
     }

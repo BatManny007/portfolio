@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Pendax — Crypto to NGN Transfer Case Study</title>
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script src="../assets/js/i18n.js"></script>
   <style>
     :root {
       --bg: #000;
@@ -45,6 +46,45 @@
       align-items: center;
       justify-content: flex-start;
       padding: 18px 0 30px;
+    }
+
+    /* Language Toggle */
+    .lang-toggle {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-family: Orbitron, monospace;
+      font-size: 13px;
+    }
+
+    .lang-btn {
+      background: transparent;
+      border: none;
+      color: var(--muted);
+      font-family: Orbitron, monospace;
+      font-size: 13px;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      cursor: pointer;
+      padding: 4px 6px;
+      border-radius: 4px;
+      transition: color 0.2s ease, text-shadow 0.2s ease;
+    }
+
+    .lang-btn:hover {
+      color: var(--text);
+    }
+
+    .lang-btn.active {
+      color: var(--accent);
+      font-weight: 600;
+      text-shadow: 0 0 10px rgba(176, 140, 255, 0.4);
+    }
+
+    .lang-divider {
+      color: rgba(255, 255, 255, 0.25);
+      font-size: 12px;
+      user-select: none;
     }
 
     .back {
@@ -353,7 +393,12 @@
 <body>
   <main class="page">
     <div class="topbar">
-      <a class="back" href="../index.html#project-grid"><span>←</span> Back</a>
+      <a class="back" href="../index.html#project-grid"><span>←</span> <span data-i18n="cs.back">Back</span></a>
+      <div class="lang-toggle" style="margin-left: auto;">
+        <button type="button" class="lang-btn" data-lang="en" aria-label="Switch to English">EN</button>
+        <span class="lang-divider">/</span>
+        <button type="button" class="lang-btn" data-lang="fr" aria-label="Passer au français">FR</button>
+      </div>
     </div>
 
     <section class="hero" id="top">

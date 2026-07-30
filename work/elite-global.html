@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Elite Global AI — Conversational Onboarding Case Study</title>
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script src="../assets/js/i18n.js"></script>
   <style>
     :root {
       --bg: #000;
@@ -47,6 +48,45 @@
       justify-content: flex-start;
       gap: 16px;
       padding: 20px 0 34px;
+    }
+
+    /* Language Toggle */
+    .lang-toggle {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-family: Orbitron, monospace;
+      font-size: 13px;
+    }
+
+    .lang-btn {
+      background: transparent;
+      border: none;
+      color: var(--muted);
+      font-family: Orbitron, monospace;
+      font-size: 13px;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      cursor: pointer;
+      padding: 4px 6px;
+      border-radius: 4px;
+      transition: color 0.2s ease, text-shadow 0.2s ease;
+    }
+
+    .lang-btn:hover {
+      color: var(--text);
+    }
+
+    .lang-btn.active {
+      color: var(--accent);
+      font-weight: 600;
+      text-shadow: 0 0 10px rgba(79, 124, 255, 0.4);
+    }
+
+    .lang-divider {
+      color: rgba(255, 255, 255, 0.25);
+      font-size: 12px;
+      user-select: none;
     }
 
     .back {
@@ -446,7 +486,12 @@
 <body>
   <div class="page">
     <header class="topbar">
-      <a class="back" href="../index.html#project-grid" aria-label="Back to project grid"><span>←</span> Back</a>
+      <a class="back" href="../index.html#project-grid" aria-label="Back to project grid"><span>←</span> <span data-i18n="cs.back">Back</span></a>
+      <div class="lang-toggle" style="margin-left: auto;">
+        <button type="button" class="lang-btn" data-lang="en" aria-label="Switch to English">EN</button>
+        <span class="lang-divider">/</span>
+        <button type="button" class="lang-btn" data-lang="fr" aria-label="Passer au français">FR</button>
+      </div>
     </header>
 
     <section class="hero">
@@ -539,11 +584,6 @@
         before the flow moves into more personal and more valuable data.
       </p>
       <div class="section-split">
-        <div class="visual">
-          <div class="screen-frame crop-top">
-            <img src="../assets/images/elite-global-01.png" alt="Top crop of the first screen showing the step indicator and header" loading="lazy">
-          </div>
-        </div>
         <div class="text">
           <h3>How the flow is staged</h3>
           <div class="phase-grid">
@@ -567,6 +607,11 @@
             The step indicator and the Skip option work together here. Progress is visible, but the user never feels trapped.
           </p>
         </div>
+        <div class="visual">
+          <div class="screen-frame crop-top">
+            <img src="../assets/images/elite-global-01.png" alt="Top crop of the first screen showing the step indicator and header" loading="lazy">
+          </div>
+        </div>
       </div>
     </section>
 
@@ -574,11 +619,6 @@
       <h2>05 — Screen-by-Screen Analysis</h2>
 
       <article class="section-split">
-        <div class="visual">
-          <div class="screen-frame">
-            <img src="../assets/images/elite-global-01.png" alt="Screen 1: Name input" loading="lazy">
-          </div>
-        </div>
         <div class="text">
           <h3>Screen 1 — Name Input</h3>
           <p><strong>The prompt:</strong> "Let's start with your name"</p>
@@ -591,14 +631,14 @@
             it is welcoming, direct, and quick to answer.
           </p>
         </div>
+        <div class="visual">
+          <div class="screen-frame">
+            <img src="../assets/images/elite-global-01.png" alt="Screen 1: Name input" loading="lazy">
+          </div>
+        </div>
       </article>
 
       <article class="section-split reverse" style="margin-top: 288px;">
-        <div class="visual">
-          <div class="screen-frame">
-            <img src="../assets/images/elite-global-02.png" alt="Screen 2: Document upload empty state" loading="lazy">
-          </div>
-        </div>
         <div class="text">
           <h3>Screen 2 — Document Upload (Empty State)</h3>
           <p><strong>The prompt:</strong> "Upload your CV and certificate"</p>
@@ -611,14 +651,14 @@
             without making the initial state feel crowded.
           </p>
         </div>
+        <div class="visual">
+          <div class="screen-frame">
+            <img src="../assets/images/elite-global-02.png" alt="Screen 2: Document upload empty state" loading="lazy">
+          </div>
+        </div>
       </article>
 
       <article class="section-split" style="margin-top: 288px;">
-        <div class="visual">
-          <div class="screen-frame">
-            <img src="../assets/images/elite-global-03.png" alt="Screen 3: Document upload in progress" loading="lazy">
-          </div>
-        </div>
         <div class="text">
           <h3>Screen 3 — Document Upload (In-Progress State)</h3>
           <p><strong>The behaviour:</strong> CV upload in progress with a visible percentage and time remaining</p>
@@ -630,14 +670,14 @@
             Small progress cues like this are trust builders. They tell the user the system is active rather than frozen.
           </p>
         </div>
+        <div class="visual">
+          <div class="screen-frame">
+            <img src="../assets/images/elite-global-03.png" alt="Screen 3: Document upload in progress" loading="lazy">
+          </div>
+        </div>
       </article>
 
       <article class="section-split reverse" style="margin-top: 288px;">
-        <div class="visual">
-          <div class="screen-frame">
-            <img src="../assets/images/elite-global-04.png" alt="Screen 4: Document upload completed" loading="lazy">
-          </div>
-        </div>
         <div class="text">
           <h3>Screen 4 — Document Upload (Completed State)</h3>
           <p><strong>The state:</strong> both documents now appear as completed items</p>
@@ -649,14 +689,14 @@
             The user sees evidence that the platform has accepted their input, and that the flow is advancing.
           </p>
         </div>
+        <div class="visual">
+          <div class="screen-frame">
+            <img src="../assets/images/elite-global-04.png" alt="Screen 4: Document upload completed" loading="lazy">
+          </div>
+        </div>
       </article>
 
       <article class="section-split" style="margin-top: 288px;">
-        <div class="visual">
-          <div class="screen-frame">
-            <img src="../assets/images/elite-global-05.png" alt="Screen 5: Experience level" loading="lazy">
-          </div>
-        </div>
         <div class="text">
           <h3>Screen 5 — Experience Level</h3>
           <p><strong>The prompt:</strong> "How many years of experience do you have?"</p>
@@ -668,14 +708,14 @@
             The screen keeps the cognitive load low while still gathering useful screening data for the matching engine.
           </p>
         </div>
+        <div class="visual">
+          <div class="screen-frame">
+            <img src="../assets/images/elite-global-05.png" alt="Screen 5: Experience level" loading="lazy">
+          </div>
+        </div>
       </article>
 
       <article class="section-split reverse" style="margin-top: 288px;">
-        <div class="visual">
-          <div class="screen-frame">
-            <img src="../assets/images/elite-global-06.png" alt="Screen 6: Preferred working condition" loading="lazy">
-          </div>
-        </div>
         <div class="text">
           <h3>Screen 6 — Preferred Working Condition</h3>
           <p><strong>The prompt:</strong> "Where would you like to work?"</p>
@@ -688,14 +728,14 @@
             the product’s intent well.
           </p>
         </div>
+        <div class="visual">
+          <div class="screen-frame">
+            <img src="../assets/images/elite-global-06.png" alt="Screen 6: Preferred working condition" loading="lazy">
+          </div>
+        </div>
       </article>
 
       <article class="section-split" style="margin-top: 288px;">
-        <div class="visual">
-          <div class="screen-frame">
-            <img src="../assets/images/elite-global-07.png" alt="Screen 7: Preferred industry" loading="lazy">
-          </div>
-        </div>
         <div class="text">
           <h3>Screen 7 — Preferred Industry</h3>
           <p><strong>The prompt:</strong> "Which industries are you open to?"</p>
@@ -707,14 +747,14 @@
             The wording keeps the flow aspirational rather than restrictive.
           </p>
         </div>
+        <div class="visual">
+          <div class="screen-frame">
+            <img src="../assets/images/elite-global-07.png" alt="Screen 7: Preferred industry" loading="lazy">
+          </div>
+        </div>
       </article>
 
       <article class="section-split reverse" style="margin-top: 288px;">
-        <div class="visual">
-          <div class="screen-frame">
-            <img src="../assets/images/elite-global-08.png" alt="Screen 8: Employment type" loading="lazy">
-          </div>
-        </div>
         <div class="text">
           <h3>Screen 8 — Employment Type</h3>
           <p><strong>The prompt:</strong> "What kind of employment are you looking for?"</p>
@@ -726,14 +766,14 @@
             The user understands that the system is learning preferences, not forcing a single answer.
           </p>
         </div>
+        <div class="visual">
+          <div class="screen-frame">
+            <img src="../assets/images/elite-global-08.png" alt="Screen 8: Employment type" loading="lazy">
+          </div>
+        </div>
       </article>
 
       <article class="section-split" style="margin-top: 288px;">
-        <div class="visual">
-          <div class="screen-frame">
-            <img src="../assets/images/elite-global-09.png" alt="Screen 9: Salary expectations" loading="lazy">
-          </div>
-        </div>
         <div class="text">
           <h3>Screen 9 — Salary Expectations</h3>
           <p><strong>The prompt:</strong> "What salary range are you expecting?"</p>
@@ -746,14 +786,14 @@
             value and is more likely to answer honestly.
           </p>
         </div>
+        <div class="visual">
+          <div class="screen-frame">
+            <img src="../assets/images/elite-global-09.png" alt="Screen 9: Salary expectations" loading="lazy">
+          </div>
+        </div>
       </article>
 
       <article class="section-split reverse" style="margin-top: 288px;">
-        <div class="visual">
-          <div class="screen-frame">
-            <img src="../assets/images/elite-global-10.png" alt="Screen 10: Professional links" loading="lazy">
-          </div>
-        </div>
         <div class="text">
           <h3>Screen 10 — Professional Links</h3>
           <p><strong>The prompt:</strong> "You can share important links here"</p>
@@ -765,6 +805,11 @@
             LinkedIn, a personal website or portfolio, and GitHub cover the three most useful public proof points
             without making the user feel over-asked.
           </p>
+        </div>
+        <div class="visual">
+          <div class="screen-frame">
+            <img src="../assets/images/elite-global-10.png" alt="Screen 10: Professional links" loading="lazy">
+          </div>
         </div>
       </article>
     </section>
@@ -778,46 +823,46 @@
 
       <div class="pattern-grid">
         <div class="pattern-card">
-          <img src="../assets/images/elite-global-01.png" alt="Text input pattern example" loading="lazy">
           <div class="body">
             <h3>Text input</h3>
             <p>Name and links use text input because they are open-ended and familiar.</p>
           </div>
+          <img src="../assets/images/elite-global-01.png" alt="Text input pattern example" loading="lazy">
         </div>
         <div class="pattern-card">
-          <img src="../assets/images/elite-global-02.png" alt="File upload pattern example" loading="lazy">
           <div class="body">
             <h3>File upload with states</h3>
             <p>The document flow clearly separates empty, active, and completed states.</p>
           </div>
+          <img src="../assets/images/elite-global-02.png" alt="File upload pattern example" loading="lazy">
         </div>
         <div class="pattern-card">
-          <img src="../assets/images/elite-global-05.png" alt="Radio button pattern example" loading="lazy">
           <div class="body">
             <h3>Radio buttons with descriptions</h3>
             <p>Experience level is mutually exclusive, so radio buttons are the right fit.</p>
           </div>
+          <img src="../assets/images/elite-global-05.png" alt="Radio button pattern example" loading="lazy">
         </div>
         <div class="pattern-card">
-          <img src="../assets/images/elite-global-06.png" alt="Checkbox pattern example" loading="lazy">
           <div class="body">
             <h3>Checkboxes with descriptions</h3>
             <p>Working condition and industry allow more than one answer when appropriate.</p>
           </div>
+          <img src="../assets/images/elite-global-06.png" alt="Checkbox pattern example" loading="lazy">
         </div>
         <div class="pattern-card">
-          <img src="../assets/images/elite-global-11.png" alt="Progress bar pattern example" loading="lazy">
           <div class="body">
             <h3>Progress bar</h3>
             <p>The payoff sequence uses loading states to make the AI's work visible.</p>
           </div>
+          <img src="../assets/images/elite-global-11.png" alt="Progress bar pattern example" loading="lazy">
         </div>
         <div class="pattern-card">
-          <img src="../assets/images/elite-global-10.png" alt="Link input pattern example" loading="lazy">
           <div class="body">
             <h3>Link input</h3>
             <p>Professional links are structured open-ended inputs, so text fields are enough.</p>
           </div>
+          <img src="../assets/images/elite-global-10.png" alt="Link input pattern example" loading="lazy">
         </div>
       </div>
 
@@ -872,11 +917,6 @@
       </p>
 
       <div class="section-split">
-        <div class="visual">
-          <div class="screen-frame">
-            <img src="../assets/images/elite-global-01.png" alt="Screen 1 used as a visual language reference" loading="lazy">
-          </div>
-        </div>
         <div class="text">
           <table>
             <thead>
@@ -899,6 +939,11 @@
             The whitespace is deliberate. Each step asks one question, so the layout leaves room for the interaction to breathe.
           </p>
         </div>
+        <div class="visual">
+          <div class="screen-frame">
+            <img src="../assets/images/elite-global-01.png" alt="Screen 1 used as a visual language reference" loading="lazy">
+          </div>
+        </div>
       </div>
     </section>
 
@@ -910,11 +955,6 @@
       </p>
 
       <article class="section-split">
-        <div class="visual">
-          <div class="screen-frame">
-            <img src="../assets/images/elite-global-11.png" alt="Screen 11: Analyzing your data" loading="lazy">
-          </div>
-        </div>
         <div class="text">
           <h3>Screen 11 — Analyzing Your Data</h3>
           <p>
@@ -925,14 +965,14 @@
             The copy also sets expectations. If the process takes a little while, the screen has already told the user why.
           </p>
         </div>
+        <div class="visual">
+          <div class="screen-frame">
+            <img src="../assets/images/elite-global-11.png" alt="Screen 11: Analyzing your data" loading="lazy">
+          </div>
+        </div>
       </article>
 
       <article class="section-split reverse" style="margin-top: 288px;">
-        <div class="visual">
-          <div class="screen-frame">
-            <img src="../assets/images/elite-global-12.png" alt="Screen 12: Finding companies that match your profile" loading="lazy">
-          </div>
-        </div>
         <div class="text">
           <h3>Screen 12 — Finding Companies That Match Your Profile</h3>
           <p>
@@ -943,14 +983,14 @@
             Two distinct loading states create a stronger sense of momentum than a single spinner ever could.
           </p>
         </div>
+        <div class="visual">
+          <div class="screen-frame">
+            <img src="../assets/images/elite-global-12.png" alt="Screen 12: Finding companies that match your profile" loading="lazy">
+          </div>
+        </div>
       </article>
 
       <article class="section-split" style="margin-top: 288px;">
-        <div class="visual">
-          <div class="screen-frame">
-            <img src="../assets/images/elite-global-13.png" alt="Screen 13: Match result and optimisation prompt" loading="lazy">
-          </div>
-        </div>
         <div class="text">
           <h3>Screen 13 — Match Result & Optimisation Prompt</h3>
           <p>
@@ -962,14 +1002,14 @@
             lands as helpful advice rather than a sales pitch.
           </p>
         </div>
+        <div class="visual">
+          <div class="screen-frame">
+            <img src="../assets/images/elite-global-13.png" alt="Screen 13: Match result and optimisation prompt" loading="lazy">
+          </div>
+        </div>
       </article>
 
       <article class="section-split reverse" style="margin-top: 288px;">
-        <div class="visual">
-          <div class="screen-frame">
-            <img src="../assets/images/elite-global-14.png" alt="Screen 14: Job results" loading="lazy">
-          </div>
-        </div>
         <div class="text">
           <h3>Screen 14 — Job Results</h3>
           <p>
@@ -979,6 +1019,11 @@
           <p>
             The job list is concise, readable, and focused on the facts the user needs to make a decision.
           </p>
+        </div>
+        <div class="visual">
+          <div class="screen-frame">
+            <img src="../assets/images/elite-global-14.png" alt="Screen 14: Job results" loading="lazy">
+          </div>
         </div>
       </article>
     </section>

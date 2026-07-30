@@ -5,18 +5,21 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Razor Wallet - UX Case Study</title>
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script src="../assets/js/i18n.js"></script>
   <style>
     :root {
       --bg: #000;
+      --panel: rgba(255, 255, 255, 0.05);
+      --panel-strong: rgba(255, 255, 255, 0.08);
       --line: rgba(255, 255, 255, 0.12);
-      --text: #fff;
+      --text: #ffffff;
       --muted: rgba(255, 255, 255, 0.72);
-      --soft: rgba(255, 255, 255, 0.5);
-      --accent: #ffb84a;
-      --accent-2: #ff8d3a;
+      --soft: rgba(255, 255, 255, 0.52);
+      --accent: #54daff;
+      --accent-2: #33badf;
       --shadow: 0 24px 80px rgba(0, 0, 0, 0.45);
       --radius: 22px;
-      --content: 1160px;
+      --content: 1180px;
     }
 
     * { box-sizing: border-box; }
@@ -45,6 +48,45 @@
       justify-content: flex-start;
       gap: 16px;
       padding: 20px 0 34px;
+    }
+
+    /* Language Toggle */
+    .lang-toggle {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-family: Orbitron, monospace;
+      font-size: 13px;
+    }
+
+    .lang-btn {
+      background: transparent;
+      border: none;
+      color: var(--muted);
+      font-family: Orbitron, monospace;
+      font-size: 13px;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      cursor: pointer;
+      padding: 4px 6px;
+      border-radius: 4px;
+      transition: color 0.2s ease, text-shadow 0.2s ease;
+    }
+
+    .lang-btn:hover {
+      color: var(--text);
+    }
+
+    .lang-btn.active {
+      color: var(--accent);
+      font-weight: 600;
+      text-shadow: 0 0 10px rgba(84, 218, 255, 0.4);
+    }
+
+    .lang-divider {
+      color: rgba(255, 255, 255, 0.25);
+      font-size: 12px;
+      user-select: none;
     }
 
     .back {
@@ -423,7 +465,12 @@
 <body>
   <div class="page">
     <header class="topbar">
-      <a class="back" href="../index.html#project-grid" aria-label="Back to project grid"><span>←</span> Back</a>
+      <a class="back" href="../index.html#project-grid" aria-label="Back to project grid"><span>←</span> <span data-i18n="cs.back">Back</span></a>
+      <div class="lang-toggle" style="margin-left: auto;">
+        <button type="button" class="lang-btn" data-lang="en" aria-label="Switch to English">EN</button>
+        <span class="lang-divider">/</span>
+        <button type="button" class="lang-btn" data-lang="fr" aria-label="Passer au français">FR</button>
+      </div>
     </header>
 
     <section class="hero">

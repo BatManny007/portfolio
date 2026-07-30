@@ -110,7 +110,7 @@ async function upgradeToTls(socket, host) {
   });
 }
 
-async function smtpSend({ host, port, secure, user, pass, from, to, subject, text }) {
+async function smtpSend({ host, port, secure, user, pass, from, to, subject, text, replyTo }) {
   let socket = await createConnection({ host, port, secure });
   let reader = makeReader(socket);
 
@@ -156,7 +156,7 @@ async function smtpSend({ host, port, secure, user, pass, from, to, subject, tex
     const headers = [
       `From: Batmanny Portfolio <${from}>`,
       `To: ${to}`,
-      `Reply-To: ${formatEmail(from)}`,
+      `Reply-To: ${formatEmail(replyTo || from)}`,
       `Subject: ${subject}`,
       'MIME-Version: 1.0',
       'Content-Type: text/plain; charset=UTF-8',
@@ -310,6 +310,7 @@ module.exports = async function handler(req, res) {
         to: toEmail,
         subject,
         text,
+        replyTo: email,
       });
     }
 
