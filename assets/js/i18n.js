@@ -320,7 +320,7 @@
       'elite.11.p1': 'What makes Elite Global AI worth studying is the way the whole flow stays coherent. Every screen reinforces the same idea: the AI is working for the user, not the other way around.',
       'elite.11.p2': 'The conversational prompts make the intake feel human. The sequencing earns trust before asking for sensitive data. The loading states make the system visible. The match result delivers a believable outcome. And the final job list closes the loop on the promise made at the start.',
       'elite.11.p3': 'Together, those decisions turn a 10-step form into a guided introduction to a smarter job search experience.',
-      'elite.footer': 'UI/UX Case Study · Elite Global AI · Full Onboarding & Payoff Flow · Solo Design · 2025'
+      'elite.footer': 'UI/UX Case Study · Elite Global AI · Full Onboarding & Payoff Flow · Solo Design · 2025',
           'cosmic.eyebrow': 'Case Study · Cosmic Gunner',
       'cosmic.title': 'Cosmic Gunner UI/UX<br>Portfolio Case Study',
       'cosmic.lede': 'Cosmic Gunner is a mobile-first arcade shooter built for quick sessions and readable gameplay. The project focused on making the game easy to understand in the first few seconds, easy to read while playing, and satisfying enough that players would want to try again immediately after a run ends.',
@@ -548,7 +548,7 @@
       'cs.backTop': 'Haut de page',
       'cs.home': 'Accueil',
       'cs.moreWork': 'Autres projets',
-      'cs.footer': 'Conçu dans le cadre du portfolio Batmanny.'
+      'cs.footer': 'Conçu dans le cadre du portfolio Batmanny.',
           'cosmic.eyebrow': '[FR] Case Study · Cosmic Gunner',
       'cosmic.title': '[FR] Cosmic Gunner UI/UX<br>Portfolio Case Study',
       'cosmic.lede': '[FR] Cosmic Gunner is a mobile-first arcade shooter built for quick sessions and readable gameplay. The project focused on making the game easy to understand in the first few seconds, easy to read while playing, and satisfying enough that players would want to try again immediately after a run ends.',
@@ -776,7 +776,7 @@
       'cs.backTop': 'Ir arriba',
       'cs.home': 'Inicio',
       'cs.moreWork': 'Más proyectos',
-      'cs.footer': 'Construido como parte del portafolio de Batmanny.'
+      'cs.footer': 'Construido como parte del portafolio de Batmanny.',
           'cosmic.eyebrow': '[ES] Case Study · Cosmic Gunner',
       'cosmic.title': '[ES] Cosmic Gunner UI/UX<br>Portfolio Case Study',
       'cosmic.lede': '[ES] Cosmic Gunner is a mobile-first arcade shooter built for quick sessions and readable gameplay. The project focused on making the game easy to understand in the first few seconds, easy to read while playing, and satisfying enough that players would want to try again immediately after a run ends.',
@@ -1004,7 +1004,7 @@
       'cs.backTop': 'Nach oben',
       'cs.home': 'Start',
       'cs.moreWork': 'Weitere Projekte',
-      'cs.footer': 'Erstellt als Teil des Batmanny Portfolios.'
+      'cs.footer': 'Erstellt als Teil des Batmanny Portfolios.',
           'cosmic.eyebrow': '[DE] Case Study · Cosmic Gunner',
       'cosmic.title': '[DE] Cosmic Gunner UI/UX<br>Portfolio Case Study',
       'cosmic.lede': '[DE] Cosmic Gunner is a mobile-first arcade shooter built for quick sessions and readable gameplay. The project focused on making the game easy to understand in the first few seconds, easy to read while playing, and satisfying enough that players would want to try again immediately after a run ends.',
@@ -1232,7 +1232,7 @@
       'cs.backTop': 'ページ上部へ',
       'cs.home': 'ホーム',
       'cs.moreWork': '他の実績を見る',
-      'cs.footer': 'Batmanny Portfolioの一部として制作されました。'
+      'cs.footer': 'Batmanny Portfolioの一部として制作されました。',
           'cosmic.eyebrow': '[JA] Case Study · Cosmic Gunner',
       'cosmic.title': '[JA] Cosmic Gunner UI/UX<br>Portfolio Case Study',
       'cosmic.lede': '[JA] Cosmic Gunner is a mobile-first arcade shooter built for quick sessions and readable gameplay. The project focused on making the game easy to understand in the first few seconds, easy to read while playing, and satisfying enough that players would want to try again immediately after a run ends.',
