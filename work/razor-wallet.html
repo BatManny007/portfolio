@@ -327,7 +327,7 @@
     }
 
     .split-gap {
-      margin-top: clamp(640px, 60vw, 1152px);
+      margin-top: clamp(96px, 10vw, 180px);
     }
 
     .text {
@@ -512,7 +512,7 @@
       }
 
       .split-gap {
-        margin-top: 120px;
+        margin-top: 72px;
       }
     }
   </style>
@@ -538,122 +538,99 @@
     </header>
 
     <section class="hero">
-      <div class="eyebrow">Case Study · Razor Wallet</div>
+      <div class="eyebrow" data-i18n="razor.eyebrow">Case Study · Razor Wallet</div>
       <div class="hero-banner">
         <img src="../assets/images/razor-wallet-hero.png" alt="Razor Wallet mascot artwork" loading="eager" />
       </div>
       <div class="hero-copy">
-        <p class="hero-kicker">Desktop-first onboarding for a browser wallet</p>
-        <h1>Razor Wallet</h1>
-        <div class="subhead">Designing a Web3 onboarding flow that does not lose the user before they begin</div>
-        <p class="lede">
+        <p class="hero-kicker" data-i18n="razor.kicker">Desktop-first onboarding for a browser wallet</p>
+        <h1 data-i18n="razor.title">Razor Wallet</h1>
+        <div class="subhead" data-i18n="razor.subhead">Designing a Web3 onboarding flow that does not lose the user before they begin</div>
+        <p class="lede" data-i18n="razor.lede">
           Razor Wallet is a browser extension wallet for the Movement blockchain. The redesign focused on reducing
           friction without softening the security steps that make a non-custodial wallet trustworthy.
         </p>
 
         <div class="hero-meta">
           <div class="meta-card">
-            <span class="meta-label">Product</span>
-            <div class="meta-value">Browser extension wallet for Movement</div>
+            <span class="meta-label" data-i18n="razor.meta.product">Product</span>
+            <div class="meta-value" data-i18n="razor.meta.productValue">Browser extension wallet for Movement</div>
           </div>
           <div class="meta-card">
-            <span class="meta-label">Role</span>
-            <div class="meta-value">Product design, UX writing, interaction design</div>
+            <span class="meta-label" data-i18n="razor.meta.role">Role</span>
+            <div class="meta-value" data-i18n="razor.meta.roleValue">Product design, UX writing, interaction design</div>
           </div>
           <div class="meta-card">
-            <span class="meta-label">Scope</span>
-            <div class="meta-value">Splash to wallet creation confirmation</div>
+            <span class="meta-label" data-i18n="razor.meta.scope">Scope</span>
+            <div class="meta-value" data-i18n="razor.meta.scopeValue">Splash to wallet creation confirmation</div>
           </div>
           <div class="meta-card">
-            <span class="meta-label">Outcome</span>
-            <div class="meta-value">1,000 users in 24 hours, 50,000 in 72 hours</div>
+            <span class="meta-label" data-i18n="razor.meta.outcome">Outcome</span>
+            <div class="meta-value" data-i18n="razor.meta.outcomeValue">1,000 users in 24 hours, 50,000 in 72 hours</div>
           </div>
         </div>
       </div>
     </section>
 
     <section class="section">
-      <h2>Overview</h2>
-      <p>
-        Web3 wallets often ask people to make three high-stakes decisions before they have a real sense of the product:
-        accept terms, create a password, and store a recovery phrase. The original Razor Wallet flow had more steps than
-        it needed, which gave users more chances to drop off.
-      </p>
-      <p>
-        The goal was to cut the flow down, keep every security requirement, and make each screen feel clear instead of
-        intimidating.
-      </p>
+      <h2 data-i18n="razor.overview.title">Overview</h2>
+      <p data-i18n="razor.overview.p1">Web3 wallets often ask people to make three high-stakes decisions before they have a real sense of the product: accept terms, create a password, and store a recovery phrase. The original Razor Wallet flow had more steps than it needed, which gave users more chances to drop off.</p>
+      <p data-i18n="razor.overview.p2">The goal was to cut the flow down, keep every security requirement, and make each screen feel clear instead of intimidating.</p>
       <div class="callout">
-        Security steps do not have to feel like obstacles. The harder part is explaining why they matter at the exact moment the user needs that context.
+        <span data-i18n="razor.overview.callout">Security steps do not have to feel like obstacles. The harder part is explaining why they matter at the exact moment the user needs that context.</span>
       </div>
     </section>
 
     <section class="section">
-      <h2>The Problem</h2>
-      <p>
-        The standard wallet onboarding pattern asks too much too early. Users are expected to agree to terms, create a
-        password they cannot recover, and write down a 12-word phrase that controls access to their funds before they
-        have had a single meaningful interaction with the product.
-      </p>
-      <p>
-        For a devnet launch aimed at developers and early adopters, that means every abandoned sign-up is a lost signal.
-        For a mainnet launch aimed at general users, it becomes a lost customer.
-      </p>
+      <h2 data-i18n="razor.problem.title">The Problem</h2>
+      <p data-i18n="razor.problem.p1">The standard wallet onboarding pattern asks too much too early. Users are expected to agree to terms, create a password they cannot recover, and write down a 12-word phrase that controls access to their funds before they have had a single meaningful interaction with the product.</p>
+      <p data-i18n="razor.problem.p2">For a devnet launch aimed at developers and early adopters, that means every abandoned sign-up is a lost signal. For a mainnet launch aimed at general users, it becomes a lost customer.</p>
       <div class="note-card">
-        <strong>The brief</strong>
-        Cut the flow down, keep every security requirement, and make users feel informed rather than overwhelmed at each step.
+        <strong data-i18n="razor.problem.briefTitle">The brief</strong>
+        <span data-i18n="razor.problem.briefBody">Cut the flow down, keep every security requirement, and make users feel informed rather than overwhelmed at each step.</span>
       </div>
     </section>
 
     <section class="section">
-      <h2>The Central Argument</h2>
-      <p>
-        Most wallets bury the reason for each step in a help article no one reads. This redesign puts the explanation
-        beside the action, on the same screen, at the moment the user needs it.
-      </p>
+      <h2 data-i18n="razor.argument.title">The Central Argument</h2>
+      <p data-i18n="razor.argument.p1">Most wallets bury the reason for each step in a help article no one reads. This redesign puts the explanation beside the action, on the same screen, at the moment the user needs it.</p>
       <div class="callout">
-        The question is not whether to include security steps. The question is how to frame them so users understand why they matter.
+        <span data-i18n="razor.argument.callout">The question is not whether to include security steps. The question is how to frame them so users understand why they matter.</span>
       </div>
     </section>
 
     <section class="section">
-      <h2>The Flow</h2>
+      <h2 data-i18n="razor.flow.title">The Flow</h2>
       <div class="table-wrap">
         <table>
           <thead>
             <tr>
-              <th>Screen</th>
-              <th>Purpose</th>
+              <th data-i18n="razor.flow.screen">Screen</th>
+              <th data-i18n="razor.flow.purpose">Purpose</th>
             </tr>
           </thead>
           <tbody>
-            <tr><td>1. Splash - Terms of Service</td><td>Entry gate with legal acknowledgement</td></tr>
-            <tr><td>2. Welcome - Wallet Choice</td><td>Route returning vs new users</td></tr>
-            <tr><td>3. Create a Password</td><td>Security layer 1 - local access</td></tr>
-            <tr><td>4. Secret Recovery Phrase</td><td>Security layer 2 - wallet ownership</td></tr>
-            <tr><td>5. Congratulations</td><td>Confirmation and entry into the product</td></tr>
+            <tr><td data-i18n="razor.flow.r1">1. Splash - Terms of Service</td><td data-i18n="razor.flow.r1p">Entry gate with legal acknowledgement</td></tr>
+            <tr><td data-i18n="razor.flow.r2">2. Welcome - Wallet Choice</td><td data-i18n="razor.flow.r2p">Route returning vs new users</td></tr>
+            <tr><td data-i18n="razor.flow.r3">3. Create a Password</td><td data-i18n="razor.flow.r3p">Security layer 1 - local access</td></tr>
+            <tr><td data-i18n="razor.flow.r4">4. Secret Recovery Phrase</td><td data-i18n="razor.flow.r4p">Security layer 2 - wallet ownership</td></tr>
+            <tr><td data-i18n="razor.flow.r5">5. Congratulations</td><td data-i18n="razor.flow.r5p">Confirmation and entry into the product</td></tr>
           </tbody>
         </table>
       </div>
     </section>
 
     <section class="section">
-      <h2>Screen By Screen</h2>
+      <h2 data-i18n="razor.screening.title">Screen By Screen</h2>
 
       <article class="section-split">
         <div class="text">
-          <h3>Screen 1 - Splash / Terms of Service</h3>
-          <p>
-            The first screen establishes the product identity and gates entry behind a single consent action. It is
-            almost entirely negative space: brand, one sentence, one checkbox, one CTA.
-          </p>
-          <p>
-            That is deliberate friction. The checkbox forces an active acknowledgement instead of a passive scroll-past,
-            but nothing else competes for attention.
-          </p>
+          <h3 data-i18n="razor.s1.title">Screen 1 - Splash / Terms of Service</h3>
+          <p data-i18n="razor.s1.p1">The first screen establishes the product identity and gates entry behind a single consent action. It is almost entirely negative space: brand, one sentence, one checkbox, one CTA.</p>
+          <p data-i18n="razor.s1.p2">That is deliberate friction. The checkbox forces an active acknowledgement instead of a passive scroll-past, but nothing else competes for attention.</p>
           <div class="note-card">
-            <strong>What it avoids</strong>
-            A full-screen terms modal, a wall of legal text, or multiple actions on the same screen.
+            <strong data-i18n="razor.s1.noteTitle">What it avoids</strong>
+            <span data-i18n="razor.s1.noteBody">A full-screen terms modal, a wall of legal text, or multiple actions on the same screen.</span>
           </div>
         </div>
         <figure class="screen-shot">
@@ -664,18 +641,12 @@
 
       <article class="section-split split-gap">
         <div class="text">
-          <h3>Screen 2 - Welcome / Wallet Choice</h3>
-          <p>
-            The copy matters here because the buttons are really user self-identification statements. A returning user
-            should know instantly which path is theirs; a new user should feel clearly invited to continue.
-          </p>
-          <p>
-            The main weakness in the current draft is tone. The screen works, but the body copy leans too far into
-            marketing language for a flow that is otherwise plain and functional.
-          </p>
+          <h3 data-i18n="razor.s2.title">Screen 2 - Welcome / Wallet Choice</h3>
+          <p data-i18n="razor.s2.p1">The copy matters here because the buttons are really user self-identification statements. A returning user should know instantly which path is theirs; a new user should feel clearly invited to continue.</p>
+          <p data-i18n="razor.s2.p2">The main weakness in the current draft is tone. The screen works, but the body copy leans too far into marketing language for a flow that is otherwise plain and functional.</p>
           <div class="note-card">
-            <strong>Better body copy</strong>
-            Razor Wallet lets you store, send, and manage assets on Movement Chain.
+            <strong data-i18n="razor.s2.noteTitle">Better body copy</strong>
+            <span data-i18n="razor.s2.noteBody">Razor Wallet lets you store, send, and manage assets on Movement Chain.</span>
           </div>
         </div>
         <figure class="screen-shot">
@@ -686,18 +657,12 @@
 
       <article class="section-split split-gap">
         <div class="text">
-          <h3>Screen 3 - Create a Password</h3>
-          <p>
-            This is the first moment where a user might pause and ask why the product needs more from them. The layout
-            answers that question without forcing them into a separate help screen.
-          </p>
-          <p>
-            The left panel handles the action. The right panel handles the explanation. That separation keeps the screen
-            calm, readable, and easy to scan.
-          </p>
+          <h3 data-i18n="razor.s3.title">Screen 3 - Create a Password</h3>
+          <p data-i18n="razor.s3.p1">This is the first moment where a user might pause and ask why the product needs more from them. The layout answers that question without forcing them into a separate help screen.</p>
+          <p data-i18n="razor.s3.p2">The left panel handles the action. The right panel handles the explanation. That separation keeps the screen calm, readable, and easy to scan.</p>
           <div class="note-card">
-            <strong>What it avoids</strong>
-            A modal, a separate help screen, or tooltip-only explanations that do not work well on mobile.
+            <strong data-i18n="razor.s3.noteTitle">What it avoids</strong>
+            <span data-i18n="razor.s3.noteBody">A modal, a separate help screen, or tooltip-only explanations that do not work well on mobile.</span>
           </div>
         </div>
         <figure class="screen-shot">
@@ -708,18 +673,12 @@
 
       <article class="section-split split-gap">
         <div class="text">
-          <h3>Screen 4 - Secret Recovery Phrase</h3>
-          <p>
-            This is the most consequential screen in the entire flow. The design has to avoid both extremes: warning
-            overload and under-explaining the risk.
-          </p>
-          <p>
-            The structure returns to the same two-panel layout, which gives the user visual familiarity after Screen 3.
-            The left panel handles the phrase. The right panel answers the actual questions people have in the moment.
-          </p>
+          <h3 data-i18n="razor.s4.title">Screen 4 - Secret Recovery Phrase</h3>
+          <p data-i18n="razor.s4.p1">This is the most consequential screen in the entire flow. The design has to avoid both extremes: warning overload and under-explaining the risk.</p>
+          <p data-i18n="razor.s4.p2">The structure returns to the same two-panel layout, which gives the user visual familiarity after Screen 3. The left panel handles the phrase. The right panel answers the actual questions people have in the moment.</p>
           <div class="note-card">
-            <strong>Security note</strong>
-            The support line should make phishing risk explicit. Razor support will never ask for your recovery phrase.
+            <strong data-i18n="razor.s4.noteTitle">Security note</strong>
+            <span data-i18n="razor.s4.noteBody">The support line should make phishing risk explicit. Razor support will never ask for your recovery phrase.</span>
           </div>
         </div>
         <figure class="screen-shot">
@@ -730,18 +689,12 @@
 
       <article class="section-split split-gap">
         <div class="text">
-          <h3>Screen 5 - Congratulations</h3>
-          <p>
-            The final screen closes the loop, confirms success, and gives the user one clear way forward. The Razor logo
-            appears here as a reward signal after the effort of the setup flow.
-          </p>
-          <p>
-            The CTA should stay final and simple. Done works better than any eager onboarding language because it ends the
-            chapter instead of opening a new one.
-          </p>
+          <h3 data-i18n="razor.s5.title">Screen 5 - Congratulations</h3>
+          <p data-i18n="razor.s5.p1">The final screen closes the loop, confirms success, and gives the user one clear way forward. The Razor logo appears here as a reward signal after the effort of the setup flow.</p>
+          <p data-i18n="razor.s5.p2">The CTA should stay final and simple. Done works better than any eager onboarding language because it ends the chapter instead of opening a new one.</p>
           <div class="note-card">
-            <strong>What this screen avoids</strong>
-            Upsells, notification prompts, social sharing prompts, or any secondary action.
+            <strong data-i18n="razor.s5.noteTitle">What this screen avoids</strong>
+            <span data-i18n="razor.s5.noteBody">Upsells, notification prompts, social sharing prompts, or any secondary action.</span>
           </div>
         </div>
         <figure class="screen-shot">
@@ -752,86 +705,75 @@
     </section>
 
     <section class="section">
-      <h2>What Made This Redesign Work</h2>
+      <h2 data-i18n="razor.work.title">What Made This Redesign Work</h2>
       <div class="grid cols-2">
         <div class="note-card">
-          <strong>1. Two-panel education</strong>
-          Every security-heavy screen pairs action on one side with explanation on the other. Users who want context get it; users who do not are not slowed down.
+          <strong data-i18n="razor.work.1">1. Two-panel education</strong>
+          <span data-i18n="razor.work.1body">Every security-heavy screen pairs action on one side with explanation on the other. Users who want context get it; users who do not are not slowed down.</span>
         </div>
         <div class="note-card">
-          <strong>2. Friction with purpose</strong>
-          The legal acknowledgement and the hidden recovery phrase are deliberate friction. Everything else is reduced.
+          <strong data-i18n="razor.work.2">2. Friction with purpose</strong>
+          <span data-i18n="razor.work.2body">The legal acknowledgement and the hidden recovery phrase are deliberate friction. Everything else is reduced.</span>
         </div>
         <div class="note-card">
-          <strong>3. Commitment copy</strong>
-          "I have saved my secret phrase" turns a button into an affirmation. That changes the tone of the action.
+          <strong data-i18n="razor.work.3">3. Commitment copy</strong>
+          <span data-i18n="razor.work.3body">"I have saved my secret phrase" turns a button into an affirmation. That changes the tone of the action.</span>
         </div>
         <div class="note-card">
-          <strong>4. Visual consistency</strong>
-          Amber becomes the system language for primary actions, so the user learns the pattern once and keeps moving.
+          <strong data-i18n="razor.work.4">4. Visual consistency</strong>
+          <span data-i18n="razor.work.4body">Amber becomes the system language for primary actions, so the user learns the pattern once and keeps moving.</span>
         </div>
       </div>
     </section>
 
     <section class="section">
-      <h2>Honest Critiques</h2>
+      <h2 data-i18n="razor.critiques.title">Honest Critiques</h2>
       <ul class="list">
-        <li>Screen 2 body copy still sounds too much like marketing and should be revised to something more functional.</li>
-        <li>The flow needs a progress indicator. A simple step counter would reduce abandonment anxiety.</li>
-        <li>The two-panel layout is elegant on desktop, but the right panel will need a mobile treatment.</li>
-        <li>The "Copy to clipboard" action on Screen 4 is risky and could probably be removed entirely.</li>
+        <li data-i18n="razor.critiques.1">Screen 2 body copy still sounds too much like marketing and should be revised to something more functional.</li>
+        <li data-i18n="razor.critiques.2">The flow needs a progress indicator. A simple step counter would reduce abandonment anxiety.</li>
+        <li data-i18n="razor.critiques.3">The two-panel layout is elegant on desktop, but the right panel will need a mobile treatment.</li>
+        <li data-i18n="razor.critiques.4">The "Copy to clipboard" action on Screen 4 is risky and could probably be removed entirely.</li>
       </ul>
     </section>
 
     <section class="section">
-      <h2>Outcome</h2>
-      <p>The redesigned flow launched on devnet.</p>
+      <h2 data-i18n="razor.outcome.title">Outcome</h2>
+      <p data-i18n="razor.outcome.p1">The redesigned flow launched on devnet.</p>
       <ul class="list">
-        <li>1,000 users onboarded in the first 24 hours</li>
-        <li>50,000 users onboarded in 72 hours</li>
+        <li data-i18n="razor.outcome.1">1,000 users onboarded in the first 24 hours</li>
+        <li data-i18n="razor.outcome.2">50,000 users onboarded in 72 hours</li>
       </ul>
-      <p>
-        The result was a five-minute reduction in average onboarding time without removing any of the security steps
-        that make a non-custodial wallet trustworthy.
-      </p>
-      <p>
-        Devnet users are not casual. They have seen enough wallets to recognise bad onboarding quickly, which makes the
-        numbers here meaningful.
-      </p>
+      <p data-i18n="razor.outcome.p2">The result was a five-minute reduction in average onboarding time without removing any of the security steps that make a non-custodial wallet trustworthy.</p>
+      <p data-i18n="razor.outcome.p3">Devnet users are not casual. They have seen enough wallets to recognise bad onboarding quickly, which makes the numbers here meaningful.</p>
     </section>
 
     <section class="section">
-      <h2>Key Takeaway</h2>
-      <p>
-        Security and simplicity are not opposites in Web3 onboarding. The better question is whether you explain the why
-        at the right moment, on the right screen, in plain language.
-      </p>
+      <h2 data-i18n="razor.takeaway.title">Key Takeaway</h2>
+      <p data-i18n="razor.takeaway.p1">Security and simplicity are not opposites in Web3 onboarding. The better question is whether you explain the why at the right moment, on the right screen, in plain language.</p>
       <div class="callout">
-        This flow answers the question where it is asked, instead of pushing the user off to a help article they will never open.
+        <span data-i18n="razor.takeaway.callout">This flow answers the question where it is asked, instead of pushing the user off to a help article they will never open.</span>
       </div>
 
-      <div class="footer-note">
+      <div class="footer-note" data-i18n="razor.footer">
         UX Case Study · Razor Wallet · Browser Extension Onboarding · Solo Design · 2026
       </div>
     </section>
 
     <section class="bonus-section">
-      <h2>Bonus Graphics</h2>
-      <p>
-        A few extra mascot explorations from the Razor world, kept here as a small visual appendix after the case study.
-      </p>
+      <h2 data-i18n="razor.bonus.title">Bonus Graphics</h2>
+      <p data-i18n="razor.bonus.p">A few extra mascot explorations from the Razor world, kept here as a small visual appendix after the case study.</p>
       <div class="bonus-grid">
         <figure class="bonus-card">
           <img src="../assets/images/razor-wallet-bonus/bonus-01.png" alt="Razor wallet mascot illustration showing the character in a dark promotional composition" loading="lazy" />
-          <figcaption>Bonus 01 · Razor Wallet promo art</figcaption>
+          <figcaption data-i18n="razor.bonus.1">Bonus 01 · Razor Wallet promo art</figcaption>
         </figure>
         <figure class="bonus-card">
           <img src="../assets/images/razor-wallet-bonus/bonus-02.png" alt="Razor DAO seasonal mascot illustration with holiday styling and snowflakes" loading="lazy" />
-          <figcaption>Bonus 02 · Seasonal Razor DAO art</figcaption>
+          <figcaption data-i18n="razor.bonus.2">Bonus 02 · Seasonal Razor DAO art</figcaption>
         </figure>
         <figure class="bonus-card">
           <img src="../assets/images/razor-wallet-bonus/bonus-03.png" alt="Razor DAO new year mascot illustration with large 2026 lettering and festive styling" loading="lazy" />
-          <figcaption>Bonus 03 · Razor DAO new year art</figcaption>
+          <figcaption data-i18n="razor.bonus.3">Bonus 03 · Razor DAO new year art</figcaption>
         </figure>
       </div>
     </section>
