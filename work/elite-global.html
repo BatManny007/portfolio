@@ -368,6 +368,11 @@
       align-items: start;
     }
 
+    .section > .section-split,
+    .section > article.section-split {
+      margin-top: 28px;
+    }
+
     .visual, .text {
       min-width: 0;
     }
@@ -528,6 +533,11 @@
         margin-top: 44px;
       }
 
+      .section > .section-split,
+      .section > article.section-split {
+        margin-top: 20px;
+      }
+
       .pattern-card img {
         height: 220px;
       }
@@ -598,7 +608,7 @@
 
     <section class="section" id="overview">
       <h2 data-i18n="elite.01.title">01 — Overview</h2>
-      <p>
+      <p data-i18n="elite.01.p1">
         The product consists of 14 screens in total: 10 onboarding screens and 4 payoff screens.
         The opening set gathers the minimum viable profile data; the final set shows the AI processing that data,
         returning a match, and closing the loop with job results.
@@ -607,35 +617,33 @@
 
     <section class="section">
       <h2 data-i18n="elite.02.title">02 — The Brief</h2>
-      <p>
+      <p data-i18n="elite.02.p1">
         Elite Global AI was designed to respond to a familiar problem: job applications often feel fragmented,
         repetitive, and disconnected from the actual value the platform is trying to deliver.
         The matching system needed candidate information, but the interface had to make that data collection feel
         conversational rather than burdensome.
       </p>
-      <p>
+      <p data-i18n="elite.02.p2">
         The brief was to build a flow that feels like a recruiter-led intake:
         ask the right questions in the right order, minimise friction, keep the user oriented,
         and make sure the final recommendation feels earned.
       </p>
       <div class="callout">
-        <strong>The design constraints were clear:</strong> desktop-first, responsive on mobile, one question at a time,
-        skip available throughout, and only the minimum data needed for useful matching.
+        <strong>The design constraints were clear:</strong> <span data-i18n="elite.02.callout">desktop-first, responsive on mobile, one question at a time, skip available throughout, and only the minimum data needed for useful matching.</span>
       </div>
     </section>
 
     <section class="section">
       <h2 data-i18n="elite.03.title">03 — The Core Design Decision: Conversational UI</h2>
-      <p>
+      <p data-i18n="elite.03.p1">
         The strongest decision in the flow is the choice to present it as a conversation instead of a traditional form.
         The prompt language, the spacing, and the progressive reveal of fields all work together to make the experience
         feel guided.
       </p>
       <blockquote>
-        The interface does not ask the user to fill a form. It asks them to answer a sequence of simple questions,
-        one at a time, like they are talking to a recruiter who already knows what matters.
+        <span data-i18n="elite.03.quote">The interface does not ask the user to fill a form. It asks them to answer a sequence of simple questions, one at a time, like they are talking to a recruiter who already knows what matters.</span>
       </blockquote>
-      <p>
+      <p data-i18n="elite.03.p2">
         That shift matters. A form feels transactional. A conversation feels supported.
         For first-time users, especially in a hiring context, that difference determines whether they keep going.
       </p>
@@ -643,33 +651,31 @@
 
     <section class="section">
       <h2 data-i18n="elite.04.title">04 — The Sequencing Strategy</h2>
-      <p>
+      <p data-i18n="elite.04.p1">
         The sequencing uses a simple foot-in-the-door structure. The early screens ask for easy, low-friction information
         before the flow moves into more personal and more valuable data.
       </p>
       <div class="section-split">
         <div class="text">
-          <h3>How the flow is staged</h3>
+          <h3 data-i18n="elite.04.phaseTitle">How the flow is staged</h3>
           <div class="phase-grid">
             <div class="phase">
               <span class="num">Phase 1</span>
-              <h3>Identity</h3>
-              <p>Steps 1 to 2 establish who the user is and start the relationship with very low effort.</p>
+              <h3 data-i18n="elite.04.phase1">Identity</h3>
+              <p data-i18n="elite.04.phase1body">Steps 1 to 2 establish who the user is and start the relationship with very low effort.</p>
             </div>
             <div class="phase">
               <span class="num">Phase 2</span>
-              <h3>Preferences</h3>
-              <p>Steps 3 to 7 gather the user’s career context, working preference, industry, and employment type.</p>
+              <h3 data-i18n="elite.04.phase2">Preferences</h3>
+              <p data-i18n="elite.04.phase2body">Steps 3 to 7 gather the user’s career context, working preference, industry, and employment type.</p>
             </div>
             <div class="phase">
               <span class="num">Phase 3</span>
-              <h3>Extras</h3>
-              <p>Steps 8 to 10 collect the more specific details that help the AI return a sharper match.</p>
+              <h3 data-i18n="elite.04.phase3">Extras</h3>
+              <p data-i18n="elite.04.phase3body">Steps 8 to 10 collect the more specific details that help the AI return a sharper match.</p>
             </div>
           </div>
-          <p class="footer-note">
-            The step indicator and the Skip option work together here. Progress is visible, but the user never feels trapped.
-          </p>
+          <p class="footer-note" data-i18n="elite.04.note">The step indicator and the Skip option work together here. Progress is visible, but the user never feels trapped.</p>
         </div>
         <div class="visual">
           <div class="screen-frame crop-top">
