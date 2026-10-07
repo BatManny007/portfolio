@@ -1818,7 +1818,7 @@
 
     </section>
 
-    <!-- ── WORK BATMAN — eye lasers that follow the cursor ── -->
+    <!-- ── WORK BATMAN — eye lasers: aim at the cursor, lock, fire (dodgeable) ── -->
     <script>
     (function() {
       const section = document.getElementById('work');
@@ -1830,33 +1830,57 @@
       const eyes = [wrap.querySelector('#left-eye'), wrap.querySelector('#right-eye')];
       if (!eyes[0] || !eyes[1]) return;
 
-      const LASER    = '#ffffff';  // beam colour
-      const SHOOT_MS = 140;        // time for a beam to travel from eye to cursor
-      const BURST_MS = [1000, 1600]; // each zap lasts somewhere in this range
-      const PAUSE_MS = [1200, 2200];// gap between zaps
+      const LASER    = '#ffffff';      // beam + reticle colour
+      const AIM_MS   = 900;            // reticle chases the cursor and closes in
+      const LOCK_MS  = 350;            // reticle freezes and blinks — last chance to dodge
+      const SHOOT_MS = 140;            // time for a beam to travel from eye to target
+      const BURST_MS = [1000, 1600];   // how long each shot lasts
+      const PAUSE_MS = [1200, 2200];   // gap between shots
+      const AIM_LAG  = 0.18;           // how tightly the reticle follows while aiming (0–1)
+      const SWEEP    = 0.03;           // how fast the beam drags toward the cursor while firing
+      const HIT_PX   = 16;             // beam end this close to the cursor counts as a hit
 
       const NS = 'http://www.w3.org/2000/svg';
       const layer = document.createElementNS(NS, 'svg');
       layer.setAttribute('aria-hidden', 'true');
-      layer.style.cssText = 'position:fixed;inset:0;width:100vw;height:100vh;pointer-events:none;z-index:90;opacity:0;transition:opacity .08s ease;';
+      layer.style.cssText = 'position:fixed;inset:0;width:100vw;height:100vh;pointer-events:none;z-index:90;';
       layer.innerHTML =
         '<defs><filter id="laser-glow" x="-50%" y="-50%" width="200%" height="200%">' +
         '<feGaussianBlur stdDeviation="3"/></filter></defs>' +
-        '<g filter="url(#laser-glow)" opacity="0.6">' +
-        '<line class="lz-glow" stroke="' + LASER + '" stroke-width="6" stroke-linecap="round"/>' +
-        '<line class="lz-glow" stroke="' + LASER + '" stroke-width="6" stroke-linecap="round"/>' +
-        '<circle class="lz-hit" r="9" fill="' + LASER + '"/></g>' +
-        '<line class="lz-core" stroke="#ffffff" stroke-width="1.5" stroke-linecap="round"/>' +
-        '<line class="lz-core" stroke="#ffffff" stroke-width="1.5" stroke-linecap="round"/>' +
-        '<circle class="lz-hit-core" r="2.5" fill="#fff"/>';
+        // Reticle
+        '<g class="lz-reticle" opacity="0" style="transition:opacity .12s ease">' +
+          '<circle class="lz-ring" r="24" fill="none" stroke="' + LASER + '" stroke-width="1.5" stroke-dasharray="10 6"/>' +
+          '<g class="lz-ticks" stroke="' + LASER + '" stroke-width="1.5" stroke-linecap="round">' +
+            '<line x1="0" y1="-34" x2="0" y2="-26"/><line x1="0" y1="26" x2="0" y2="34"/>' +
+            '<line x1="-34" y1="0" x2="-26" y2="0"/><line x1="26" y1="0" x2="34" y2="0"/>' +
+          '</g>' +
+          '<circle r="1.5" fill="' + LASER + '"/>' +
+        '</g>' +
+        // Beams
+        '<g class="lz-beams" opacity="0" style="transition:opacity .08s ease">' +
+          '<g filter="url(#laser-glow)" opacity="0.6">' +
+            '<line class="lz-glow" stroke="' + LASER + '" stroke-width="6" stroke-linecap="round"/>' +
+            '<line class="lz-glow" stroke="' + LASER + '" stroke-width="6" stroke-linecap="round"/>' +
+            '<circle class="lz-hit" r="9" fill="' + LASER + '"/>' +
+          '</g>' +
+          '<line class="lz-core" stroke="' + LASER + '" stroke-width="1.5" stroke-linecap="round"/>' +
+          '<line class="lz-core" stroke="' + LASER + '" stroke-width="1.5" stroke-linecap="round"/>' +
+          '<circle class="lz-hit-core" r="2.5" fill="#fff"/>' +
+        '</g>';
       document.body.appendChild(layer);
 
-      const glows = layer.querySelectorAll('.lz-glow');
-      const cores = layer.querySelectorAll('.lz-core');
+      const reticle = layer.querySelector('.lz-reticle');
+      const ring    = layer.querySelector('.lz-ring');
+      const ticks   = layer.querySelector('.lz-ticks');
+      const beams   = layer.querySelector('.lz-beams');
+      const glows   = layer.querySelectorAll('.lz-glow');
+      const cores   = layer.querySelectorAll('.lz-core');
       const hit     = layer.querySelector('.lz-hit');
       const hitCore = layer.querySelector('.lz-hit-core');
 
-      let mx = 0, my = 0, inside = false, shotAt = 0, visible = false, nextSwitch = 0;
+      let mx = 0, my = 0, inside = false;
+      let phase = 'idle', phaseAt = 0, phaseEnd = 0;
+      let tx = 0, ty = 0; // where the reticle / beam is pointed
 
       function rand(range) { return range[0] + Math.random() * (range[1] - range[0]); }
 
@@ -1879,40 +1903,62 @@
         el.setAttribute('x2', x2); el.setAttribute('y2', y2);
       }
 
+      function go(next, now, duration) {
+        phase = next; phaseAt = now; phaseEnd = now + duration;
+        reticle.setAttribute('opacity', next === 'aim' || next === 'lock' ? 1 : 0);
+        beams.setAttribute('opacity', next === 'fire' ? 1 : 0);
+        if (next === 'aim') { tx = mx; ty = my; }
+      }
+
       function frame(now) {
-        // Short zaps on a loop while the mouse is in the Work section
         const active = inside && wrap.offsetParent !== null;
-        let shouldShow = visible;
+
         if (!active) {
-          shouldShow = false;
-          nextSwitch = now + rand([250, 600]); // first zap shortly after entering
-        } else if (now >= nextSwitch) {
-          shouldShow = !visible;
-          nextSwitch = now + rand(shouldShow ? BURST_MS : PAUSE_MS);
-        }
-        if (shouldShow && !visible) shotAt = now;
-        if (shouldShow !== visible) {
-          visible = shouldShow;
-          layer.style.opacity = visible ? '1' : '0';
+          if (phase !== 'idle') go('idle', now, 0);
+          phaseEnd = now + rand([250, 600]); // first aim shortly after entering
+        } else if (now >= phaseEnd) {
+          if (phase === 'idle')      go('aim',  now, AIM_MS);
+          else if (phase === 'aim')  go('lock', now, LOCK_MS);
+          else if (phase === 'lock') go('fire', now, rand(BURST_MS));
+          else                       go('idle', now, rand(PAUSE_MS));
         }
 
-        if (visible) {
-          const t = Math.min((now - shotAt) / SHOOT_MS, 1);
+        if (phase === 'aim') {
+          // Chase the cursor while the ring tightens and spins
+          tx += (mx - tx) * AIM_LAG;
+          ty += (my - ty) * AIM_LAG;
+          const t = (now - phaseAt) / AIM_MS;
+          const s = 1.6 - 0.6 * (1 - (1 - t) * (1 - t));
+          reticle.setAttribute('transform', 'translate(' + tx + ',' + ty + ') scale(' + s + ')');
+          ring.setAttribute('transform', 'rotate(' + (t * 180) + ')');
+          ticks.setAttribute('opacity', 1);
+        } else if (phase === 'lock') {
+          // Frozen on target — blink to warn
+          reticle.setAttribute('transform', 'translate(' + tx + ',' + ty + ') scale(0.85)');
+          ring.removeAttribute('transform');
+          ticks.setAttribute('opacity', Math.floor((now - phaseAt) / 70) % 2 ? 0.2 : 1);
+        } else if (phase === 'fire') {
+          // Beam lands on the locked spot, then slowly drags toward the cursor
+          tx += (mx - tx) * SWEEP;
+          ty += (my - ty) * SWEEP;
+          const t = Math.min((now - phaseAt) / SHOOT_MS, 1);
           const reach = 1 - (1 - t) * (1 - t); // ease-out
           eyes.forEach(function(eye, i) {
             const p = eyePoint(eye);
-            const x2 = p.x + (mx - p.x) * reach;
-            const y2 = p.y + (my - p.y) * reach;
+            const x2 = p.x + (tx - p.x) * reach;
+            const y2 = p.y + (ty - p.y) * reach;
             set(glows[i], p.x, p.y, x2, y2);
             set(cores[i], p.x, p.y, x2, y2);
           });
           const flicker = 0.93 + Math.random() * 0.07;
+          const tagged  = Math.hypot(mx - tx, my - ty) < HIT_PX;
           cores.forEach(function(c) { c.setAttribute('opacity', flicker); });
           [hit, hitCore].forEach(function(c) {
-            c.setAttribute('cx', mx); c.setAttribute('cy', my);
+            c.setAttribute('cx', tx); c.setAttribute('cy', ty);
             c.setAttribute('opacity', t === 1 ? flicker : 0);
           });
-          hit.setAttribute("r", 8 + Math.random() * 2);
+          // Bigger flare when the beam is actually on the cursor
+          hit.setAttribute('r', (tagged ? 16 : 8) + Math.random() * 2);
         }
         requestAnimationFrame(frame);
       }
