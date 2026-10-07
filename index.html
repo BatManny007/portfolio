@@ -7,6 +7,14 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Orbitron:wght@400;500;600&display=swap" rel="stylesheet">
   <script src="assets/js/i18n.js"></script>
   <style>
+    /* ─── Bat-logo cursor (hotspot = centre of the logo) ─── */
+    :root {
+      --cursor-default: url("assets/cursor/bat.svg") 20 8, auto;
+      --cursor-pointer: url("assets/cursor/bat-pointer.svg") 20 8, pointer;
+    }
+    html, body { cursor: var(--cursor-default); }
+    a, button, label, select, summary, [role="button"] { cursor: var(--cursor-pointer); }
+
     /* ─── Reset & Variables ─────────────────────────────── */
     *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
@@ -90,7 +98,7 @@
       font-weight: 500;
       font-size: 16px;
       letter-spacing: 0.12em;
-      cursor: pointer;
+      cursor: var(--cursor-pointer);
       color: var(--black);
       transition: background 0.2s ease;
     }
@@ -202,7 +210,7 @@
       font-weight: 600;
       letter-spacing: 0.1em;
       color: var(--dim);
-      cursor: pointer;
+      cursor: var(--cursor-pointer);
       transition: border-color 0.2s ease, color 0.2s ease, background 0.2s ease;
       white-space: nowrap;
     }
@@ -276,7 +284,7 @@
       font-weight: 500;
       letter-spacing: 0.06em;
       color: rgba(255, 255, 255, 0.65);
-      cursor: pointer;
+      cursor: var(--cursor-pointer);
       text-align: left;
       transition: background 0.15s ease, color 0.15s ease;
     }
@@ -316,7 +324,7 @@
       display: none;
       flex-direction: column;
       gap: 5px;
-      cursor: pointer;
+      cursor: var(--cursor-pointer);
       padding: 4px;
     }
     #hamburger span {
@@ -440,7 +448,7 @@
       letter-spacing: 0.05em;
       text-decoration: none;
       border: none;
-      cursor: pointer;
+      cursor: var(--cursor-pointer);
       transition: background 0.2s ease, color 0.2s ease;
       white-space: nowrap;
       align-self: flex-start;
@@ -717,7 +725,7 @@
       font-family: 'Orbitron', monospace;
       font-size: 12px;
       letter-spacing: 0.08em;
-      cursor: pointer;
+      cursor: var(--cursor-pointer);
       transition: transform 0.2s ease, border-color 0.2s ease, background 0.2s ease;
     }
 
@@ -875,7 +883,7 @@
       border: 1.5px solid rgba(255,255,255,0.3);
       background: transparent;
       color: var(--dim);
-      cursor: pointer;
+      cursor: var(--cursor-pointer);
       white-space: nowrap;
       transition: all 0.2s ease;
       flex-shrink: 0;
@@ -923,7 +931,7 @@
       align-items: stretch;
       flex: 0 0 auto;
       background: rgba(10, 10, 10, 0.94);
-      cursor: pointer;
+      cursor: var(--cursor-pointer);
       color: inherit;
       text-decoration: none;
       border: 1px solid rgba(255,255,255,0.10);
@@ -1809,6 +1817,108 @@
       </div><!-- /.work-inner -->
 
     </section>
+
+    <!-- ── WORK BATMAN — eye lasers that follow the cursor ── -->
+    <script>
+    (function() {
+      const section = document.getElementById('work');
+      const wrap    = document.getElementById('batman-beyond-wrap');
+      if (!section || !wrap) return;
+      if (!matchMedia('(hover: hover) and (pointer: fine)').matches) return;
+      if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+      const eyes = [wrap.querySelector('#left-eye'), wrap.querySelector('#right-eye')];
+      if (!eyes[0] || !eyes[1]) return;
+
+      const LASER    = '#ffffff';  // beam colour
+      const SHOOT_MS = 140;        // time for a beam to travel from eye to cursor
+      const BURST_MS = [1000, 1600]; // each zap lasts somewhere in this range
+      const PAUSE_MS = [1200, 2200];// gap between zaps
+
+      const NS = 'http://www.w3.org/2000/svg';
+      const layer = document.createElementNS(NS, 'svg');
+      layer.setAttribute('aria-hidden', 'true');
+      layer.style.cssText = 'position:fixed;inset:0;width:100vw;height:100vh;pointer-events:none;z-index:90;opacity:0;transition:opacity .08s ease;';
+      layer.innerHTML =
+        '<defs><filter id="laser-glow" x="-50%" y="-50%" width="200%" height="200%">' +
+        '<feGaussianBlur stdDeviation="3"/></filter></defs>' +
+        '<g filter="url(#laser-glow)" opacity="0.6">' +
+        '<line class="lz-glow" stroke="' + LASER + '" stroke-width="6" stroke-linecap="round"/>' +
+        '<line class="lz-glow" stroke="' + LASER + '" stroke-width="6" stroke-linecap="round"/>' +
+        '<circle class="lz-hit" r="9" fill="' + LASER + '"/></g>' +
+        '<line class="lz-core" stroke="#ffffff" stroke-width="1.5" stroke-linecap="round"/>' +
+        '<line class="lz-core" stroke="#ffffff" stroke-width="1.5" stroke-linecap="round"/>' +
+        '<circle class="lz-hit-core" r="2.5" fill="#fff"/>';
+      document.body.appendChild(layer);
+
+      const glows = layer.querySelectorAll('.lz-glow');
+      const cores = layer.querySelectorAll('.lz-core');
+      const hit     = layer.querySelector('.lz-hit');
+      const hitCore = layer.querySelector('.lz-hit-core');
+
+      let mx = 0, my = 0, inside = false, shotAt = 0, visible = false, nextSwitch = 0;
+
+      function rand(range) { return range[0] + Math.random() * (range[1] - range[0]); }
+
+      document.addEventListener('mousemove', function(e) {
+        mx = e.clientX; my = e.clientY;
+        const r = section.getBoundingClientRect();
+        inside = mx >= r.left && mx <= r.right && my >= r.top && my <= r.bottom;
+      }, { passive: true });
+      document.addEventListener('mouseleave', function() { inside = false; });
+
+      // Centre of each eye in screen space (includes the head-tracker rotation)
+      function eyePoint(eye) {
+        const b = eye.getBBox();
+        const m = eye.getScreenCTM();
+        return new DOMPoint(b.x + b.width / 2, b.y + b.height / 2).matrixTransform(m);
+      }
+
+      function set(el, x1, y1, x2, y2) {
+        el.setAttribute('x1', x1); el.setAttribute('y1', y1);
+        el.setAttribute('x2', x2); el.setAttribute('y2', y2);
+      }
+
+      function frame(now) {
+        // Short zaps on a loop while the mouse is in the Work section
+        const active = inside && wrap.offsetParent !== null;
+        let shouldShow = visible;
+        if (!active) {
+          shouldShow = false;
+          nextSwitch = now + rand([250, 600]); // first zap shortly after entering
+        } else if (now >= nextSwitch) {
+          shouldShow = !visible;
+          nextSwitch = now + rand(shouldShow ? BURST_MS : PAUSE_MS);
+        }
+        if (shouldShow && !visible) shotAt = now;
+        if (shouldShow !== visible) {
+          visible = shouldShow;
+          layer.style.opacity = visible ? '1' : '0';
+        }
+
+        if (visible) {
+          const t = Math.min((now - shotAt) / SHOOT_MS, 1);
+          const reach = 1 - (1 - t) * (1 - t); // ease-out
+          eyes.forEach(function(eye, i) {
+            const p = eyePoint(eye);
+            const x2 = p.x + (mx - p.x) * reach;
+            const y2 = p.y + (my - p.y) * reach;
+            set(glows[i], p.x, p.y, x2, y2);
+            set(cores[i], p.x, p.y, x2, y2);
+          });
+          const flicker = 0.93 + Math.random() * 0.07;
+          cores.forEach(function(c) { c.setAttribute('opacity', flicker); });
+          [hit, hitCore].forEach(function(c) {
+            c.setAttribute('cx', mx); c.setAttribute('cy', my);
+            c.setAttribute('opacity', t === 1 ? flicker : 0);
+          });
+          hit.setAttribute("r", 8 + Math.random() * 2);
+        }
+        requestAnimationFrame(frame);
+      }
+      requestAnimationFrame(frame);
+    })();
+    </script>
 
     <!-- ── ABOUT SECTION ── -->
     <section id="about" class="section section-transition">

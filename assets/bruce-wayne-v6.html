@@ -5,6 +5,14 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Bruce Wayne</title>
 <style>
+    /* ─── Bat-logo cursor (hotspot = centre of the logo) ─── */
+    :root {
+      --cursor-default: url("cursor/bat.svg") 20 8, auto;
+      --cursor-pointer: url("cursor/bat-pointer.svg") 20 8, pointer;
+    }
+    html, body { cursor: var(--cursor-default); }
+    a, button, label, select, summary, [role="button"] { cursor: var(--cursor-pointer); }
+
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 html, body { width: 100%; height: 100%; }
