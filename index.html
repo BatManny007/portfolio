@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Batmanny — Product Designer</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Orbitron:wght@400;500;600&display=swap" rel="stylesheet">
+  <script src="assets/js/analytics.js"></script>
   <script src="assets/js/i18n.js"></script>
   <script src="assets/js/bat-cursor.js" defer></script>
   <style>
@@ -2264,6 +2265,7 @@
         if (!email) return;
         try {
           await navigator.clipboard.writeText(email);
+          window.posthog?.capture('contact_email_copied');
           showToast(window.i18n.t('toast.emailCopied'));
         } catch {
           showToast(window.i18n.t('toast.copyFailed'));
@@ -2303,6 +2305,7 @@
           }
 
           window.location.href = mailto;
+          window.posthog?.capture('contact_form_submitted');
           showToast(window.i18n.t('toast.openingMail'));
           contactForm.reset();
         } catch (err) {
