@@ -666,7 +666,8 @@
         <li data-i18n="grey.t19"><strong>The coin is chosen as "the currency your recipient receives"</strong>, in a list led by Naira and US Dollar, with stablecoins mixed in.</li>
       </ol>
       <p data-i18n="grey.t20">Nothing tells a wallet sender they're on the right path until the wallet form appears, in a flow where Grey's own form warns that "funds cannot be reversed". My test later confirmed the first point: 8 of 11 people hesitated at the bank recipient list.</p>
-      <p data-i18n="grey.t21">Why this matters to Grey is my inference, not something I measured: someone who gives up halfway through a send pays no transfer fee, and someone who loses money to the wrong network may stop trusting Grey with it.</p>
+      <p data-i18n="grey.t21">Why this matters to Grey is my inference, not something I measured. Grey says it charges nothing extra on USDC sends beyond the network fee, so a failed send doesn't cost it a fee directly. The cost is trust: someone who finds sending stablecoins confusing, or loses money to the wrong network, may move their dollars to another app, along with the conversion and withdrawal fees Grey does earn.</p>
+      <p data-i18n="grey.t85">I also read about 280 Play Store reviews of Grey. The ones about crypto mention fees, slow deposits and support, not the send flow, so the evidence for this problem comes from my own test.</p>
       <div class="callout" data-i18n="grey.t22">"Not typical of a common crypto decentralized exchange, especially with naira accounts appearing first." <span style="color: var(--soft)">Participant, on Grey's flow</span></div>
 
       <figure class="screen-shot full" style="margin-top: 28px;">
@@ -704,6 +705,14 @@
         <figcaption data-i18n="grey.t27">The two bank-style screens are replaced by one question. The wallet form after it is Grey's own, with the token picked there.</figcaption>
 
       </figure>
+      <figure class="screen-shot full" style="margin-top: 28px;">
+        <picture>
+          <source media="(max-width: 600px)" srcset="../assets/images/grey-interaction-mobile.jpg">
+          <img src="../assets/images/grey-interaction.jpg" alt="Four screens of the redesign with tap markers: Send on Home, To a crypto wallet on the sheet, the token field on the wallet form, and the token picker" loading="lazy" data-i18n-alt="grey.alt6">
+        </picture>
+        <figcaption data-i18n="grey.t86">Starting a wallet send in the redesign: three taps from Home to the token picker.</figcaption>
+      </figure>
+
     </section>
 
     <!-- ══ 03 SCOPE ══ -->
@@ -725,6 +734,14 @@
         <figcaption data-i18n="grey.t30">Only the start of the flow changed. The highlighted screens are the ones that differ.</figcaption>
 
       </figure>
+      <figure class="screen-shot full" style="margin-top: 28px;">
+        <picture>
+          <source media="(max-width: 600px)" srcset="../assets/images/grey-form-states-mobile.jpg">
+          <img src="../assets/images/grey-form-states.jpg" alt="Three versions of the wallet form: empty with Continue off, an invalid address with an error message, and ready with Continue on" loading="lazy" data-i18n-alt="grey.alt7">
+        </picture>
+        <figcaption data-i18n="grey.t87">The wallet form's states: empty, invalid address, and ready. Continue only turns on when everything is valid.</figcaption>
+      </figure>
+
     </section>
 
     <!-- ══ 04 METHOD ══ -->
@@ -739,6 +756,8 @@
     <section class="section">
       <span class="section-num">05</span>
       <h2 data-i18n="grey.t34">What happened</h2>
+
+      <p data-i18n="grey.t76">What the test shows clearly is that asking where the money is going first made the send feel easier and cut the backtracking. By the rule I set before the test, though, this is not a full success: one guardrail failed. The one wrong-network send happened in the redesign. Its network picker is the same screen as Grey's, so the change I tested is unlikely to have caused it, but I can't rule it out.</p>
 
       <div class="stat-grid">
         <div class="stat"><span class="stat-label" data-i18n="grey.t35">Preferred the redesign</span><span class="stat-value" data-i18n="grey.t36">9 of 11</span><span class="stat-note" data-i18n="grey.t37">1 preferred Grey, 1 saw no difference</span></div>
@@ -763,8 +782,6 @@
         </table>
       </div>
       <p style="margin-top: 8px; font-size: 0.88rem; color: var(--soft);" data-i18n="grey.t75">"Typical" is the median: the middle person's result, so one very slow run doesn't skew it. "Clear difference" means a paired test on the same 11 people found it unlikely to be chance. The errors row counts finished sends only, not wrong picks people corrected along the way.</p>
-
-      <p style="margin-top: 18px;" data-i18n="grey.t76">By the rule I set before the test, this is not a full success: one guardrail failed. The one wrong-network send happened in the redesign. Its network picker is the same screen as Grey's, so the change I tested is unlikely to have caused it, but I can't rule it out. What the test does show clearly is that asking where the money is going first made the send feel easier and cut the backtracking.</p>
       <div class="callout" data-i18n="grey.t77">"Seeing it as an option early was really nice, didn't have to struggle to look for a place to make my transaction." <span style="color: var(--soft)">Participant, on the redesign</span></div>
 
       <figure class="screen-shot full" style="margin-top: 28px;">
