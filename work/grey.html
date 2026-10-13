@@ -1,0 +1,798 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Grey Send Flow - UX Case Study</title>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script src="../assets/js/analytics.js"></script>
+  <script src="../assets/js/i18n.js"></script>
+  <script src="../assets/js/bat-cursor.js" defer></script>
+  <style>
+    /* ─── Bat-logo cursor (hotspot = centre of the logo) ─── */
+    :root {
+      --cursor-default: url("../assets/cursor/bat.svg") 20 8, auto;
+      --cursor-pointer: url("../assets/cursor/bat-pointer.svg") 20 8, pointer;
+    }
+    html, body { cursor: var(--cursor-default); }
+    a, button, label, select, summary, [role="button"] { cursor: var(--cursor-pointer); }
+
+    :root {
+      --bg: #000;
+      --panel: rgba(255, 255, 255, 0.05);
+      --panel-strong: rgba(255, 255, 255, 0.08);
+      --line: rgba(255, 255, 255, 0.12);
+      --text: #ffffff;
+      --muted: rgba(255, 255, 255, 0.72);
+      --soft: rgba(255, 255, 255, 0.52);
+      --accent: #54daff;
+      --accent-2: #33badf;
+      --shadow: 0 24px 80px rgba(0, 0, 0, 0.45);
+      --radius: 22px;
+      --content: 1180px;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-family: Inter, system-ui, sans-serif;
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    a { color: inherit; }
+    img { max-width: 100%; display: block; }
+
+    .page {
+      width: min(var(--content), calc(100% - 32px));
+      margin: 0 auto;
+      padding: 32px 0 120px;
+    }
+
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      gap: 16px;
+      padding: 20px 0 34px;
+    }
+
+    /* Language Toggle */
+    /* Language Dropdown */
+    .lang-dropdown {
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+
+    .lang-dropdown-btn {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      background: transparent;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 8px;
+      padding: 6px 10px;
+      font-family: Orbitron, monospace;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      color: var(--muted);
+      cursor: var(--cursor-pointer);
+      transition: border-color 0.2s ease, color 0.2s ease, background 0.2s ease;
+      white-space: nowrap;
+    }
+
+    .lang-dropdown-btn:hover,
+    .lang-dropdown.open .lang-dropdown-btn {
+      border-color: var(--accent);
+      color: var(--text);
+      background: rgba(255, 255, 255, 0.04);
+    }
+
+    .lang-current-flag { font-size: 15px; line-height: 1; }
+    .lang-current { font-size: 12px; }
+
+    .lang-arrow {
+      font-size: 9px;
+      opacity: 0.6;
+      transition: transform 0.2s ease;
+      margin-left: 2px;
+    }
+
+    .lang-dropdown.open .lang-arrow { transform: rotate(180deg); }
+
+    .lang-dropdown-menu {
+      position: absolute;
+      top: calc(100% + 10px);
+      right: 0;
+      min-width: 155px;
+      background: rgba(8, 8, 12, 0.97);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 12px;
+      padding: 6px;
+      z-index: 200;
+      display: none;
+      flex-direction: column;
+      gap: 2px;
+      box-shadow: 0 16px 48px rgba(0, 0, 0, 0.7);
+      animation: dropdownFadeIn 0.18s ease;
+    }
+
+    @keyframes dropdownFadeIn {
+      from { opacity: 0; transform: translateY(-6px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .lang-dropdown.open .lang-dropdown-menu { display: flex; }
+
+    .lang-option {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      width: 100%;
+      background: transparent;
+      border: none;
+      border-radius: 8px;
+      padding: 9px 12px;
+      font-family: Orbitron, monospace;
+      font-size: 12px;
+      font-weight: 500;
+      letter-spacing: 0.06em;
+      color: rgba(255, 255, 255, 0.65);
+      cursor: var(--cursor-pointer);
+      text-align: left;
+      transition: background 0.15s ease, color 0.15s ease;
+    }
+
+    .lang-option:hover { background: rgba(255,255,255,0.06); color: var(--text); }
+    .lang-option.active { color: var(--accent); background: rgba(255,255,255,0.06); }
+    .lang-option .opt-flag { font-size: 16px; line-height: 1; }
+
+    .back {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+      font-family: Orbitron, monospace;
+      letter-spacing: 0.08em;
+      font-size: 13px;
+      text-transform: uppercase;
+    }
+
+    .back span {
+      font-size: 20px;
+      line-height: 1;
+      transform: translateY(-1px);
+    }
+
+    .hero {
+      padding-bottom: 96px;
+    }
+
+    .hero-banner {
+      margin-bottom: 28px;
+    }
+
+    .hero-banner img {
+      width: 100%;
+      height: auto;
+      border-radius: 0;
+      display: block;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 14px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: rgba(255,255,255,0.03);
+      font-family: Orbitron, monospace;
+      font-size: 12px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 18px;
+    }
+
+    .hero-copy {
+      max-width: 1240px;
+    }
+
+    .hero-kicker {
+      margin: 0 0 10px;
+      font-family: Orbitron, monospace;
+      font-size: 13px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--soft);
+    }
+
+    h1 {
+      margin: 0;
+      font-family: Orbitron, monospace;
+      font-size: clamp(42px, 5vw, 72px);
+      font-weight: 500;
+      line-height: 1.06;
+      letter-spacing: 0;
+      color: var(--text);
+    }
+
+    .subhead {
+      margin: 14px 0 0;
+      font-size: clamp(18px, 2vw, 22px);
+      color: var(--text);
+      font-weight: 600;
+    }
+
+    .lede {
+      max-width: 66ch;
+      margin: 18px 0 0;
+      font-size: 1.05rem;
+      color: var(--muted);
+    }
+
+    .hero-meta {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+      margin-top: 40px;
+    }
+
+    .meta-card,
+    .section,
+    .screen-shot,
+    .note-card {
+      background: linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.03));
+      border: none;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(14px);
+    }
+
+    .meta-card {
+      background: rgba(10,10,10,0.92);
+      border: 1px solid rgba(255,255,255,0.10);
+      border-radius: 26px;
+      box-shadow: 0 18px 55px rgba(0,0,0,0.45);
+      backdrop-filter: blur(10px);
+      padding: 18px;
+      min-height: 110px;
+    }
+
+    .meta-label {
+      display: block;
+      margin-bottom: 8px;
+      font-family: Orbitron, monospace;
+      font-size: 11px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--soft);
+    }
+
+    .meta-value {
+      font-size: 0.98rem;
+      color: var(--text);
+    }
+
+    .section {
+      padding: 56px 0 0;
+      margin-top: 72px;
+      background: transparent;
+      box-shadow: none;
+      backdrop-filter: none;
+    }
+
+    .section h2 {
+      margin: 0 0 14px;
+      font-family: Orbitron, monospace;
+      font-size: 1.45rem;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+
+    .section h3 {
+      margin: 0 0 10px;
+      font-family: Orbitron, monospace;
+      font-size: 1.02rem;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+
+    .section p,
+    .section li {
+      color: var(--muted);
+    }
+
+    .section p {
+      margin: 0 0 12px;
+    }
+
+    .section p:last-child { margin-bottom: 0; }
+
+    .grid {
+      display: grid;
+      gap: 18px;
+    }
+
+    .grid.cols-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .grid.cols-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+
+    .callout {
+      margin-top: 16px;
+      padding: 16px 18px;
+      border-left: 3px solid var(--accent);
+      color: var(--text);
+    }
+
+    .section-split {
+      display: block;
+    }
+
+    .split-gap {
+      margin-top: clamp(96px, 10vw, 180px);
+    }
+
+    .text {
+      min-width: 0;
+      max-width: 72ch;
+      margin-bottom: 22px;
+    }
+
+    .note-card {
+      padding: 18px 18px 16px;
+      border: 1px solid rgba(255,255,255,0.08);
+      background: rgba(255,255,255,0.03);
+    }
+
+    .note-card strong {
+      display: block;
+      margin-bottom: 8px;
+      font-family: Orbitron, monospace;
+      font-size: 11px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--accent);
+    }
+
+    .screen-shot {
+      overflow: hidden;
+      padding: 14px;
+      border: 1px solid rgba(255,255,255,0.08);
+      background: rgba(255,255,255,0.03);
+      width: min(100%, 1120px);
+      margin: 0 auto;
+    }
+
+    .screen-shot img {
+      width: 100%;
+      aspect-ratio: 1512 / 982;
+      object-fit: cover;
+      border-radius: calc(var(--radius) - 10px);
+      border: 1px solid rgba(255,255,255,0.08);
+    }
+
+    .screen-shot.full picture { display: block; }
+
+    .screen-shot.full img {
+      aspect-ratio: auto;
+      object-fit: contain;
+    }
+
+    .screen-shot figcaption {
+      padding: 12px 2px 2px;
+      color: var(--soft);
+      font-size: 0.92rem;
+    }
+
+    .list {
+      margin: 14px 0 0;
+      padding-left: 18px;
+    }
+
+    .list li { margin: 8px 0; }
+
+    .table-wrap {
+      overflow-x: auto;
+      border-radius: 20px;
+      border: 1px solid rgba(255,255,255,0.08);
+      margin-top: 22px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 640px;
+      background: rgba(255,255,255,0.02);
+    }
+
+    th, td {
+      padding: 14px 14px;
+      text-align: left;
+      vertical-align: top;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+
+    th {
+      font-family: Orbitron, monospace;
+      font-size: 11px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--soft);
+      background: rgba(255,255,255,0.03);
+    }
+
+    tr:last-child td { border-bottom: none; }
+
+    .footer-note {
+      margin-top: 40px;
+      padding-top: 18px;
+      border-top: 1px solid rgba(255,255,255,0.08);
+      color: var(--soft);
+      font-size: 0.94rem;
+    }
+
+    .screen-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      margin-top: 18px;
+      padding: 12px 16px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,184,74,0.4);
+      background: rgba(255,184,74,0.12);
+      color: var(--text);
+      font-family: Orbitron, monospace;
+      font-size: 11px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      text-decoration: none;
+    }
+
+    .screen-cta:hover {
+      border-color: rgba(255,184,74,0.7);
+      background: rgba(255,184,74,0.18);
+    }
+
+    @media (max-width: 980px) {
+      .grid.cols-2,
+      .grid.cols-3,
+      .bonus-grid,
+      .hero-meta,
+      .section-split {
+        grid-template-columns: 1fr;
+      }
+
+      .section {
+        margin-top: 44px;
+      }
+
+      h1 {
+        font-size: clamp(36px, 10vw, 58px);
+      }
+
+      .split-gap {
+        margin-top: 72px;
+      }
+    }
+
+    /* ─── Grey template additions ─── */
+
+
+    .disclaimer {
+      margin-top: 28px;
+      padding: 14px 18px;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      color: var(--soft);
+      font-size: 0.92rem;
+    }
+
+    .tldr {
+      margin-top: 28px;
+      padding: 22px 24px;
+      border-left: 3px solid var(--accent);
+      background: rgba(255,255,255,0.03);
+      border-radius: 0 16px 16px 0;
+    }
+    .tldr strong {
+      display: block;
+      margin-bottom: 8px;
+      font-family: Orbitron, monospace;
+      font-size: 11px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--accent);
+    }
+
+    .section-num {
+      display: block;
+      margin-bottom: 6px;
+      font-family: Orbitron, monospace;
+      font-size: 12px;
+      letter-spacing: 0.12em;
+      color: var(--soft);
+    }
+
+    .option-card {
+      padding: 22px;
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: var(--radius);
+      background: rgba(255,255,255,0.03);
+    }
+    .option-card h3 { margin-bottom: 8px; }
+    .option-card .tag {
+      display: inline-block;
+      margin-bottom: 12px;
+      padding: 4px 10px;
+      border-radius: 999px;
+      border: 1px solid var(--line);
+      font-family: Orbitron, monospace;
+      font-size: 10px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--soft);
+    }
+    .option-card.chosen { border-color: var(--accent); }
+    .option-card.chosen .tag { border-color: var(--accent); color: var(--accent); }
+    .option-card h4 {
+      margin: 14px 0 4px;
+      font-size: 0.85rem;
+      color: var(--text);
+    }
+    .option-card ul { margin: 0; padding-left: 18px; }
+    .option-card li { margin: 4px 0; font-size: 0.95rem; }
+
+    .stat-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 14px;
+      margin-top: 22px;
+    }
+    .stat {
+      padding: 20px;
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 18px;
+      background: rgba(255,255,255,0.03);
+    }
+    .stat .stat-label {
+      display: block;
+      font-family: Orbitron, monospace;
+      font-size: 10px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--soft);
+    }
+    .stat .stat-value {
+      display: block;
+      margin: 10px 0 6px;
+      font-family: Orbitron, monospace;
+      font-size: 1.5rem;
+      color: var(--text);
+    }
+    .stat .stat-note { font-size: 0.88rem; color: var(--soft); }
+
+    td.win { color: var(--accent); }
+
+
+    @media (max-width: 980px) {
+      .stat-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <header class="topbar">
+      <a class="back" href="../index.html#project-grid" aria-label="Back to project grid"><span>←</span> <span data-i18n="cs.back">Back</span></a>
+      <div class="lang-dropdown" style="margin-left: auto;">
+        <button type="button" class="lang-dropdown-btn" aria-haspopup="listbox" aria-expanded="false" aria-label="Select language">
+          <span class="lang-current-flag">🇬🇧</span>
+          <span class="lang-current">EN</span>
+          <span class="lang-arrow">▾</span>
+        </button>
+        <div class="lang-dropdown-menu" role="listbox">
+          <button type="button" class="lang-option active" data-lang="en"><span class="opt-flag">🇬🇧</span> English</button>
+          <button type="button" class="lang-option" data-lang="fr"><span class="opt-flag">🇫🇷</span> Français</button>
+          <button type="button" class="lang-option" data-lang="es"><span class="opt-flag">🇪🇸</span> Español</button>
+          <button type="button" class="lang-option" data-lang="de"><span class="opt-flag">🇩🇪</span> Deutsch</button>
+          <button type="button" class="lang-option" data-lang="ja"><span class="opt-flag">🇯🇵</span> 日本語</button>
+        </div>
+      </div>
+    </header>
+
+    <!-- ══ HERO ══ -->
+    <section class="hero">
+      <div class="eyebrow" data-i18n="grey.t1">Case Study · Grey · Self-initiated</div>
+
+      <div class="hero-banner">
+
+        <img src="../assets/images/grey-hero.jpg" alt="Grey's recipient list, 'Who do you want to send money to?', beside the redesign's 'Where is the money going?' sheet" data-i18n-alt="grey.alt1">
+
+      </div>
+
+      <div class="hero-copy">
+        <p class="hero-kicker" data-i18n="grey.t2">Redesigning how a stablecoin send starts, then testing it against the original</p>
+        <h1 data-i18n="grey.t3">Sending crypto on Grey, starting with the right question</h1>
+        <div class="subhead" data-i18n="grey.t4">A self-initiated redesign of how a stablecoin send starts on Grey, tested against a recreation of the current flow with 11 crypto senders</div>
+
+        <div class="hero-meta">
+          <div class="meta-card">
+            <span class="meta-label" data-i18n="grey.t5">Role</span>
+            <div class="meta-value" data-i18n="grey.t6">Solo: research, product design, prototyping, and building the test platform</div>
+          </div>
+          <div class="meta-card">
+            <span class="meta-label" data-i18n="grey.t7">Timeline</span>
+            <div class="meta-value" data-i18n="grey.t8">Designed early October 2026. Test platform built 8 to 10 October 2026. Sessions ran on 12 October 2026</div>
+          </div>
+          <div class="meta-card">
+            <span class="meta-label" data-i18n="grey.t9">Method</span>
+            <div class="meta-value" data-i18n="grey.t10">Within-subject A/B usability test, 11 participants, remote on their own phones</div>
+          </div>
+          <div class="meta-card">
+            <span class="meta-label" data-i18n="grey.t11">Headline result</span>
+            <div class="meta-value" data-i18n="grey.t12">9 of 11 people found the redesign easier, and its average ease rating rose from 3.8 to 5.4 out of 7</div>
+          </div>
+        </div>
+
+        <div class="tldr" data-i18n="grey.t13">
+          <strong>TL;DR</strong>
+          On Grey, sending USDC to a wallet starts at a list of bank recipients, so you don't learn you're on the right path until several screens in.
+          My redesign changes only the start: Send first asks "Where is the money going?", and choosing a crypto wallet opens Grey's own wallet form straight away.
+          With 11 crypto senders, the redesign felt clearly easier and needed fewer back taps and misclicks. It was probably faster, but the time difference is not proven at this sample size, and one person sent on the wrong network in the redesign.
+        </div>
+
+        <p class="disclaimer" data-i18n="grey.t14">
+          This is a self-initiated project for my portfolio. I am not affiliated with Grey, and Grey did not commission or review this work.
+          Version A is my recreation of Grey's current flow, built from screenshots of the live app.
+        </p>
+      </div>
+    </section>
+
+    <!-- ══ 01 PROBLEM ══ -->
+    <section class="section">
+      <span class="section-num">01</span>
+      <h2 data-i18n="grey.t15">Grey treats a wallet send like a bank transfer</h2>
+      <p data-i18n="grey.t16">I started this after trying to send crypto to a friend's wallet on Grey. Tapping Send took me to my saved bank recipients, then a currency list led by Naira, and I wasn't sure I was in the right place. The process felt hectic. Grey lets people send USDC and USDT to crypto wallets, but its send flow is built around bank recipients and currencies. To send USDC to a friend's wallet, you go from Home to your USDC balance, tap Send, choose to add a new recipient, pick USDC from a list of currencies, fill in a recipient form, and then enter the amount.</p>
+      <p data-i18n="grey.t17">Two points work against the task:</p>
+      <ol class="list">
+        <li data-i18n="grey.t18"><strong>It starts at a list of bank recipients</strong>, with NGN and USD filters. You have to tap "New recipient" to begin.</li>
+        <li data-i18n="grey.t19"><strong>The coin is chosen as "the currency your recipient receives"</strong>, in a list led by Naira and US Dollar, with stablecoins mixed in.</li>
+      </ol>
+      <p data-i18n="grey.t20">Nothing tells a wallet sender they're on the right path until the wallet form appears, in a flow where Grey's own form warns that "funds cannot be reversed". My test later confirmed the first point: 8 of 11 people hesitated at the bank recipient list.</p>
+      <p data-i18n="grey.t21">Why this matters to Grey is my inference, not something I measured: someone who gives up halfway through a send pays no transfer fee, and someone who loses money to the wrong network may stop trusting Grey with it.</p>
+      <div class="callout" data-i18n="grey.t22">"Not typical of a common crypto decentralized exchange, especially with naira accounts appearing first." <span style="color: var(--soft)">Participant, on Grey's flow</span></div>
+
+      <figure class="screen-shot full" style="margin-top: 28px;">
+
+        <picture>
+
+          <source media="(max-width: 600px)" srcset="../assets/images/grey-before-annotated-mobile.jpg">
+
+          <img src="../assets/images/grey-before-annotated.jpg" alt="Grey's flow from Send to the amount screen, with the recipient list and currency list marked as friction points 1 and 2" loading="lazy" data-i18n-alt="grey.alt2">
+
+        </picture>
+
+        <figcaption data-i18n="grey.t23">Grey's flow today: two screens built for bank transfers come before the wallet details. Recipient names are blurred.</figcaption>
+
+      </figure>
+    </section>
+
+    <!-- ══ 02 DECISION ══ -->
+    <section class="section">
+      <span class="section-num">02</span>
+      <h2 data-i18n="grey.t24">One question before anything else</h2>
+      <p data-i18n="grey.t25">In the redesign, Send opens a sheet that asks "Where is the money going?": "To a crypto wallet" ("Send USDT or USDC to any wallet address") or "To a bank account" ("Paid out in local currency, like GBP or NGN"). Choosing a crypto wallet opens Grey's wallet form straight away, where you pick the token and network and paste the address. A wallet send never sees a list of bank recipients or fiat currencies.</p>
+      <p data-i18n="grey.t26">I also considered starting wallet sends only from the USDC or USDT balance screen. It was a smaller change, but anyone who taps the main Send button would still land on bank recipients. Destination first adds one tap before the first screen. I accepted that because it tells people straight away which path they're on, and it removes two screens built for bank transfers from every wallet send.</p>
+
+      <figure class="screen-shot full" style="margin-top: 28px;">
+
+        <picture>
+
+          <source media="(max-width: 600px)" srcset="../assets/images/grey-before-after-mobile.jpg">
+
+          <img src="../assets/images/grey-before-after.jpg" alt="Grey's recipient list and currency list beside the redesign's sheet and the wallet form it opens" loading="lazy" data-i18n-alt="grey.alt3">
+
+        </picture>
+
+        <figcaption data-i18n="grey.t27">The two bank-style screens are replaced by one question. The wallet form after it is Grey's own, with the token picked there.</figcaption>
+
+      </figure>
+    </section>
+
+    <!-- ══ 03 SCOPE ══ -->
+    <section class="section">
+      <span class="section-num">03</span>
+      <h2 data-i18n="grey.t28">Changing only the start, so the test means something</h2>
+      <p data-i18n="grey.t29">My first version also redesigned the wallet form, the amount screen, and added review and receipt screens. If it had won the test, I couldn't have said which change made the difference. Before running the test with participants, I cut it back to how the send starts. The wallet form, the amount screen and everything after them stay Grey's, so any difference in the test comes from that one decision.</p>
+
+      <figure class="screen-shot full" style="margin-top: 28px;">
+
+        <picture>
+
+          <source media="(max-width: 600px)" srcset="../assets/images/grey-user-flow-mobile.jpg">
+
+          <img src="../assets/images/grey-user-flow.jpg" alt="Both wallet flows in two rows: Grey's Home, recipient list, currency list, wallet form and amount; the redesign's Home, Send sheet, wallet form and amount" loading="lazy" data-i18n-alt="grey.alt4">
+
+        </picture>
+
+        <figcaption data-i18n="grey.t30">Only the start of the flow changed. The highlighted screens are the ones that differ.</figcaption>
+
+      </figure>
+    </section>
+
+    <!-- ══ 04 METHOD ══ -->
+    <section class="section">
+      <span class="section-num">04</span>
+      <h2 data-i18n="grey.t31">How I tested it</h2>
+      <p data-i18n="grey.t32">I built a small usability lab: both versions as clickable phone prototypes, a consent and screening page, and a tracker that records what each person does. Everyone sent $5 of USDC to a friend's wallet on BNB Smart Chain in both versions. About half started with each version: 6 with Grey's flow and 5 with the redesign. 15 people started and 11 finished both. All had sent crypto to a wallet before; all were in Nigeria, on their phones; 5 had used Grey.</p>
+      <p data-i18n="grey.t33">Reaching the end of the flow counts as completing the task. I judged only the choices the screens ask for, the path, the token and the network, not the amount: several people sent $6.02 so their friend would receive $5.00 after the fee, which is the maths, not the flow. I set the success targets before the test: completion of 80% or more, fewer errors, no critical errors, a typical time at least 20% lower, ease at least 1 point higher, and a clear majority preferring the redesign.</p>
+    </section>
+
+    <!-- ══ 05 RESULTS ══ -->
+    <section class="section">
+      <span class="section-num">05</span>
+      <h2 data-i18n="grey.t34">What happened</h2>
+
+      <div class="stat-grid">
+        <div class="stat"><span class="stat-label" data-i18n="grey.t35">Preferred the redesign</span><span class="stat-value" data-i18n="grey.t36">9 of 11</span><span class="stat-note" data-i18n="grey.t37">1 preferred Grey, 1 saw no difference</span></div>
+        <div class="stat"><span class="stat-label" data-i18n="grey.t38">Ease (1 to 7)</span><span class="stat-value">3.8 / 5.4</span><span class="stat-note" data-i18n="grey.t40">Grey vs redesign, average rating</span></div>
+        <div class="stat"><span class="stat-label" data-i18n="grey.t41">Typical time</span><span class="stat-value">58s / 36s</span><span class="stat-note" data-i18n="grey.t43">Grey vs redesign, to the end of the flow</span></div>
+        <div class="stat"><span class="stat-label" data-i18n="grey.t44">Back taps</span><span class="stat-value">2 / 0</span><span class="stat-note" data-i18n="grey.t46">Grey vs redesign, typical</span></div>
+      </div>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th data-i18n="grey.t47">Measure</th><th data-i18n="grey.t48">Grey</th><th data-i18n="grey.t49">Redesign</th><th data-i18n="grey.t50">What it means</th></tr>
+          </thead>
+          <tbody>
+            <tr><td data-i18n="grey.t51">Typical time to finish</td><td>58.1s</td><td>36.0s</td><td data-i18n="grey.t54">8 of 11 were faster on the redesign. Likely, but not proven with 11 people</td></tr>
+            <tr><td data-i18n="grey.t55">Typical back taps</td><td>2</td><td>0</td><td class="win" data-i18n="grey.t58">8 of 11 went back less. Clear difference</td></tr>
+            <tr><td data-i18n="grey.t59">Misclicks</td><td data-i18n="grey.t60">27 in total</td><td data-i18n="grey.t61">11 in total</td><td class="win" data-i18n="grey.t62">7 of 11 misclicked less. Clear difference</td></tr>
+            <tr><td data-i18n="grey.t63">Average ease rating (1 to 7)</td><td>3.8</td><td>5.4</td><td class="win" data-i18n="grey.t66">+1.5 points. Clear difference</td></tr>
+            <tr><td data-i18n="grey.t67">Preferred</td><td>1</td><td>9</td><td class="win" data-i18n="grey.t70">1 saw no difference. Clear majority</td></tr>
+            <tr><td data-i18n="grey.t71">Sent on the wrong network</td><td data-i18n="grey.t72">0 of 11</td><td data-i18n="grey.t73">1 of 11</td><td data-i18n="grey.t74">One person sent on Solana in the redesign</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p style="margin-top: 8px; font-size: 0.88rem; color: var(--soft);" data-i18n="grey.t75">"Typical" is the median: the middle person's result, so one very slow run doesn't skew it. "Clear difference" means a paired test on the same 11 people found it unlikely to be chance. The errors row counts finished sends only, not wrong picks people corrected along the way.</p>
+
+      <p style="margin-top: 18px;" data-i18n="grey.t76">By the rule I set before the test, this is not a full success: one guardrail failed. The one wrong-network send happened in the redesign. Its network picker is the same screen as Grey's, so the change I tested is unlikely to have caused it, but I can't rule it out. What the test does show clearly is that asking where the money is going first made the send feel easier and cut the backtracking.</p>
+      <div class="callout" data-i18n="grey.t77">"Seeing it as an option early was really nice, didn't have to struggle to look for a place to make my transaction." <span style="color: var(--soft)">Participant, on the redesign</span></div>
+
+      <figure class="screen-shot full" style="margin-top: 28px;">
+
+        <img src="../assets/images/grey-time-per-person.jpg" alt="Slope chart of each participant's time on Grey's flow and on the redesign, on a log scale" loading="lazy" data-i18n-alt="grey.alt5">
+
+        <figcaption data-i18n="grey.t78">Each line is one participant. 8 of 11 were faster on the redesign. One person took 439.5s on the redesign, their first version, before finding the right path.</figcaption>
+
+      </figure>
+
+      <p data-i18n="grey.t79">The redesign wasn't perfect. 3 of 11 closed the new sheet or went elsewhere before choosing, and one person took 7 minutes 20 seconds on the redesign, their first version, before finding the right path. One person preferred Grey's flow: a regular Grey user who took exactly the same time on both versions. Part of the time saving is also learning: people who did Grey's flow first typically saved 37.8s on the redesign, while people who did the redesign first saved only 6.1s.</p>
+    </section>
+
+    <!-- ══ 06 REFLECTION ══ -->
+    <section class="section">
+      <span class="section-num">06</span>
+      <h2 data-i18n="grey.t80">What I'd do differently</h2>
+      <ul class="list">
+        <li data-i18n="grey.t81">Check my reading of the live app sooner. I first noted that Grey pre-fills the network and switches to a light theme on the form. Both were wrong, and I only caught them when I looked again.</li>
+        <li data-i18n="grey.t82">Make the two options on the sheet more distinct. 3 of 11 people closed it before choosing, so next I'd test clearer icons for crypto and bank, and wording like "Wallet address" against "Bank account in NGN, GBP and more".</li>
+        <li data-i18n="grey.t83">Test one change at a time. Cutting my first redesign back to a single decision is what made the result mean anything, and I'll scope future tests the same way.</li>
+      </ul>
+
+      <div class="footer-note" data-i18n="grey.t84">
+        UX Case Study · Grey send flow · Self-initiated · Not affiliated with Grey · Solo · 2026
+      </div>
+    </section>
+
+  </div>
+</body>
+</html>
