@@ -620,7 +620,7 @@
       <div class="hero-copy">
         <p class="hero-kicker" data-i18n="grey.t2">Redesigning how a stablecoin send starts, then testing it against the original</p>
         <h1 data-i18n="grey.t3">Sending crypto on Grey, starting with the right question</h1>
-        <div class="subhead" data-i18n="grey.t4">A self-initiated redesign of how a stablecoin send starts on Grey, tested against a recreation of the current flow with 11 crypto senders</div>
+        <div class="subhead" data-i18n="grey.t4">A self-initiated redesign of how a stablecoin send starts on Grey, tested in two rounds against a recreation of the current flow</div>
 
         <div class="hero-meta">
           <div class="meta-card">
@@ -629,15 +629,15 @@
           </div>
           <div class="meta-card">
             <span class="meta-label" data-i18n="grey.t7">Timeline</span>
-            <div class="meta-value" data-i18n="grey.t8">Designed early October 2026. Test platform built 8 to 10 October 2026. Sessions ran on 12 October 2026</div>
+            <div class="meta-value" data-i18n="grey.t8">Designed early October 2026. Test platform built 8 to 10 October. Round 1 ran on 12 October, round 2 on 13 and 14 October 2026</div>
           </div>
           <div class="meta-card">
             <span class="meta-label" data-i18n="grey.t9">Method</span>
-            <div class="meta-value" data-i18n="grey.t10">Within-subject A/B usability test, 11 participants, remote on their own phones</div>
+            <div class="meta-value" data-i18n="grey.t10">Within-subject A/B usability test in two rounds: 11 crypto senders, then 32 people (22 crypto senders, 10 first-timers), remote on their own phones</div>
           </div>
           <div class="meta-card">
             <span class="meta-label" data-i18n="grey.t11">Headline result</span>
-            <div class="meta-value" data-i18n="grey.t12">9 of 11 people found the redesign easier, and its average ease rating rose from 3.8 to 5.4 out of 7</div>
+            <div class="meta-value" data-i18n="grey.t12">In round 2, 24 people preferred the redesign and 1 preferred Grey. It was 34% faster, and ease rose from 4.8 to 5.8 out of 7</div>
           </div>
         </div>
 
@@ -645,7 +645,8 @@
           <strong>TL;DR</strong>
           On Grey, sending USDC to a wallet starts at a list of bank recipients, so you don't learn you're on the right path until several screens in.
           My redesign changes only the start: Send first asks "Where is the money going?", and choosing a crypto wallet opens Grey's own wallet form straight away.
-          With 11 crypto senders, the redesign felt clearly easier and needed fewer back taps and misclicks. It was probably faster, but the time difference is not proven at this sample size, and one person sent on the wrong network in the redesign.
+          Round 1, with 11 crypto senders, showed it felt easier but couldn't prove it was faster, and 3 people closed the new sheet before choosing. I made the sheet's options clearer and tested again with 32 people, including 10 who had never sent crypto.
+          The redesign was 34% faster, rated a point easier, and preferred 24 to 1. It missed one target: wrong-network sends, which happen in a field both versions share.
         </div>
 
         <p class="disclaimer" data-i18n="grey.t14">
@@ -665,7 +666,7 @@
         <li data-i18n="grey.t18"><strong>It starts at a list of bank recipients</strong>, with NGN and USD filters. You have to tap "New recipient" to begin.</li>
         <li data-i18n="grey.t19"><strong>The coin is chosen as "the currency your recipient receives"</strong>, in a list led by Naira and US Dollar, with stablecoins mixed in.</li>
       </ol>
-      <p data-i18n="grey.t20">Nothing tells a wallet sender they're on the right path until the wallet form appears, in a flow where Grey's own form warns that "funds cannot be reversed". My test later confirmed the first point: 8 of 11 people hesitated at the bank recipient list.</p>
+      <p data-i18n="grey.t20">Nothing tells a wallet sender they're on the right path until the wallet form appears, in a flow where Grey's own form warns that "funds cannot be reversed". My tests confirmed the first point: 8 of 11 people hesitated at the bank recipient list in round 1, and in round 2, 26 of 37 attempts on Grey's flow tapped a bank recipient or a fiat currency before finding the wallet form.</p>
       <p data-i18n="grey.t21">Why this matters to Grey is my inference, not something I measured. Grey says it charges nothing extra on USDC sends beyond the network fee (<a href="https://grey.co/blog/send-instant-usdc-payouts-to-40-countries-with-grey" target="_blank" rel="noopener">Grey's blog, September 2024</a>), so a failed send doesn't cost it a fee directly. The cost is trust: someone who finds sending stablecoins confusing, or loses money to the wrong network, may move their dollars to another app, along with the conversion and withdrawal fees Grey does earn.</p>
       <p data-i18n="grey.t85">I also read about 280 Play Store reviews of Grey. The ones about crypto mention fees, slow deposits and support, not the send flow, so the evidence for this problem comes from my own test.</p>
       <div class="callout" data-i18n="grey.t22">"Not typical of a common crypto decentralized exchange, especially with naira accounts appearing first." <span style="color: var(--soft)">Participant, on Grey's flow</span></div>
@@ -727,7 +728,7 @@
 
           <source media="(max-width: 600px)" srcset="../assets/images/grey-user-flow-mobile.jpg">
 
-          <img src="../assets/images/grey-user-flow.jpg" alt="Both wallet flows in two rows: Grey's Home, recipient list, currency list, wallet form and amount; the redesign's Home, Send sheet, wallet form and amount" loading="lazy" data-i18n-alt="grey.alt4">
+          <img src="../assets/images/grey-user-flow.jpg" alt="Both wallet flows after Home, in two rows: Grey's recipient list, currency list, wallet form and amount; the redesign's Send sheet, wallet form and amount" loading="lazy" data-i18n-alt="grey.alt4">
 
         </picture>
 
@@ -748,16 +749,16 @@
     <section class="section">
       <span class="section-num">04</span>
       <h2 data-i18n="grey.t31">How I tested it</h2>
-      <p data-i18n="grey.t32">I built a small usability lab: both versions as clickable phone prototypes, a consent and screening page, and a tracker that records what each person does. Everyone sent $5 of USDC to a friend's wallet on BNB Smart Chain in both versions. About half started with each version: 6 with Grey's flow and 5 with the redesign. 15 people started and 11 finished both. All had sent crypto to a wallet before; all were in Nigeria, on their phones; 5 had used Grey.</p>
-      <p data-i18n="grey.t33">Reaching the end of the flow counts as completing the task. I judged only the choices the screens ask for, the path, the token and the network, not the amount: several people sent $6.02 so their friend would receive $5.00 after the fee, which is the maths, not the flow. I set the success targets before the test: completion of 80% or more, fewer errors, no critical errors, a typical time at least 20% lower, ease at least 1 point higher, and a clear majority preferring the redesign.</p>
+      <p data-i18n="grey.t32">I built a small usability lab: clickable phone prototypes of both versions, a consent and screening page, and a tracker that records what each person does. Everyone sent $5 of USDC to a friend's wallet on BNB Smart Chain in both versions, with the starting version balanced. Round 1, on 12 October, had 11 crypto senders. Round 2, on 13 and 14 October, compared Grey with v2 in two separate groups: 22 crypto senders, and 10 first-timers who had never sent crypto to a wallet. 32 people tried both versions and 30 finished both. Everyone was in Nigeria, on their phone; 8 of the 30 in round 2 had used Grey.</p>
+      <p data-i18n="grey.t33">Reaching the end of the flow counts as completing the task. I judged only the choices the screens ask for, the path, the token and the network, not the amount: several people sent $6.02 so their friend would receive $5.00 after the fee, which is the maths, not the flow. I set the success targets before the test: completion of 80% or more, fewer errors, no critical errors, a typical time at least 20% lower, ease at least 1 point higher, and a clear majority preferring the redesign. Round 2 used the same targets.</p>
     </section>
 
-    <!-- ══ 05 RESULTS ══ -->
+    <!-- ══ 05 ROUND 1 ══ -->
     <section class="section">
       <span class="section-num">05</span>
-      <h2 data-i18n="grey.t34">What happened</h2>
+      <h2 data-i18n="grey.t34">Round 1: easier, not yet proven faster</h2>
 
-      <p data-i18n="grey.t76">What the test shows clearly is that asking where the money is going first made the send feel easier and cut the backtracking. By the rule I set before the test, though, this is not a full success: one guardrail failed. The one wrong-network send happened in the redesign. Its network picker is the same screen as Grey's, so the change I tested is unlikely to have caused it, but I can't rule it out.</p>
+      <p data-i18n="grey.t76">With 11 crypto senders, asking where the money is going first made the send feel easier and cut the backtracking, and 9 preferred it. It looked faster, 58s against 36s, but not provably so with 11 people, and one person sent on the wrong network. Two findings shaped round 2: 3 of 11 closed the new sheet before choosing, and I had only tested people who already send crypto.</p>
 
       <div class="stat-grid">
         <div class="stat"><span class="stat-label" data-i18n="grey.t35">Preferred the redesign</span><span class="stat-value" data-i18n="grey.t36">9 of 11</span><span class="stat-note" data-i18n="grey.t37">1 preferred Grey, 1 saw no difference</span></div>
@@ -765,44 +766,72 @@
         <div class="stat"><span class="stat-label" data-i18n="grey.t41">Typical time</span><span class="stat-value">58s / 36s</span><span class="stat-note" data-i18n="grey.t43">Grey vs redesign, to the end of the flow</span></div>
         <div class="stat"><span class="stat-label" data-i18n="grey.t44">Back taps</span><span class="stat-value">2 / 0</span><span class="stat-note" data-i18n="grey.t46">Grey vs redesign, typical</span></div>
       </div>
+      <div class="callout" data-i18n="grey.t77">"Seeing it as an option early was really nice, didn't have to struggle to look for a place to make my transaction." <span style="color: var(--soft)">Participant, on the redesign</span></div>
+    </section>
+
+    <!-- ══ 06 ITERATION ══ -->
+    <section class="section">
+      <span class="section-num">06</span>
+      <h2 data-i18n="grey.t88">Round 2: acting on what I found</h2>
+      <p data-i18n="grey.t89">In round 1 the sheet's two options looked alike, and 3 of 11 people closed it before choosing. In v2 I changed only the sheet. The crypto option shows USDC and USDT coins and says what you'll need: "Paste a wallet address · USDC or USDT". The bank option names the account: "Bank account in NGN, GBP and more". Both got a chevron, so they read as paths, not labels. Everything else stayed the same, so the comparison with Grey still tests one decision.</p>
+      <p data-i18n="grey.t90">I also added first-timers as a separate group. My guess is that Grey's growth in stablecoins depends on people who haven't sent crypto before, and a flow that only works for experienced senders wouldn't help them. Keeping the groups apart meant one group's result couldn't hide the other's.</p>
+
+      <figure class="screen-shot full" style="margin-top: 28px;">
+        <picture>
+          <source media="(max-width: 600px)" srcset="../assets/images/grey-sheet-v1-v2-mobile.jpg">
+          <img src="../assets/images/grey-sheet-v1-v2.jpg" alt="Redesign v1's Send sheet beside v2's, which adds USDC and USDT coins, clearer descriptions and chevrons" loading="lazy" data-i18n-alt="grey.alt8">
+        </picture>
+        <figcaption data-i18n="grey.t91">Only the sheet changed between rounds. 1 of 33 people closed v2's sheet before choosing, against 3 of 11 in round 1, but 3 opened the bank option and 2 first-timers sent by bank.</figcaption>
+      </figure>
+    </section>
+
+    <!-- ══ 07 ROUND 2 RESULTS ══ -->
+    <section class="section">
+      <span class="section-num">07</span>
+      <h2 data-i18n="grey.t92">Round 2: faster, easier, one target missed</h2>
+
+      <p data-i18n="grey.t93">Against the targets I set beforehand, v2 met five of six. It missed one, no critical errors: 9 of 34 attempts on v2 ended badly, the same share as Grey's 9 of 37, so by my own rule this isn't a full success.</p>
 
       <div class="table-wrap">
         <table>
           <thead>
-            <tr><th data-i18n="grey.t47">Measure</th><th data-i18n="grey.t48">Grey</th><th data-i18n="grey.t49">Redesign</th><th data-i18n="grey.t50">What it means</th></tr>
+            <tr><th data-i18n="grey.t47">Measure</th><th data-i18n="grey.t48">Grey</th><th data-i18n="grey.t94">Redesign v2</th><th data-i18n="grey.t95">Target</th><th data-i18n="grey.t96">Result</th></tr>
           </thead>
           <tbody>
-            <tr><td data-i18n="grey.t51">Typical time to finish</td><td>58.1s</td><td>36.0s</td><td data-i18n="grey.t54">8 of 11 were faster on the redesign. Likely, but not proven with 11 people</td></tr>
-            <tr><td data-i18n="grey.t55">Typical back taps</td><td>2</td><td>0</td><td class="win" data-i18n="grey.t58">8 of 11 went back less. Clear difference</td></tr>
-            <tr><td data-i18n="grey.t59">Misclicks</td><td data-i18n="grey.t60">27 in total</td><td data-i18n="grey.t61">11 in total</td><td class="win" data-i18n="grey.t62">7 of 11 misclicked less. Clear difference</td></tr>
-            <tr><td data-i18n="grey.t63">Average ease rating (1 to 7)</td><td>3.8</td><td>5.4</td><td class="win" data-i18n="grey.t66">+1.5 points. Clear difference</td></tr>
-            <tr><td data-i18n="grey.t67">Preferred</td><td>1</td><td>9</td><td class="win" data-i18n="grey.t70">1 saw no difference. Clear majority</td></tr>
-            <tr><td data-i18n="grey.t71">Sent on the wrong network</td><td data-i18n="grey.t72">0 of 11</td><td data-i18n="grey.t73">1 of 11</td><td data-i18n="grey.t74">One person sent on Solana in the redesign</td></tr>
+            <tr><td data-i18n="grey.t97">Completed the task</td><td>84% (31/37)</td><td>91% (31/34)</td><td data-i18n="grey.t98">80% or more, and at least Grey's</td><td class="win" data-i18n="grey.t99">Met</td></tr>
+            <tr><td data-i18n="grey.t100">At least one wrong turn or wrong pick</td><td>76% (28/37)</td><td>29% (10/34)</td><td data-i18n="grey.t101">25% lower than Grey</td><td class="win" data-i18n="grey.t99">Met</td></tr>
+            <tr><td data-i18n="grey.t102">Critical errors: wrong network, sent by bank, or not finished</td><td>24% (9/37)</td><td>26% (9/34)</td><td data-i18n="grey.t103">None</td><td data-i18n="grey.t104">Missed</td></tr>
+            <tr><td data-i18n="grey.t105">Typical time to finish</td><td>70s</td><td>46s</td><td data-i18n="grey.t106">20% lower</td><td class="win" data-i18n="grey.t107">Met: 34% faster, 21 of 28 people faster</td></tr>
+            <tr><td data-i18n="grey.t108">Average ease rating (1 to 7)</td><td>4.8</td><td>5.8</td><td data-i18n="grey.t109">1 point higher</td><td class="win" data-i18n="grey.t110">Met: +1.0</td></tr>
+            <tr><td data-i18n="grey.t67">Preferred</td><td>1</td><td>24</td><td data-i18n="grey.t112">Clear majority</td><td class="win" data-i18n="grey.t113">Met: 4 saw no difference</td></tr>
           </tbody>
         </table>
       </div>
-      <p style="margin-top: 8px; font-size: 0.88rem; color: var(--soft);" data-i18n="grey.t75">"Typical" is the median: the middle person's result, so one very slow run doesn't skew it. "Clear difference" means a paired test on the same 11 people found it unlikely to be chance. The errors row counts finished sends only, not wrong picks people corrected along the way.</p>
-      <div class="callout" data-i18n="grey.t77">"Seeing it as an option early was really nice, didn't have to struggle to look for a place to make my transaction." <span style="color: var(--soft)">Participant, on the redesign</span></div>
+      <p style="margin-top: 8px; font-size: 0.88rem; color: var(--soft);" data-i18n="grey.t114">"Typical" is the median. The time, ease and preference differences were each unlikely to be chance (paired tests, p of 0.01 or lower).</p>
 
       <figure class="screen-shot full" style="margin-top: 28px;">
-
-        <img src="../assets/images/grey-time-per-person.jpg" alt="Slope chart of each participant's time on Grey's flow and on the redesign, on a log scale" loading="lazy" data-i18n-alt="grey.alt5">
-
-        <figcaption data-i18n="grey.t78">Each line is one participant. 8 of 11 were faster on the redesign. One person took 439.5s on the redesign, their first version, before finding the right path.</figcaption>
-
+        <picture>
+          <source media="(max-width: 600px)" srcset="../assets/images/grey-round2-time-mobile.jpg">
+          <img src="../assets/images/grey-round2-time.jpg" alt="Slope charts of each participant's time on Grey and on v2, for crypto senders and first-timers, on a log scale" loading="lazy" data-i18n-alt="grey.alt9">
+        </picture>
+        <figcaption data-i18n="grey.t115">Each line is one person who finished both versions.</figcaption>
       </figure>
 
-      <p data-i18n="grey.t79">The redesign wasn't perfect. 3 of 11 closed the new sheet or went elsewhere before choosing, and one person took 7 minutes 20 seconds on the redesign, their first version, before finding the right path. One person preferred Grey's flow: a regular Grey user who took exactly the same time on both versions. Part of the time saving is also learning: people who did Grey's flow first typically saved 37.8s on the redesign, while people who did the redesign first saved only 6.1s.</p>
+      <p data-i18n="grey.t116">Crypto senders got faster and made fewer wrong turns, but rated v2 only 0.4 points easier: they already knew Grey's flow. First-timers felt it most: ease rose from 3.5 to 5.9, all 10 finished on v2 against 9 of 12 attempts on Grey, and all 10 preferred it.</p>
+      <p data-i18n="grey.t117">People were faster on whichever version came second, 21 of 28 times. Comparing first attempts only, before any practice, the redesign still led: 53s against 79s for crypto senders, and 126s against 188s for first-timers, though these groups are small.</p>
+      <p data-i18n="grey.t118">What v2 didn't fix: 4 people sent on Solana in v2 and 3 on Grey, in the network field both versions share. It is now the flow's biggest risk. The new sheet also added a mistake of its own: 2 first-timers sent the money by bank transfer.</p>
+      <div class="callout" data-i18n="grey.t119">"The send button brought out all the options." <span style="color: var(--soft)">First-timer, on why v2 was easier</span></div>
     </section>
 
-    <!-- ══ 06 REFLECTION ══ -->
+    <!-- ══ 08 REFLECTION ══ -->
     <section class="section">
-      <span class="section-num">06</span>
+      <span class="section-num">08</span>
       <h2 data-i18n="grey.t80">What I'd do differently</h2>
       <ul class="list">
         <li data-i18n="grey.t81">Check my reading of the live app sooner. I first noted that Grey pre-fills the network and switches to a light theme on the form. Both were wrong, and I only caught them when I looked again.</li>
-        <li data-i18n="grey.t82">Make the two options on the sheet more distinct. 3 of 11 people closed it before choosing, so next I'd test clearer icons for crypto and bank, and wording like "Wallet address" against "Bank account in NGN, GBP and more".</li>
-        <li data-i18n="grey.t83">Test one change at a time. Cutting my first redesign back to a single decision is what made the result mean anything, and I'll scope future tests the same way.</li>
+        <li data-i18n="grey.t82">Fix the network field next. Both rounds point there. An address starting with 0x can't be a Solana address, so the form could flag a mismatch between address and network before Continue, which targets the critical errors both versions share.</li>
+        <li data-i18n="grey.t120">Watch the bank option. First-timers gained the most from the question, and 2 of them still took the wrong branch. I'd test whether Send from the USDC balance should skip the question, since that money is already in crypto.</li>
+        <li data-i18n="grey.t83">Test one change at a time. Cutting my first redesign back to a single decision, and changing only the sheet in round 2, is what lets each result point to a cause.</li>
       </ul>
 
       <div class="footer-note" data-i18n="grey.t84">
