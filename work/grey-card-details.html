@@ -1,0 +1,761 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Finding card details on Grey - Research Article</title>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script src="../assets/js/analytics.js"></script>
+  <script src="../assets/js/i18n.js"></script>
+  <script src="../assets/js/bat-cursor.js" defer></script>
+  <style>
+    /* ─── Bat-logo cursor (hotspot = centre of the logo) ─── */
+    :root {
+      --cursor-default: url("../assets/cursor/bat.svg") 20 8, auto;
+      --cursor-pointer: url("../assets/cursor/bat-pointer.svg") 20 8, pointer;
+    }
+    html, body { cursor: var(--cursor-default); }
+    a, button, label, select, summary, [role="button"] { cursor: var(--cursor-pointer); }
+
+    :root {
+      --bg: #000;
+      --panel: rgba(255, 255, 255, 0.05);
+      --panel-strong: rgba(255, 255, 255, 0.08);
+      --line: rgba(255, 255, 255, 0.12);
+      --text: #ffffff;
+      --muted: rgba(255, 255, 255, 0.72);
+      --soft: rgba(255, 255, 255, 0.52);
+      --accent: #54daff;
+      --accent-2: #33badf;
+      --shadow: 0 24px 80px rgba(0, 0, 0, 0.45);
+      --radius: 22px;
+      --content: 1180px;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-family: Inter, system-ui, sans-serif;
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    a { color: inherit; }
+    img { max-width: 100%; display: block; }
+
+    .page {
+      width: min(var(--content), calc(100% - 32px));
+      margin: 0 auto;
+      padding: 32px 0 120px;
+    }
+
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      gap: 16px;
+      padding: 20px 0 34px;
+    }
+
+    /* Language Toggle */
+    /* Language Dropdown */
+    .lang-dropdown {
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+
+    .lang-dropdown-btn {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      background: transparent;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 8px;
+      padding: 6px 10px;
+      font-family: Orbitron, monospace;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      color: var(--muted);
+      cursor: var(--cursor-pointer);
+      transition: border-color 0.2s ease, color 0.2s ease, background 0.2s ease;
+      white-space: nowrap;
+    }
+
+    .lang-dropdown-btn:hover,
+    .lang-dropdown.open .lang-dropdown-btn {
+      border-color: var(--accent);
+      color: var(--text);
+      background: rgba(255, 255, 255, 0.04);
+    }
+
+    .lang-current-flag { font-size: 15px; line-height: 1; }
+    .lang-current { font-size: 12px; }
+
+    .lang-arrow {
+      font-size: 9px;
+      opacity: 0.6;
+      transition: transform 0.2s ease;
+      margin-left: 2px;
+    }
+
+    .lang-dropdown.open .lang-arrow { transform: rotate(180deg); }
+
+    .lang-dropdown-menu {
+      position: absolute;
+      top: calc(100% + 10px);
+      right: 0;
+      min-width: 155px;
+      background: rgba(8, 8, 12, 0.97);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 12px;
+      padding: 6px;
+      z-index: 200;
+      display: none;
+      flex-direction: column;
+      gap: 2px;
+      box-shadow: 0 16px 48px rgba(0, 0, 0, 0.7);
+      animation: dropdownFadeIn 0.18s ease;
+    }
+
+    @keyframes dropdownFadeIn {
+      from { opacity: 0; transform: translateY(-6px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .lang-dropdown.open .lang-dropdown-menu { display: flex; }
+
+    .lang-option {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      width: 100%;
+      background: transparent;
+      border: none;
+      border-radius: 8px;
+      padding: 9px 12px;
+      font-family: Orbitron, monospace;
+      font-size: 12px;
+      font-weight: 500;
+      letter-spacing: 0.06em;
+      color: rgba(255, 255, 255, 0.65);
+      cursor: var(--cursor-pointer);
+      text-align: left;
+      transition: background 0.15s ease, color 0.15s ease;
+    }
+
+    .lang-option:hover { background: rgba(255,255,255,0.06); color: var(--text); }
+    .lang-option.active { color: var(--accent); background: rgba(255,255,255,0.06); }
+    .lang-option .opt-flag { font-size: 16px; line-height: 1; }
+
+    .back {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+      font-family: Orbitron, monospace;
+      letter-spacing: 0.08em;
+      font-size: 13px;
+      text-transform: uppercase;
+    }
+
+    .back span {
+      font-size: 20px;
+      line-height: 1;
+      transform: translateY(-1px);
+    }
+
+    .hero {
+      padding-bottom: 96px;
+    }
+
+    .hero-banner {
+      margin-bottom: 28px;
+    }
+
+    .hero-banner img {
+      width: 100%;
+      height: auto;
+      border-radius: 0;
+      display: block;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 14px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: rgba(255,255,255,0.03);
+      font-family: Orbitron, monospace;
+      font-size: 12px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 18px;
+    }
+
+    .hero-copy {
+      max-width: 1240px;
+    }
+
+    .hero-kicker {
+      margin: 0 0 10px;
+      font-family: Orbitron, monospace;
+      font-size: 13px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--soft);
+    }
+
+    h1 {
+      margin: 0;
+      font-family: Orbitron, monospace;
+      font-size: clamp(42px, 5vw, 72px);
+      font-weight: 500;
+      line-height: 1.06;
+      letter-spacing: 0;
+      color: var(--text);
+    }
+
+    .subhead {
+      margin: 14px 0 0;
+      font-size: clamp(18px, 2vw, 22px);
+      color: var(--text);
+      font-weight: 600;
+    }
+
+    .lede {
+      max-width: 66ch;
+      margin: 18px 0 0;
+      font-size: 1.05rem;
+      color: var(--muted);
+    }
+
+    .hero-meta {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+      margin-top: 40px;
+    }
+
+    .meta-card,
+    .section,
+    .screen-shot,
+    .note-card {
+      background: linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.03));
+      border: none;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(14px);
+    }
+
+    .meta-card {
+      background: rgba(10,10,10,0.92);
+      border: 1px solid rgba(255,255,255,0.10);
+      border-radius: 26px;
+      box-shadow: 0 18px 55px rgba(0,0,0,0.45);
+      backdrop-filter: blur(10px);
+      padding: 18px;
+      min-height: 110px;
+    }
+
+    .meta-label {
+      display: block;
+      margin-bottom: 8px;
+      font-family: Orbitron, monospace;
+      font-size: 11px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--soft);
+    }
+
+    .meta-value {
+      font-size: 0.98rem;
+      color: var(--text);
+    }
+
+    .section {
+      padding: 56px 0 0;
+      margin-top: 72px;
+      background: transparent;
+      box-shadow: none;
+      backdrop-filter: none;
+    }
+
+    .section h2 {
+      margin: 0 0 14px;
+      font-family: Orbitron, monospace;
+      font-size: 1.45rem;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+
+    .section h3 {
+      margin: 0 0 10px;
+      font-family: Orbitron, monospace;
+      font-size: 1.02rem;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+
+    .section p,
+    .section li {
+      color: var(--muted);
+    }
+
+    .section p {
+      margin: 0 0 12px;
+    }
+
+    .section p:last-child { margin-bottom: 0; }
+
+    .grid {
+      display: grid;
+      gap: 18px;
+    }
+
+    .grid.cols-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .grid.cols-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+
+    .callout {
+      margin-top: 16px;
+      padding: 16px 18px;
+      border-left: 3px solid var(--accent);
+      color: var(--text);
+    }
+
+    .section-split {
+      display: block;
+    }
+
+    .split-gap {
+      margin-top: clamp(96px, 10vw, 180px);
+    }
+
+    .text {
+      min-width: 0;
+      max-width: 72ch;
+      margin-bottom: 22px;
+    }
+
+    .note-card {
+      padding: 18px 18px 16px;
+      border: 1px solid rgba(255,255,255,0.08);
+      background: rgba(255,255,255,0.03);
+    }
+
+    .note-card strong {
+      display: block;
+      margin-bottom: 8px;
+      font-family: Orbitron, monospace;
+      font-size: 11px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--accent);
+    }
+
+    .screen-shot {
+      overflow: hidden;
+      padding: 14px;
+      border: 1px solid rgba(255,255,255,0.08);
+      background: rgba(255,255,255,0.03);
+      width: min(100%, 1120px);
+      margin: 0 auto;
+    }
+
+    .screen-shot img {
+      width: 100%;
+      aspect-ratio: 1512 / 982;
+      object-fit: cover;
+      border-radius: calc(var(--radius) - 10px);
+      border: 1px solid rgba(255,255,255,0.08);
+    }
+
+    .screen-shot.full picture { display: block; }
+
+    .screen-shot.full img {
+      aspect-ratio: auto;
+      object-fit: contain;
+    }
+
+    .screen-shot figcaption {
+      padding: 12px 2px 2px;
+      color: var(--soft);
+      font-size: 0.92rem;
+    }
+
+    .list {
+      margin: 14px 0 0;
+      padding-left: 18px;
+    }
+
+    .list li { margin: 8px 0; }
+
+    .table-wrap {
+      overflow-x: auto;
+      border-radius: 20px;
+      border: 1px solid rgba(255,255,255,0.08);
+      margin-top: 22px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 640px;
+      background: rgba(255,255,255,0.02);
+    }
+
+    th, td {
+      padding: 14px 14px;
+      text-align: left;
+      vertical-align: top;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+
+    th {
+      font-family: Orbitron, monospace;
+      font-size: 11px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--soft);
+      background: rgba(255,255,255,0.03);
+    }
+
+    tr:last-child td { border-bottom: none; }
+
+    .footer-note {
+      margin-top: 40px;
+      padding-top: 18px;
+      border-top: 1px solid rgba(255,255,255,0.08);
+      color: var(--soft);
+      font-size: 0.94rem;
+    }
+
+    .screen-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      margin-top: 18px;
+      padding: 12px 16px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,184,74,0.4);
+      background: rgba(255,184,74,0.12);
+      color: var(--text);
+      font-family: Orbitron, monospace;
+      font-size: 11px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      text-decoration: none;
+    }
+
+    .screen-cta:hover {
+      border-color: rgba(255,184,74,0.7);
+      background: rgba(255,184,74,0.18);
+    }
+
+    @media (max-width: 980px) {
+      .grid.cols-2,
+      .grid.cols-3,
+      .bonus-grid,
+      .hero-meta,
+      .section-split {
+        grid-template-columns: 1fr;
+      }
+
+      .section {
+        margin-top: 44px;
+      }
+
+      h1 {
+        font-size: clamp(36px, 10vw, 58px);
+      }
+
+      .split-gap {
+        margin-top: 72px;
+      }
+    }
+
+    /* ─── Grey template additions ─── */
+
+
+    .disclaimer {
+      margin-top: 28px;
+      padding: 14px 18px;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      color: var(--soft);
+      font-size: 0.92rem;
+    }
+
+    .tldr {
+      margin-top: 28px;
+      padding: 22px 24px;
+      border-left: 3px solid var(--accent);
+      background: rgba(255,255,255,0.03);
+      border-radius: 0 16px 16px 0;
+    }
+    .tldr strong {
+      display: block;
+      margin-bottom: 8px;
+      font-family: Orbitron, monospace;
+      font-size: 11px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--accent);
+    }
+
+    .section-num {
+      display: block;
+      margin-bottom: 6px;
+      font-family: Orbitron, monospace;
+      font-size: 12px;
+      letter-spacing: 0.12em;
+      color: var(--soft);
+    }
+
+    .option-card {
+      padding: 22px;
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: var(--radius);
+      background: rgba(255,255,255,0.03);
+    }
+    .option-card h3 { margin-bottom: 8px; }
+    .option-card .tag {
+      display: inline-block;
+      margin-bottom: 12px;
+      padding: 4px 10px;
+      border-radius: 999px;
+      border: 1px solid var(--line);
+      font-family: Orbitron, monospace;
+      font-size: 10px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--soft);
+    }
+    .option-card.chosen { border-color: var(--accent); }
+    .option-card.chosen .tag { border-color: var(--accent); color: var(--accent); }
+    .option-card h4 {
+      margin: 14px 0 4px;
+      font-size: 0.85rem;
+      color: var(--text);
+    }
+    .option-card ul { margin: 0; padding-left: 18px; }
+    .option-card li { margin: 4px 0; font-size: 0.95rem; }
+
+    .stat-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 14px;
+      margin-top: 22px;
+    }
+    .stat {
+      padding: 20px;
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 18px;
+      background: rgba(255,255,255,0.03);
+    }
+    .stat .stat-label {
+      display: block;
+      font-family: Orbitron, monospace;
+      font-size: 10px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--soft);
+    }
+    .stat .stat-value {
+      display: block;
+      margin: 10px 0 6px;
+      font-family: Orbitron, monospace;
+      font-size: 1.5rem;
+      color: var(--text);
+    }
+    .stat .stat-note { font-size: 0.88rem; color: var(--soft); }
+
+    td.win { color: var(--accent); }
+
+
+    @media (max-width: 980px) {
+      .stat-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <header class="topbar">
+      <a class="back" href="../index.html#project-grid" aria-label="Back to project grid"><span>←</span> <span data-i18n="cs.back">Back</span></a>
+      <div class="lang-dropdown" style="margin-left: auto;">
+        <button type="button" class="lang-dropdown-btn" aria-haspopup="listbox" aria-expanded="false" aria-label="Select language">
+          <span class="lang-current-flag">🇬🇧</span>
+          <span class="lang-current">EN</span>
+          <span class="lang-arrow">▾</span>
+        </button>
+        <div class="lang-dropdown-menu" role="listbox">
+          <button type="button" class="lang-option active" data-lang="en"><span class="opt-flag">🇬🇧</span> English</button>
+          <button type="button" class="lang-option" data-lang="fr"><span class="opt-flag">🇫🇷</span> Français</button>
+          <button type="button" class="lang-option" data-lang="es"><span class="opt-flag">🇪🇸</span> Español</button>
+          <button type="button" class="lang-option" data-lang="de"><span class="opt-flag">🇩🇪</span> Deutsch</button>
+          <button type="button" class="lang-option" data-lang="ja"><span class="opt-flag">🇯🇵</span> 日本語</button>
+        </div>
+      </div>
+    </header>
+
+    <!-- ══ HERO ══ -->
+    <section class="hero">
+      <div class="eyebrow">Article · Grey · Self-initiated research</div>
+
+      <div class="hero-banner">
+        <img src="../assets/images/grey-card-details-02-first-taps.jpg" alt="Tap map of first taps on Grey's Cards screen. Most land on the card image, a few on Details. Card image 55%, Details 14%.">
+      </div>
+
+      <div class="hero-copy">
+        <p class="hero-kicker">A follow-up to my Grey send-flow case study</p>
+        <h1>I couldn't find my card number in Grey, so I tested it with 20 people</h1>
+        <div class="subhead">A findability test of Grey's Cards screen as it is today, set up so it could prove me wrong</div>
+
+        <div class="hero-meta">
+          <div class="meta-card">
+            <span class="meta-label">Role</span>
+            <div class="meta-value">Solo: research, prototype, test platform and analysis</div>
+          </div>
+          <div class="meta-card">
+            <span class="meta-label">When</span>
+            <div class="meta-value">Plan committed 7 November 2026, sessions 7 to 8 November 2026</div>
+          </div>
+          <div class="meta-card">
+            <span class="meta-label">Method</span>
+            <div class="meta-value">Unmoderated first-click and findability test on a copy of the Cards screen, 20 finished sessions</div>
+          </div>
+          <div class="meta-card">
+            <span class="meta-label">Headline result</span>
+            <div class="meta-value">Everyone found their card details, but only 14% tapped Details first. 55% tapped the card itself, which does nothing</div>
+          </div>
+        </div>
+
+        <p class="disclaimer">
+          This is self-initiated research for my portfolio. I am not affiliated with Grey, and Grey did not commission or review this work.
+          The screen tested is my copy of Grey's Cards screen, built from screenshots of the live app.
+        </p>
+      </div>
+    </section>
+
+    <!-- ══ 01 ══ -->
+    <section class="section">
+      <span class="section-num">01</span>
+      <h2>One person getting stuck is a lead, not a finding</h2>
+      <p>I was paying for something online, and the checkout asked for my Grey card's number, expiry date and CVV. I opened Grey, went to Cards, and got stuck. I tapped the card and nothing happened. It took me longer than it should have to find a button called "Details".</p>
+      <p>Before redesigning anything, I wanted to know whether other people got stuck too, and why.</p>
+
+      <figure class="screen-shot full" style="margin-top: 28px;">
+        <img src="../assets/images/grey-card-details-01-cards-screen-annotated.jpg" alt="Grey's Cards screen, annotated: the card shows •••• 9733 but does nothing when tapped, the details sit behind a Details button with an i icon, and Show PIN sits beside it" loading="lazy">
+        <figcaption>Grey's Cards screen today, with the three things I suspected.</figcaption>
+      </figure>
+    </section>
+
+    <!-- ══ 02 ══ -->
+    <section class="section">
+      <span class="section-num">02</span>
+      <h2>A test that could prove me wrong</h2>
+      <p>I built a clickable copy of Grey's Cards screen from screenshots of the live app, without changing anything. Tapping the card does nothing, as in the real app. Tapping Details opens a new screen with the card details.</p>
+      <p>Each person got one task: <em>"You're paying for something online and the checkout asks for your Grey card's number, expiry date and CVV. Find them in the app."</em></p>
+      <p>Before anyone took part, I wrote down four possible reasons for the problem and what result would point to each one, and committed that plan to git so the date was on record. I also wrote down what would prove me wrong: if 60% or more tapped Details first and the average ease rating was 5.5 out of 7 or higher, the problem was just me.</p>
+      <p>The main measure was each person's <strong>first tap</strong> on the Cards screen. In first-click research, people whose first click is right are about twice as likely to finish the task as people whose first click is wrong. Where people tap first also shows what they expected to find there.</p>
+    </section>
+
+    <!-- ══ 03 ══ -->
+    <section class="section">
+      <span class="section-num">03</span>
+      <h2>Everyone got there. Almost nobody went straight there.</h2>
+      <p>All 20 people who finished found their card details. Only 3 of the 22 people who tapped something on the Cards screen went to Details first. 12 tapped the card image first, and over the whole session, 16 of 25 people tapped the card at some point, even though it does nothing.</p>
+
+      <div class="stat-grid">
+        <div class="stat"><span class="stat-label">Tapped Details first</span><span class="stat-value">14%</span><span class="stat-note">3 of 22 · 95% range 5 to 33%</span></div>
+        <div class="stat"><span class="stat-label">Tapped the card first</span><span class="stat-value">55%</span><span class="stat-note">12 of 22 · 95% range 35 to 73%</span></div>
+        <div class="stat"><span class="stat-label">Median time to find</span><span class="stat-value">25s</span><span class="stat-note">range 6.5 to 114 seconds</span></div>
+        <div class="stat"><span class="stat-label">Median wrong taps</span><span class="stat-value">4</span><span class="stat-note">before reaching Details, range 0 to 39</span></div>
+      </div>
+
+      <p style="margin-top: 28px;">So it wasn't just me. And the problem wasn't failure, it was the route: most people went to the card, tapped it, nothing happened, and then they hunted around.</p>
+      <div class="callout">"Not sure what just happened" <span style="color: var(--soft)">Participant, after tapping the card twice, then Show PIN, then Freeze</span></div>
+      <p>When I asked where they first expected to find the card number, 10 of 18 said "by tapping the card itself". What people said matched what they did.</p>
+      <p>Against the rules I set beforehand:</p>
+      <ul class="list">
+        <li><strong>"It's just me" was ruled out.</strong> 14% tapped Details first, against the 60% bar, and the average ease was 5.4, just under the 5.5 bar.</li>
+        <li><strong>"People expect the card itself to reveal its details" was supported.</strong> The card was the most common first tap, four times as common as Details.</li>
+        <li><strong>Show PIN was the second most common detour.</strong> 10 of 25 people tried it on the way.</li>
+      </ul>
+      <p>The ease ratings were kinder than what people did. Two people took over 100 seconds and made 18 or more wrong taps, then still rated the task 7 out of 7. If I'd only asked people how easy it was, I'd have missed the problem.</p>
+
+      <figure class="screen-shot full" style="margin-top: 28px;">
+        <img src="../assets/images/grey-card-details-03-key-numbers.jpg" alt="Key numbers: 100% found their details, 14% tapped Details first, 55% tapped the card image first, 64% tapped the card at some point, 25 seconds median time to find, 4 median wrong taps" loading="lazy">
+        <figcaption>20 finished sessions, 7 to 8 November 2026. Ranges are 95% confidence intervals.</figcaption>
+      </figure>
+    </section>
+
+    <!-- ══ 04 ══ -->
+    <section class="section">
+      <span class="section-num">04</span>
+      <h2>What other card apps do</h2>
+      <p>Next I looked at how 20 other card and banking apps handle this, using Mobbin. Grey's layout, a card with buttons below it, is common, so the layout isn't the problem. Two things are different:</p>
+      <ul class="list">
+        <li><strong>The label.</strong> Other apps say what you'll get: "View card details", "Reveal card details", "Card details". Only N26 uses a bare "Details", and it pairs it with a card icon. None of the apps I looked at uses an "i".</li>
+        <li><strong>The card.</strong> Seven apps show the details on the card itself. X, Venmo and Brex put the control right on the card, which is where most of my participants tapped first.</li>
+      </ul>
+
+      <figure class="screen-shot full" style="margin-top: 28px;">
+        <img src="../assets/images/grey-card-details-04-industry-check.jpg" alt="Screens from X, Neo and Revolut showing card details on the card face, and from N26, Lloyds, Wise and Monzo using a named button below the card" loading="lazy">
+        <figcaption>App screens © their owners: X Corp, Neo Financial, Revolut, N26, Lloyds Banking Group, Wise and Monzo. Used here for commentary. Captured via Mobbin.</figcaption>
+      </figure>
+    </section>
+
+    <!-- ══ 05 ══ -->
+    <section class="section">
+      <span class="section-num">05</span>
+      <h2>A suggested fix, not tested</h2>
+      <p>I'm not claiming this works. But the data and the industry check point at the same two changes, and both are small.</p>
+      <ol class="list">
+        <li><strong>Make the card respond.</strong> Tapping the card, or a "Show details" pill on it, shows the number, expiry and CVV in place, with copy buttons for checkout.</li>
+        <li><strong>Name the button for what it shows.</strong> Change "Details" with an "i" to "Card details" with an eye icon.</li>
+      </ol>
+      <p>Any security check Grey uses today would still come before the details appear. If someone tests this, my study is the baseline: 14% went to Details first, the median time to find was 25 seconds, and the median was 4 wrong taps.</p>
+
+      <figure class="screen-shot full" style="margin-top: 28px;">
+        <img src="../assets/images/grey-card-details-05-suggested-fix.jpg" alt="Grey's Cards screen today next to two concept screens: the card has a Show details pill and the button reads Card details with an eye icon; tapping either shows the number, expiry and CVV on the card with copy buttons" loading="lazy">
+        <figcaption>Today, and the concept in two states. The concept is untested.</figcaption>
+      </figure>
+    </section>
+
+    <!-- ══ 06 ══ -->
+    <section class="section">
+      <span class="section-num">06</span>
+      <h2>What this study can't tell you</h2>
+      <ul class="list">
+        <li><strong>It used a copy of the app, not the real thing.</strong> Other buttons said "isn't part of this test", which may have shortened some searches.</li>
+        <li><strong>Few participants were Grey users.</strong> I aimed for at least 8. Only 5 took part, all occasional users, and nobody in the sample had a Grey card. The results mostly describe people seeing this screen for the first time.</li>
+        <li><strong>The sample was narrow:</strong> all on phones, mostly aged 18 to 24 and in Nigeria.</li>
+        <li><strong>20 people show patterns, not precise rates.</strong> Even so, the top of the range for "tapped Details first" (33%) is well below the 60% bar.</li>
+      </ul>
+    </section>
+
+    <!-- ══ 07 ══ -->
+    <section class="section">
+      <span class="section-num">07</span>
+      <h2>What I took from it</h2>
+      <p>My own frustration was the starting point, but I didn't let it be the evidence. Writing down beforehand what would prove me wrong is what makes the result worth reading. The other lesson is that asking how easy something was isn't enough. Watching where people actually tap is what showed the problem.</p>
+      <p>For the redesign and A/B test of Grey's send flow, see <a href="grey.html">the Grey case study</a>.</p>
+
+      <div class="footer-note">
+        Article · Grey Cards screen · Self-initiated · Not affiliated with Grey · Solo · 2026
+      </div>
+    </section>
+
+  </div>
+</body>
+</html>
