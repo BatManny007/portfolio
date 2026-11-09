@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Batmanny · Writing</title>
+    <link>https://batmanny.vercel.app/writing/</link>
+    <description>Articles by Emmanuel Osadolor on product design and research.</description>
+    <language>en</language>
+    <atom:link href="https://batmanny.vercel.app/writing/feed.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>I couldn't find my card number in Grey, so I tested it with 20 people</title>
+      <link>https://batmanny.vercel.app/writing/grey-card-details.html</link>
+      <guid>https://batmanny.vercel.app/writing/grey-card-details.html</guid>
+      <pubDate>Mon, 09 Nov 2026 12:00:00 GMT</pubDate>
+      <description>A findability test of Grey's Cards screen. Everyone found their card details, but only 14% tapped Details first. 55% tapped the card, which does nothing.</description>
+    </item>
+  </channel>
+</rss>
