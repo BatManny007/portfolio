@@ -667,13 +667,15 @@
     /* ─── CONTACT SECTION ──────────────────────────────── */
     /* The section keeps the Figma frame's 1440×1214 proportions on desktop;
        the scene fills it and the copy sits centred near the top. */
+    /* Desktop keeps the Figma frame's 1440×869 proportions, so the scene is
+       never cropped; the copy sits left, where the frame puts it. */
     #contact.section {
       position: relative;
       overflow: hidden;
-      min-height: clamp(720px, 84.31vw, 1214px);
-      justify-content: center;
+      min-height: max(620px, 60.35vw);
+      justify-content: flex-start;
       align-items: flex-start;
-      padding: clamp(140px, 16.5vw, 238px) 24px 64px;
+      padding: clamp(120px, 21.25vw, 306px) 24px 64px clamp(24px, 13.54vw, 195px);
     }
 
     .contact-scene {
@@ -691,21 +693,22 @@
     .contact-inner {
       position: relative;
       z-index: 1;
-      max-width: 570px;
+      /* narrower than 570px on smaller desktops so it never runs into Batman */
+      max-width: min(570px, 39.6vw);
       width: 100%;
-      margin: 0 auto;
+      margin: 0;
       display: block;
-      text-align: center;
+      text-align: left;
     }
 
     .contact-copy {
       display: flex;
       flex-direction: column;
-      align-items: center;
+      align-items: flex-start;
       gap: 18px;
     }
     #contact .contact-actions,
-    #contact .contact-socials { justify-content: center; }
+    #contact .contact-socials { justify-content: flex-start; }
 
     /* ── Contact scene motion ── */
     .cs-clouds { transform-box: view-box; }
@@ -728,7 +731,7 @@
     }
     .cs-signal-sweep {
       transform-box: view-box;
-      transform-origin: 790px 780px;
+      transform-origin: 639px 661px;
       animation: cs-sweep 11s ease-in-out infinite alternate;
     }
     @keyframes cs-sweep {
@@ -750,13 +753,13 @@
       96%  { opacity: 0.72; }
     }
 
-    /* The cape is skewed from the shoulder line (y = 786), so the shoulders
+    /* The cape is skewed from the shoulder line (y = 351), so the shoulders
        stay put and movement grows toward the hem. Two layers with unrelated
        timings — slow gusts plus a quick flutter — keep it from looking looped. */
     .cs-cape-gust,
     .cs-cape-flutter {
       transform-box: view-box;
-      transform-origin: 1000px 786px;
+      transform-origin: 1001px 351px;
     }
     .cs-cape-gust { animation: cs-cape-gust 5.6s cubic-bezier(0.45, 0, 0.55, 1) infinite; }
     .cs-cape-flutter { animation: cs-cape-flutter 1.9s linear infinite; }
@@ -815,9 +818,10 @@
       justify-content: center;
       gap: 10px;
       padding: 12px 16px;
-      background: rgba(255,255,255,0.06);
-      border: 1px solid rgba(255,255,255,0.12);
-      color: rgba(255,255,255,0.92);
+      /* dark fill so the white label stays readable over the Gotham scene */
+      background: rgba(0,0,0,0.78);
+      border: 1px solid rgba(255,255,255,0.24);
+      color: #fff;
       text-decoration: none;
       font-family: 'Orbitron', monospace;
       font-size: 12px;
@@ -828,8 +832,8 @@
 
     .contact-btn:hover {
       transform: translateY(-2px);
-      background: rgba(255,255,255,0.10);
-      border-color: rgba(255,255,255,0.20);
+      background: rgba(0,0,0,0.9);
+      border-color: rgba(255,255,255,0.4);
     }
 
     .contact-btn.primary {
@@ -1308,26 +1312,25 @@
       /* Phones: copy on top, scene pinned to the bottom and shifted so
          Batman stays in view; a fade keeps the copy readable. */
       #contact.section {
-        min-height: 960px;
+        --cs-w: clamp(965px, 257vw, 1300px);
+        min-height: calc(var(--cs-w) * 0.6035 + 380px);
         padding: 112px 24px 0;
       }
+      #contact .contact-inner { max-width: 570px; }
+      /* The scene sits under the copy, centred on Batman (x = 820 in the
+         frame), and its top edge fades into the page. */
       .contact-scene-svg {
         position: absolute;
         bottom: 0;
         left: 50%;
-        /* wide enough that the -67% shift never leaves a gap on either side */
-        width: max(760px, 152vw);
+        width: var(--cs-w);
         height: auto;
-        aspect-ratio: 1440 / 1214;
-        transform: translateX(-67%);
+        aspect-ratio: 1440 / 869;
+        transform: translateX(-56.9%);
+        -webkit-mask-image: linear-gradient(transparent 0, #000 16%);
+        mask-image: linear-gradient(transparent 0, #000 16%);
       }
-      .contact-scene::after {
-        content: "";
-        position: absolute;
-        inset: 0 0 auto 0;
-        height: 460px;
-        background: linear-gradient(#000 0%, rgba(0,0,0,0.7) 50%, rgba(0,0,0,0) 100%);
-      }
+
 
       /* Works mobile */
       #work {
@@ -1622,8 +1625,8 @@
       <!-- Left -->
       <div class="hero-left">
         <div class="hero-text">
-          <h1 class="hero-headline" id="hero-headline" data-i18n="hero.headline">Designing digital products people trust with their money, time, and attention.</h1>
-          <p class="hero-sub reveal-after" id="hero-sub" data-i18n="hero.sub">Senior Product Designer with 5+ years transforming complex systems into intuitive, human-centered experiences.</p>
+          <h1 class="hero-headline" id="hero-headline" data-i18n="hero.headline">I make complex products easier to understand, trust and use.</h1>
+          <p class="hero-sub reveal-after" id="hero-sub" data-i18n="hero.sub">I’m a Product Designer who combines research, product thinking and design to solve real user problems. From understanding behaviour and uncovering friction to shaping interfaces and building functional experiences, I enjoy getting involved in the work from idea to execution.</p>
         </div>
 
         <div class="hero-actions">
@@ -2118,12 +2121,12 @@
         </div>
 
         <div class="about-copy">
-          <h2 class="about-title" data-typewriter data-i18n="about.heading">BEHIND THE MASK</h2>
-          <p class="about-lead" data-i18n="about.p1">I’m Emmanuel, a product designer who likes to get close to the work: sketching the idea, shaping the interface, and sometimes building the thing myself.</p>
-          <p data-i18n="about.p2">I enjoy products that have a bit of character. The kind where the empty states, buttons, motion, and tiny details all feel like someone actually cared. That is the part of design I keep coming back to: making useful things feel clear, alive, and easy to trust.</p>
-          <p data-i18n="about.p3">Most of my work sits around product design, UI systems, visual design, and front-end implementation. I have worked across Web3, fintech, games, dashboards, and experimental tools, usually in places where the product needs to feel sharp without becoming confusing.</p>
-          <p data-i18n="about.p4">I also make illustrations and brand visuals, so I think a lot about mood and personality, not just screens. Sometimes the right visual language can explain a product faster than another paragraph ever could.</p>
-          <p data-i18n="about.p5">I use tools like Figma, HTML, CSS, JavaScript, Codex, and Claude Code to move from rough idea to working prototype quickly. I like teams that care about taste, clarity, and shipping work that feels considered.</p>
+          <h2 class="about-title" data-typewriter data-i18n="about.heading">THE PERSON BEHIND THE PROCESS</h2>
+          <p class="about-lead" data-i18n="about.p1">I’m Emmanuel, a product designer who enjoys figuring out why things work the way they do, why they sometimes don’t, and how they could work better.</p>
+          <p data-i18n="about.p2">My process often starts with questions. What’s confusing people? What’s stopping them from completing a task? Are we solving the right problem in the first place?</p>
+          <p data-i18n="about.p3">I enjoy getting into the research, exploring possibilities, challenging assumptions and translating what I learn into experiences that make sense to people.</p>
+          <p data-i18n="about.p4">I care about the visual craft just as much. I enjoy shaping interfaces, building design systems, exploring interactions and giving products a visual identity that feels considered.</p>
+          <p data-i18n="about.p5">And because I like seeing ideas become real, I occasionally take things further by building them myself.</p>
         </div>
       </div>
     </section>
@@ -2132,9 +2135,9 @@
     <section id="contact" class="section section-transition">
       <!-- Animated Gotham scene (artwork: Figma "Contact" frame). Static skyline +
            line art is one WebP; clouds, bat-signal, lit windows, cape, Batman and
-           the wall are vectors so they can move. viewBox = the 1440×1214 frame. -->
+           the wall are vectors so they can move. viewBox = the 1440×869 frame. -->
       <div class="contact-scene" id="contact-scene" aria-hidden="true">
-        <svg class="contact-scene-svg" viewBox="0 0 1440 1214" preserveAspectRatio="xMaxYMax slice" focusable="false">
+        <svg class="contact-scene-svg" viewBox="0 0 1440 869" preserveAspectRatio="xMaxYMax slice" focusable="false">
           <defs>
             <linearGradient id="cs-cloud-back" x1="696.416" y1="937.65" x2="696" y2="141.67" gradientUnits="userSpaceOnUse">
               <stop stop-color="#151515"/><stop offset="1" stop-color="#1C1C1C"/>
@@ -2142,7 +2145,7 @@
             <linearGradient id="cs-cloud-front" x1="622.5" y1="602.704" x2="604.5" y2="82.2041" gradientUnits="userSpaceOnUse">
               <stop/><stop offset="1" stop-color="#2B2B2B"/>
             </linearGradient>
-            <linearGradient id="cs-beam" x1="790" y1="780" x2="1225" y2="165" gradientUnits="userSpaceOnUse">
+            <linearGradient id="cs-beam" x1="639" y1="661" x2="749" y2="191" gradientUnits="userSpaceOnUse">
               <stop stop-color="#BFEFFF" stop-opacity="0.34"/>
               <stop offset="1" stop-color="#BFEFFF" stop-opacity="0.12"/>
             </linearGradient>
@@ -2170,29 +2173,30 @@
             </filter>
           </defs>
 
-          <g class="cs-clouds cs-clouds-back"><g transform="translate(0 81.33)">
+          <g class="cs-clouds cs-clouds-back"><g transform="translate(0 -185.67)">
             <path opacity="0.47" fill="url(#cs-cloud-back)" d="M151.83 150.349C160.997 133.331 156.819 110.224 142.271 97.4942C127.723 84.7642 104.267 83.6862 88.6142 95.0271C98.7956 43.2208 42.9378 -4.83039 -9.59917 0.389667C-62.1379 5.60972 -104.086 50.0905 -122.36 99.6231C-140.634 149.156 -139.842 203.387 -138.82 256.174C-135.848 409.643 -132.876 563.11 -129.905 716.579C-128.966 765.084 -126.886 817.098 -97.9476 856.037C-61.1648 905.533 6.64522 918.176 68.0161 924.225C199.266 937.161 331.406 937.234 463.293 937.295C720.892 937.413 978.489 937.532 1236.09 937.649C1321.2 937.689 1416.6 933.529 1475.02 871.627C1529.53 813.86 1532.39 725.957 1532.07 646.529C1531.47 495.678 1530.88 344.828 1530.28 193.977C1530.15 161.124 1529.88 127.485 1518.53 96.6568C1507.18 65.8284 1482.31 37.8543 1449.94 32.249C1407.14 24.8385 1365.78 59.7854 1352.25 101.057C1338.71 142.328 1346.67 187.431 1358.24 229.294C1339.91 218.941 1313.05 234.554 1312.97 255.606C1288.62 252.69 1264.93 276.761 1268.23 301.062C1250.1 283.2 1213.58 294.114 1208.22 318.994C1219.26 275.206 1185.66 225.621 1140.9 219.65C1096.14 213.679 1050.71 252.725 1049.9 297.877C1023.05 287.382 989.11 301.758 977.966 328.343C966.824 354.93 980.37 389.206 1006.68 400.992C1003.81 411.182 1000.94 421.373 998.077 431.563C970.953 411.991 925.816 440.39 931.72 473.313C901.123 459.81 860.683 479.374 852.279 511.745C829.42 492.693 791.214 496.329 772.36 519.353C778.345 488.07 733.394 461.923 709.158 482.59C750.36 415.787 717.929 315.519 645.411 285.497C616.341 264.136 572.885 265.127 544.819 287.793C516.753 310.458 506.636 352.731 521.399 385.646C478.801 371.793 427.55 394.715 409.479 435.703C380.903 432.659 351.149 444.474 332.446 466.293C348.955 430.302 328.867 382.275 291.65 368.754C320.664 334.591 312.736 275.815 275.708 250.56C238.679 225.304 181.065 239.378 159.848 278.859C153.802 276.624 147.753 274.388 141.706 272.151C175.633 242.502 180.396 185.197 151.83 150.349Z"/>
           </g></g>
 
-          <g class="cs-clouds cs-clouds-front"><g transform="translate(0 308.8)">
+          <g class="cs-clouds cs-clouds-front"><g transform="translate(0 41.8)">
             <path opacity="0.55" fill="url(#cs-cloud-front)" d="M1587.63 67.9723C1551.72 18.814 1466.66 19.9771 1430.89 68.5312C1428.96 71.1593 1426.12 72.9319 1422.95 73.6897C1395.93 80.1325 1374.66 106.419 1374.2 134.227C1374.16 136.737 1373.48 139.208 1372.09 141.303C1356.48 164.939 1350.79 194.974 1356.84 222.666C1353.6 205.052 1333.84 193.38 1316.65 196.321C1310.45 197.381 1304.27 194.386 1301.67 188.661L1287.51 157.563C1284.41 150.773 1276.42 147.754 1269.61 150.806C1263.53 153.53 1256.41 151.419 1252.73 145.87C1238.4 124.246 1204.83 116.488 1182.81 130.419C1178.64 133.057 1173.34 133.071 1168.99 130.752C1148.11 119.632 1120.18 122.298 1102.38 138.134C1084.2 154.324 1078.45 182.636 1087.93 204.898C1089.63 208.888 1089.54 213.463 1087.31 217.182C1069.24 247.292 1069.22 287.668 1087.9 317.524C1081.2 298.429 1060.22 285.46 1040.14 288.005C1027.59 289.595 1016.22 297.139 1009.03 307.496C1005.09 313.168 996.815 315.286 990.857 311.795C981.713 306.44 968.609 306.04 960.343 311.946C955.429 315.456 948.818 314.979 944.113 311.191C930.96 300.603 912.672 296.284 896.313 300.757C880.02 305.212 866.518 318.148 860.545 333.869C858.232 339.958 851.749 343.168 845.339 342.018C831.766 339.581 816.166 346.811 809.13 358.685C805.496 364.817 797.481 366.917 791.23 363.49C744.957 338.111 737.688 280.497 688.034 317.719C677.597 325.542 670.174 336.521 665.589 348.73C658.425 367.8 634.347 366.056 619.294 344.997C616.923 341.68 616.272 337.451 617.306 333.508C630.498 283.255 600.583 224.65 551.374 207.062C502.729 189.674 443.263 215.239 420.99 261.449C418.867 265.855 414.558 268.876 409.673 269.127C375.607 270.887 343.952 296.218 333.569 328.582C331.073 336.364 322.288 340.319 314.934 336.753C269.592 314.756 208.835 326.551 176.979 366.248C194.374 346.675 198.396 316.312 186.697 292.885C177.923 275.315 160.716 262.471 141.65 258.052C133.831 256.24 129.671 247.881 132.232 240.274C141.366 213.155 124.637 177.204 96.8729 169.279C90.8063 167.546 86.8434 161.687 87.1581 155.387C88.6611 125.377 88.2397 94.9425 78.3115 66.7351C67.0231 34.6605 40.7926 5.72054 7.15347 0.750094C-33.4566 -5.24953 -72.2724 25.5878 -89.1878 62.9928C-106.103 100.396 -106.15 142.934 -105.895 183.984C-105.418 261.263 -104.938 338.54 -104.461 415.818C-103.918 503.416 -99.3331 601.044 -36.6056 662.192C25.865 723.089 123.103 725.446 210.332 723.914C557.328 717.822 904.286 709.672 1251.24 701.521C1321.21 699.877 1395.66 696.848 1453.24 657.051C1529.32 604.466 1553.6 503.257 1557.92 410.873C1562.25 318.49 1553.09 222.769 1585.82 136.271C1595.7 110.163 1604.1 90.5057 1587.63 67.9723Z"/>
           </g></g>
 
-          <!-- Bat-signal: beam rises from behind the skyline onto the clouds -->
+          <!-- Bat-signal (Figma layer "bat-signal"): beam rises from behind the skyline onto the clouds -->
           <g class="cs-signal">
             <g class="cs-signal-sweep">
-              <polygon class="cs-beam" points="784.3,776 795.7,784 1294.4,214.1 1155.6,115.9" fill="url(#cs-beam)" filter="url(#cs-soft)"/>
-              <g transform="translate(1225 165) rotate(-12)">
+              <polygon class="cs-beam" points="632.2,659.5 645.8,662.5 832.1,208.9 665.9,173.1" fill="url(#cs-beam)" filter="url(#cs-soft)"/>
+              <g transform="translate(749 191) rotate(12)">
                 <ellipse rx="96" ry="60" fill="#CDEFFC" fill-opacity="0.5"/>
                 <path transform="translate(-57 -36) scale(0.4)" fill="#0A0F14" fill-opacity="0.92" d="M284 1.82C277.527 14.159 262.396 42.963 253.657 59.469C244.919 75.975 242.735 101.543 242.735 112.264C232.823 116.714 208.752 128.042 191.76 137.751C174.769 147.461 151.508 181.443 142.001 197.221C132.494 181.443 109.231 147.461 92.24 137.751C75.248 128.042 51.177 116.714 41.265 112.264C41.265 101.543 39.081 75.975 30.342 59.469C21.604 42.963 6.473 14.159 0.001 1.82L78.283 47.332C78.89 65.942 84.594 103.161 102.556 103.161C125.009 103.161 128.65 85.563 128.65 65.537C129.661 68.572 135.69 74.034 142.001 74.034C148.311 74.034 154.339 68.572 155.35 65.537C155.35 85.563 158.992 103.161 181.445 103.161C199.407 103.161 205.111 65.942 205.718 47.332L284 1.82Z"/>
               </g>
             </g>
           </g>
 
-          <image href="assets/images/contact-gotham.webp" x="0" y="0" width="1440" height="1214"/>
+          <!-- The city art sits 267px higher in the frame than when this image was exported -->
+          <image href="assets/images/contact-gotham.webp" x="0" y="-267" width="1440" height="1214"/>
 
           <!-- A few windows light up in the brand cyan and flicker -->
-          <g class="cs-windows" fill="#54DAFF" filter="url(#cs-glow)">
+          <g class="cs-windows" fill="#54DAFF" filter="url(#cs-glow)" transform="translate(0 -267)">
             <path class="cs-win" style="--d:7s;--o:0s" transform="translate(404.83 321.19)" d="M0.508565 36.533C0.510373 36.5818 0.532077 36.6162 0.535695 36.6632C0.541121 36.8115 0.548361 36.9598 0.551978 37.1082C0.602623 38.7957 2.50724 39.3456 3.54184 38.6583C4.07904 38.4539 4.56377 38.0469 4.85317 37.3524C6.4105 33.6046 6.72703 30.0179 6.26038 26.149C6.35986 25.496 6.45212 24.8467 6.51542 24.2009C6.91516 20.1168 6.55882 16.0326 5.8317 12.0136C5.65987 11.0676 4.67231 10.3803 3.71729 10.3531C3.69559 7.32892 3.67208 4.30466 3.63228 1.28224C3.61058 -0.325741 1.14162 -0.479468 1.11992 1.15202C1.06746 5.09872 1.04032 9.04902 1.01319 13.0011C0.144991 14.8877 0.014778 16.9478 0.00211677 19.2323C-0.0304407 24.7833 0.320453 30.4104 0.51218 35.9741C0.513989 36.1604 0.499521 36.3431 0.508565 36.533Z"/>
             <path class="cs-win" style="--d:11s;--o:-3s" transform="translate(462.8 411.71)" d="M2.59636 19.1227C5.19372 19.2638 6.1849 17.2416 5.24435 15.0078C4.95676 14.3259 4.19525 14.183 3.59656 14.4326C2.53663 10.2526 3.49349 5.35449 3.4537 1.19618C3.43923 -0.303277 1.17827 -0.447951 1.11135 1.07502C0.85993 6.70927 -1.23823 12.698 1.07878 18.146C1.32296 18.7212 1.99585 19.0902 2.59636 19.1227Z"/>
             <path class="cs-win" style="--d:9s;--o:-5s" transform="translate(459.3 615.76)" d="M5.78397 25.0822C5.81652 17.1128 5.49817 8.92821 3.64601 1.14878C3.19202 -0.761262 0.395696 -0.113743 0.692331 1.80172C1.88611 9.52328 2.01819 17.1074 2.17193 24.8959C2.17736 25.131 2.23882 25.3281 2.30755 25.5181C1.59491 25.4113 0.829826 25.784 0.813547 26.7281C0.625437 37.4866 -0.794464 49.0336 0.621787 59.6962C0.871394 61.5755 3.52663 61.098 3.7473 59.4358C5.14185 48.9342 3.7057 37.4685 3.52121 26.8674C3.5194 26.7733 3.48323 26.7028 3.46695 26.6196C4.50336 26.9524 5.77673 26.4857 5.78397 25.0822Z"/>
@@ -2210,10 +2214,10 @@
           </g>
 
           <g class="cs-cape-gust"><g class="cs-cape-flutter">
-            <path class="cs-cape" transform="translate(764.74 764.39)" fill="#000" filter="url(#cs-wind)" d="M190.992 9.16334C192.72 8.3855 193.324 3.95744 193.41 1.84064L226.349 -0.000154683C227.365 1.10129 230.199 4.39701 233.414 8.76835C236.629 13.1397 263.93 23.0846 277.178 27.5106L285.499 369.473C284.748 353.187 275.127 325.731 256.499 324.973C237.871 324.215 218.419 350.651 211.999 369.473C218.419 350.651 213.328 315.247 181.999 313.973C158.733 313.027 149.445 335.224 144.49 353.301C143.752 360.309 142.185 366.239 140.499 369.473C141.577 365.333 142.774 359.564 144.49 353.301C146.439 334.812 142.62 308.812 119.999 304.973C92.2424 300.262 83.2582 329.643 69.415 349.654C68.6626 350.839 67.8571 351.95 66.999 352.973C67.823 351.903 68.6269 350.794 69.415 349.654C80.2061 332.666 80.0505 300.579 66.9991 295.973C24.4991 280.973 21.6667 335.509 -6.11133e-08 345.473C25.5 288.973 52.9966 253.473 87.499 162.473C98.8675 132.488 130.452 47.1825 148.724 31.8278C148.81 29.711 188.832 10.1357 190.992 9.16334Z"/>
+            <path class="cs-cape" transform="translate(765.97 329.39)" fill="#000" filter="url(#cs-wind)" d="M190.992 9.16334C192.72 8.3855 193.324 3.95744 193.41 1.84064L226.349 -0.000154683C227.365 1.10129 230.199 4.39701 233.414 8.76835C236.629 13.1397 263.93 23.0846 277.178 27.5106L285.499 369.473C284.748 353.187 275.127 325.731 256.499 324.973C237.871 324.215 218.419 350.651 211.999 369.473C218.419 350.651 213.328 315.247 181.999 313.973C158.733 313.027 149.445 335.224 144.49 353.301C143.752 360.309 142.185 366.239 140.499 369.473C141.577 365.333 142.774 359.564 144.49 353.301C146.439 334.812 142.62 308.812 119.999 304.973C92.2424 300.262 83.2582 329.643 69.415 349.654C68.6626 350.839 67.8571 351.95 66.999 352.973C67.823 351.903 68.6269 350.794 69.415 349.654C80.2061 332.666 80.0505 300.579 66.9991 295.973C24.4991 280.973 21.6667 335.509 -6.11133e-08 345.473C25.5 288.973 52.9966 253.473 87.499 162.473C98.8675 132.488 130.452 47.1825 148.724 31.8278C148.81 29.711 188.832 10.1357 190.992 9.16334Z"/>
           </g></g>
-          <path transform="translate(905.39 699.34)" fill="#000" d="M77.0886 1.55894e-05C79.4866 1.86482 84.5934 8.36253 85.8391 19.4381C87.0849 30.5143 90.0348 55.3008 91.354 66.3093C92.9603 70.2619 98.2632 78.8883 106.627 81.7728C114.991 84.6573 132.405 90.949 140.066 93.7343C142.868 103.036 148.588 123.976 149.056 133.325C149.524 142.673 150.336 162.707 150.683 171.556L159.692 184.645L159.39 192.054L170.276 185.075C169.794 188.236 168.177 194.955 165.568 196.545C162.959 198.135 161.429 202.738 160.99 204.84L171.789 199.979C170.954 203.126 168.421 209.807 164.966 211.363C161.51 212.919 158.977 219.601 158.142 222.747L168.898 218.944C168.783 221.766 167.681 228.012 164.191 230.414C160.701 232.817 159.685 236.945 159.613 238.709C158.807 241.15 157.143 247.302 156.937 252.382C156.73 257.462 157.659 269.374 158.149 274.695L149.467 279.642L134.649 279.039L128.058 258.629C131.673 256.655 138.935 251.862 139.073 248.475C139.245 244.241 138.746 230.439 136.845 225.061C135.324 220.759 128.462 205.285 125.22 198.085C122.954 210.361 118.591 235.979 119.265 240.248C120.108 245.583 135.794 276.966 137.093 297.161C138.132 313.318 138.609 329.381 138.718 335.393C143.99 344.795 154.447 365.716 154.103 374.184C153.759 382.651 154.658 430.041 155.151 452.678L142.365 454.278C132.599 433.738 113.101 391.812 113.239 388.425C113.411 384.191 114.529 356.672 112.714 349.178C111.577 344.486 101.494 323.552 93.4013 307.233C87.0712 324.694 77.0141 353.322 76.3414 358.875C75.4143 366.532 79.7411 393.73 80.4068 397.915C80.9389 401.263 66.4744 445.18 59.1753 466.72L46.2886 466.625C44.1331 444.086 39.4902 396.916 38.1588 388.547C36.8275 380.178 44.768 358.177 48.9049 348.223C48.3106 342.24 46.9077 326.231 46.0519 310.064C44.9821 289.856 56.8939 256.857 57.1086 251.458C57.2798 247.141 49.9523 222.206 46.2671 210.279C43.8896 217.807 38.8823 233.978 37.8741 238.429C36.614 243.992 37.7309 257.758 38.3965 261.943C38.9293 265.29 46.7029 269.202 50.5227 270.74L46.3615 291.78L31.7157 294.111L22.515 290.212C22.3803 284.87 21.9112 272.932 21.1124 267.911C20.3136 262.889 17.9418 256.974 16.856 254.644C16.5787 252.9 15.0873 248.919 11.3403 246.94C7.59342 244.962 5.76949 238.888 5.32571 236.098L16.4522 238.619C15.2555 235.591 11.959 229.251 8.34521 228.11C4.73142 226.969 1.43394 220.629 0.237202 217.602L11.5313 221.168C10.8498 219.131 8.79224 214.74 6.01555 213.465C3.23859 212.191 0.847965 205.706 -1.12204e-06 202.623L11.6263 208.281L10.461 200.958L17.879 186.908C17.1895 178.079 15.6545 158.086 15.0269 148.747C14.3992 139.408 8.64278 112.865 10.3386 103.3C16.7419 100.081 42.8255 86.3511 54.4522 80.4689L53.8359 76.4454L53.7171 1.16941L56.6339 7.64876C58.1895 11.1044 59.7316 18.376 60.3081 21.5801L76.1846 22.2258L77.0886 1.55894e-05Z"/>
-          <path transform="translate(820 280)" fill="#000" d="M60 1006L76.5 1132L620 1179.5L620 0C620 0 290 51.4998 279.5 58.9998C269 66.4998 279.5 524.944 279.5 823.5L0 886V917L33 937.5V989.5L60 1006Z"/>
+          <path transform="translate(906.62 264.33)" fill="#000" d="M77.0886 1.55894e-05C79.4866 1.86482 84.5934 8.36253 85.8391 19.4381C87.0849 30.5143 90.0348 55.3008 91.354 66.3093C92.9603 70.2619 98.2632 78.8883 106.627 81.7728C114.991 84.6573 132.405 90.949 140.066 93.7343C142.868 103.036 148.588 123.976 149.056 133.325C149.524 142.673 150.336 162.707 150.683 171.556L159.692 184.645L159.39 192.054L170.276 185.075C169.794 188.236 168.177 194.955 165.568 196.545C162.959 198.135 161.429 202.738 160.99 204.84L171.789 199.979C170.954 203.126 168.421 209.807 164.966 211.363C161.51 212.919 158.977 219.601 158.142 222.747L168.898 218.944C168.783 221.766 167.681 228.012 164.191 230.414C160.701 232.817 159.685 236.945 159.613 238.709C158.807 241.15 157.143 247.302 156.937 252.382C156.73 257.462 157.659 269.374 158.149 274.695L149.467 279.642L134.649 279.039L128.058 258.629C131.673 256.655 138.935 251.862 139.073 248.475C139.245 244.241 138.746 230.439 136.845 225.061C135.324 220.759 128.462 205.285 125.22 198.085C122.954 210.361 118.591 235.979 119.265 240.248C120.108 245.583 135.794 276.966 137.093 297.161C138.132 313.318 138.609 329.381 138.718 335.393C143.99 344.795 154.447 365.716 154.103 374.184C153.759 382.651 154.658 430.041 155.151 452.678L142.365 454.278C132.599 433.738 113.101 391.812 113.239 388.425C113.411 384.191 114.529 356.672 112.714 349.178C111.577 344.486 101.494 323.552 93.4013 307.233C87.0712 324.694 77.0141 353.322 76.3414 358.875C75.4143 366.532 79.7411 393.73 80.4068 397.915C80.9389 401.263 66.4744 445.18 59.1753 466.72L46.2886 466.625C44.1331 444.086 39.4902 396.916 38.1588 388.547C36.8275 380.178 44.768 358.177 48.9049 348.223C48.3106 342.24 46.9077 326.231 46.0519 310.064C44.9821 289.856 56.8939 256.857 57.1086 251.458C57.2798 247.141 49.9523 222.206 46.2671 210.279C43.8896 217.807 38.8823 233.978 37.8741 238.429C36.614 243.992 37.7309 257.758 38.3965 261.943C38.9293 265.29 46.7029 269.202 50.5227 270.74L46.3615 291.78L31.7157 294.111L22.515 290.212C22.3803 284.87 21.9112 272.932 21.1124 267.911C20.3136 262.889 17.9418 256.974 16.856 254.644C16.5787 252.9 15.0873 248.919 11.3403 246.94C7.59342 244.962 5.76949 238.888 5.32571 236.098L16.4522 238.619C15.2555 235.591 11.959 229.251 8.34521 228.11C4.73142 226.969 1.43394 220.629 0.237202 217.602L11.5313 221.168C10.8498 219.131 8.79224 214.74 6.01555 213.465C3.23859 212.191 0.847965 205.706 -1.12204e-06 202.623L11.6263 208.281L10.461 200.958L17.879 186.908C17.1895 178.079 15.6545 158.086 15.0269 148.747C14.3992 139.408 8.64278 112.865 10.3386 103.3C16.7419 100.081 42.8255 86.3511 54.4522 80.4689L53.8359 76.4454L53.7171 1.16941L56.6339 7.64876C58.1895 11.1044 59.7316 18.376 60.3081 21.5801L76.1846 22.2258L77.0886 1.55894e-05Z"/>
+          <path transform="translate(821.23 -155)" fill="#000" d="M60 1006L76.5 1132L620 1179.5L620 0C620 0 290 51.4998 279.5 58.9998C269 66.4998 279.5 524.944 279.5 823.5L0 886V917L33 937.5V989.5L60 1006Z"/>
         </svg>
       </div>
       <div class="contact-inner">

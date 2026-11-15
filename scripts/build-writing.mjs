@@ -161,13 +161,13 @@ ${thumb ? `        <div class="thumb"><img src="${thumb}" alt="" loading="lazy">
       </a></li>`;
 }).join('\n');
 fs.writeFileSync(path.join(OUT, 'index.html'), page({
-  title: 'Writing · Batmanny', description: 'Articles by Emmanuel Osadolor on product design, research and what I learn testing real apps.',
+  title: 'Writing · Batmanny', description: 'Thoughts, experiments and observations by Emmanuel Osadolor on how people interact with digital products, the problems they run into, and the opportunities in between.',
   url: `${SITE}/writing/`, ogType: 'website', ogImage: '', backHref: '../index.html', backLabel: 'Home',
   body: `    <section class="hero" style="padding-bottom: 24px;">
       <div class="eyebrow">Writing</div>
       <div class="hero-copy">
         <h1>Writing</h1>
-        <div class="subhead">Notes on product design, research and what I learn testing real apps.</div>
+        <div class="subhead">Thoughts, experiments and observations on how people interact with digital products, the problems they encounter, and the opportunities hiding in between.</div>
         <a class="feed-link" href="feed.xml">Follow with RSS</a>
       </div>
     </section>
