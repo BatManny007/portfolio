@@ -666,18 +666,18 @@
 
     /* ─── CONTACT SECTION ──────────────────────────────── */
     #contact.section {
+      min-height: auto;
       justify-content: center;
       align-items: stretch;
+      padding-top: 120px;
+      padding-bottom: 96px;
     }
 
     .contact-inner {
       max-width: 1440px;
       width: 100%;
       margin: 0 auto;
-      display: grid;
-      grid-template-columns: 1.1fr 0.9fr;
-      gap: 56px;
-      align-items: start;
+      display: block;
     }
 
     .contact-copy {
@@ -1210,12 +1210,9 @@
       .about-portrait { width: min(340px, 100%); }
 
       /* Contact mobile */
-      .contact-inner {
-        grid-template-columns: 1fr;
-        gap: 160px;
-      }
       #contact.section {
-        padding-top: 120px;
+        padding-top: 96px;
+        padding-bottom: 64px;
       }
       .contact-socials {
         justify-content: flex-start;
@@ -1397,6 +1394,16 @@
       98%             { transform: scaleY(1); }
     }
   </style>
+  <!-- Loader already seen this session: hide it before first paint so a
+       reload doesn't flash it. The main script then reveals the homepage. -->
+  <script>
+    try {
+      if (sessionStorage.getItem('batmanny:home-loader-seen') === '1') {
+        document.documentElement.classList.add('loader-seen');
+      }
+    } catch {}
+  </script>
+  <style>.loader-seen #loader { display: none !important; }</style>
   <!-- With JS disabled (incl. many crawlers/scrapers): skip the loader gate and
        reveal all content so the work section and copy are readable. -->
   <noscript>
@@ -2017,7 +2024,7 @@
           <h2 class="contact-title" data-typewriter data-i18n="contact.heading">CONTACT</h2>
           <p data-i18n="contact.lead">If you’re building something ambitious (or you want your product to feel like it has a pulse), let’s talk. I’m open to product design, interaction design, and design-engineering collaborations.</p>
           <div class="contact-actions">
-            <a class="contact-btn primary" id="contact-email-link" href="#contact-form" data-i18n="contact.btn.message">MESSAGE ME</a>
+            <a class="contact-btn primary" id="contact-email-link" href="mailto:eosadolor382@gmail.com?subject=Hello%20from%20your%20portfolio" data-i18n="contact.btn.message">MESSAGE ME</a>
             <button class="contact-btn" type="button" id="contact-copy-email" data-email="eosadolor382@gmail.com" data-i18n="contact.btn.copy">COPY EMAIL</button>
           </div>
 
@@ -2049,28 +2056,6 @@
           </div>
         </div>
 
-        <div class="contact-panel">
-          <h3 data-i18n="contact.quick">QUICK MESSAGE</h3>
-          <form id="contact-form">
-            <div class="contact-field">
-              <label for="c-name" data-i18n="contact.label.name">NAME</label>
-              <input id="c-name" name="name" type="text" autocomplete="name" placeholder="Your name" data-i18n-ph="contact.ph.name" required />
-            </div>
-            <div class="contact-field">
-              <label for="c-email" data-i18n="contact.label.email">EMAIL</label>
-              <input id="c-email" name="email" type="email" autocomplete="email" placeholder="you@email.com" data-i18n-ph="contact.ph.email" required />
-            </div>
-            <div class="contact-field">
-              <label for="c-message" data-i18n="contact.label.message">MESSAGE</label>
-              <textarea id="c-message" name="message" placeholder="What are we building?" data-i18n-ph="contact.ph.message" required></textarea>
-            </div>
-            <div class="contact-actions">
-              <button class="contact-btn primary" type="submit" data-i18n="contact.btn.send">SEND</button>
-              <button class="contact-btn" type="reset" data-i18n="contact.btn.reset">RESET</button>
-            </div>
-            <input id="c-company" name="company" type="text" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;opacity:0;height:1px;width:1px;" />
-          </form>
-        </div>
       </div>
     </section>
 
@@ -2145,11 +2130,21 @@
       }
     })();
 
-    const skipLoader = sessionStorage.getItem(HOME_RETURN_KEY) === '1' || cameFromWorkPage;
+    // The loader plays once per browser session (per tab). Reloads and
+    // revisits in the same session go straight to the homepage.
+    const LOADER_SEEN_KEY = 'batmanny:home-loader-seen';
+    const session = {
+      get(k) { try { return sessionStorage.getItem(k); } catch { return null; } },
+      set(k, v) { try { sessionStorage.setItem(k, v); } catch {} },
+      remove(k) { try { sessionStorage.removeItem(k); } catch {} },
+    };
 
-    if (sessionStorage.getItem(HOME_RETURN_KEY) === '1') {
-      sessionStorage.removeItem(HOME_RETURN_KEY);
-    }
+    // Coming back from a case study: skip the loader and jump to the work grid
+    const returningToWork = session.get(HOME_RETURN_KEY) === '1' || cameFromWorkPage;
+    const loaderSeen = session.get(LOADER_SEEN_KEY) === '1';
+    const skipLoader = returningToWork || loaderSeen;
+
+    session.remove(HOME_RETURN_KEY);
 
     function startDots() {
       let count = 0;
@@ -2198,11 +2193,12 @@
       } else {
         loaderEl.classList.add('hidden');
       }
+      session.set(LOADER_SEEN_KEY, '1');
       const hp = document.getElementById('homepage');
       hp.classList.add('visible');
       triggerReveal({ instant });
 
-      if (instant) {
+      if (options.scrollToWork) {
         const workSection = document.getElementById('work');
         workSection?.classList.add('in');
         requestAnimationFrame(() => {
@@ -2212,7 +2208,7 @@
       }
     }
 
-    startBtn.addEventListener('click', launchHomepage);
+    startBtn.addEventListener('click', () => launchHomepage());
 
     /* ── TYPEWRITER (used for section headings only) ────── */
     function typeWriter(el, text, speed, onDone) {
@@ -2278,8 +2274,6 @@
     }
 
     const copyBtn = document.getElementById('contact-copy-email');
-    const emailLink = document.getElementById('contact-email-link');
-    const contactForm = document.getElementById('contact-form');
 
     if (copyBtn) {
       copyBtn.addEventListener('click', async () => {
@@ -2291,51 +2285,6 @@
           showToast(window.i18n.t('toast.emailCopied'));
         } catch {
           showToast(window.i18n.t('toast.copyFailed'));
-        }
-      });
-    }
-
-    if (contactForm) {
-      contactForm.addEventListener('submit', async (e) => {
-        e.preventDefault();
-        const name = (document.getElementById('c-name')?.value || '').trim();
-        const from = (document.getElementById('c-email')?.value || '').trim();
-        const msg  = (document.getElementById('c-message')?.value || '').trim();
-        const company = (document.getElementById('c-company')?.value || '').trim();
-
-        if (!name || !from || !msg) {
-          showToast(window.i18n.t('toast.fillAll'));
-          return;
-        }
-
-        const submitBtn = contactForm.querySelector('button[type="submit"]');
-        const resetBtn = contactForm.querySelector('button[type="reset"]');
-        try {
-          if (submitBtn) submitBtn.disabled = true;
-          if (resetBtn) resetBtn.disabled = true;
-          if (submitBtn) submitBtn.textContent = window.i18n.t('contact.btn.sending');
-
-          const mailto = `mailto:eosadolor382@gmail.com?subject=${encodeURIComponent(`Portfolio contact from ${name}`)}&body=${encodeURIComponent([
-            `Name: ${name}`,
-            `Email: ${from}`,
-            '',
-            msg,
-          ].join('\n'))}`;
-
-          if (emailLink) {
-            emailLink.href = mailto;
-          }
-
-          window.location.href = mailto;
-          window.posthog?.capture('contact_form_submitted');
-          showToast(window.i18n.t('toast.openingMail'));
-          contactForm.reset();
-        } catch (err) {
-          showToast(String(err?.message || window.i18n.t('toast.mailFailed')));
-        } finally {
-          if (submitBtn) submitBtn.disabled = false;
-          if (resetBtn) resetBtn.disabled = false;
-          if (submitBtn) submitBtn.textContent = window.i18n.t('contact.btn.send');
         }
       });
     }
@@ -2389,7 +2338,7 @@
     }
 
     if (skipLoader) {
-      launchHomepage({ instant: true });
+      launchHomepage({ instant: true, scrollToWork: returningToWork });
     }
 
     /* ── HAMBURGER MENU ─────────────────────────────────── */
